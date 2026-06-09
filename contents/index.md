@@ -4,7 +4,7 @@ layout: home
 
 hero:
   name: Genji Fujimori
-  tagline: IT administrator and developer advocate
+  tagline: Check out my various projects and websites
   actions:
     - theme: brand
       text: About
@@ -14,10 +14,20 @@ hero:
       link: /ja/
 
 features:
-  - title: Feature A
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-  - title: Feature B
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-  - title: Feature C
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  - icon: 🗼
+    title: Tokyo geek
+    details: A collection of random notes and observations about life in Japan.
+    link: https://ahandsel.github.io/tokyo-geek/
+  - icon: 🥾
+    title: Tokyo hiker
+    details: Hiking notes and trail logs from around Tokyo and beyond.
+    link: https://ahandsel.github.io/tokyo-hiker/
+  - icon: 🤖
+    title: Useful AI prompts
+    details: A growing list of AI prompts I rely on for everyday work with ChatGPT.
+    link: https://github.com/ahandsel/useful-ai-prompts
+  - icon: ✍️
+    title: Copy in the wild
+    details: Examples of copywriting I gather to improve my own UX writing, emails, and more.
+    link: https://ahandsel.github.io/copy-in-the-wild/
 ---
