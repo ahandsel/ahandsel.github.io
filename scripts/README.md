@@ -8,7 +8,7 @@ Shell and Node.js scripts that support repository tooling. Most are also exposed
 | Script                         | pnpm command       | Description                                                                                           | Last updated (UTC) |
 | ------------------------------ | ------------------ | ----------------------------------------------------------------------------------------------------- | ------------------ |
 | [cleanup-temp-files.sh][]      | `pnpm run cleanup` | Find and list temporary files, delete empty ones, then optionally delete the rest after confirmation. | 2026-04-08 08:15   |
-| [generate-doc-structure.mjs][] | `pnpm run tree`    | Generate a tree-view snapshot of repository folders into `doc-structure.md`.                          | 2026-03-23 14:27   |
+| [generate-doc-structure.mjs][] | `pnpm run tree`    | Generate a tree-view snapshot of the `contents/` folder into `docs/contents-structure.md`.            | 2026-06-09 00:00   |
 | [index.sh][]                   | `pnpm run index`   | List all `pnpm` scripts defined in `package.json`.                                                    | 2026-05-28 05:59   |
 
 [cleanup-temp-files.sh]: cleanup-temp-files.sh
