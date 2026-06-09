@@ -1,0 +1,9 @@
+# pnpm
+pnpm-lock.yaml
+
+# VitePress build output
+**/.vitepress/dist
+**/.vitepress/cache
+
+# Claude Code symlinked skills (linted via skills/ directly)
+.claude/
