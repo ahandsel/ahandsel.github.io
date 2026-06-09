@@ -3,21 +3,21 @@
 layout: home
 
 hero:
-  name: Genji Fujimori
-  tagline: IT administrator and developer advocate
+  name: 藤森 玄司
+  tagline: IT 管理者 / デベロッパーアドボケイト
   actions:
     - theme: brand
-      text: About
-      link: /about
+      text: 自己紹介
+      link: /ja/about
     - theme: alt
-      text: 日本語
-      link: /ja/
+      text: English
+      link: /
 
 features:
-  - title: Feature A
+  - title: 特長 A
     details: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-  - title: Feature B
+  - title: 特長 B
     details: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-  - title: Feature C
+  - title: 特長 C
     details: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 ---
