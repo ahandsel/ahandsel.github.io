@@ -43,7 +43,7 @@
     "lint-md": "markdownlint-cli2 --fix",
     "test": "pnpm run check-license && pnpm run lint && pnpm run test-names && pnpm run test-tree",
     "test-names": "node skills/file-folder-name-linter/scripts/lint-names.mjs",
-    "test-tree": "pnpm tree && git diff --exit-code -- doc-structure.md",
+    "test-tree": "pnpm tree && git diff --exit-code -- docs/contents-structure.md",
     "tree": "node scripts/generate-doc-structure.mjs",
     "writing": "pnpm run lint && pnpm run tree && pnpm run contents-dev"
   },

@@ -3,11 +3,12 @@
 //   node scripts/generate-doc-structure.mjs
 //
 // Output:
-//   doc-structure.md at the repository root.
+//   docs/contents-structure.md
 //
 // Description:
-// * Purpose: Generates a snapshot of defined folders in a tree view and saves it as a Markdown file.
-// * Goal: Visualize the structure of defined folders to help contributors understand the overall structure.
+// * Purpose: Generates a snapshot of the contents/ folder in a tree view and saves it as a Markdown file.
+// * Goal: Visualize the structure of the VitePress site source to help contributors understand the layout.
+// * Files and folders listed in .gitignore are excluded automatically via tree-extended's -gitignore flag.
 // * Add files or folders to foldersToScan to include them in the output. Each entry can specify extra tree-extended filter args for customization.
 // * Add files to filesToIgnore to exclude them from the output.
 //
@@ -15,7 +16,7 @@
 // v2.0.1 (2026-03-23): Enabled multiple folder scanning with section headings, added filtering of ignored files, and improved error handling for missing folders. Updated output formatting for cleaner Markdown presentation.
 
 import { execFileSync } from 'node:child_process';
-import { existsSync, writeFileSync } from 'node:fs';
+import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -24,17 +25,41 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const repoRoot = resolve(__dirname, '..');
 
 // Folders to scan. Each entry can specify extra tree-extended args.
-const foldersToScan = [{ path: '.' }];
-// const foldersToScan = [
-//   { path: 'contents', args: ['-only=0:(en|ja|snippets|public)$'] },
-//   { path: 'skills', args: ['-only=1:SKILL.md'] },
-// ];
+const foldersToScan = [{ path: 'contents' }];
 
-// Entries to ignore in the generated doc structure.
-const filesToIgnore = new Set(['temp.md', '.DS_Store']);
+// Extract literal folder/file names from .gitignore so tree-extended can
+// honor them via -ignore=. tree-extended's own -gitignore flag does not
+// expand globstar patterns like `**/.vitepress/dist/` when scanning a
+// subfolder, so we feed the names in directly. Wildcard patterns are skipped.
+function namesFromGitignore() {
+  const gitignorePath = resolve(repoRoot, '.gitignore');
+  if (!existsSync(gitignorePath)) return [];
+  const names = new Set();
+  for (const raw of readFileSync(gitignorePath, 'utf8').split('\n')) {
+    const line = raw.trim();
+    if (!line || line.startsWith('#') || line.startsWith('!')) continue;
+    const cleaned = line
+      .replace(/^\*\*\//, '')
+      .replace(/^\//, '')
+      .replace(/\/$/, '');
+    if (/[*?[]/.test(cleaned)) continue;
+    const name = cleaned.split('/').pop();
+    if (name) names.add(name);
+  }
+  return [...names];
+}
 
-// Write a generated tree snapshot into the repo root.
-const outputPath = resolve(repoRoot, 'doc-structure.md');
+// Entries to ignore in the generated doc structure (post-filter on output
+// lines). Seeded from .gitignore so the script honors gitignore even for
+// patterns tree-extended cannot match natively.
+const filesToIgnore = new Set([
+  'temp.md',
+  '.DS_Store',
+  ...namesFromGitignore(),
+]);
+
+// Write a generated tree snapshot of contents/ into docs/.
+const outputPath = resolve(repoRoot, 'docs/contents-structure.md');
 
 // Remove trailing empty lines from a string.
 function trimTrailingEmptyLines(str) {
@@ -64,9 +89,11 @@ for (const folder of foldersToScan) {
     continue;
   }
 
+  const ignoreNames = [...filesToIgnore];
   const args = [
     folder.path,
     '-gitignore',
+    ...(ignoreNames.length ? [`-ignore=${ignoreNames.join(',')}`] : []),
     ...(folder.args || []),
     '-charset=utf8-icons',
   ];
@@ -111,5 +138,5 @@ if (sections.length === 0) {
 }
 
 // Save the tree output as a Markdown file.
-writeFileSync(outputPath, `# Doc structure\n\n${output}\n`, 'utf8');
+writeFileSync(outputPath, `# Contents structure\n\n${output}\n`, 'utf8');
 console.log('Wrote %s (%d sections).', outputPath, sections.length);
