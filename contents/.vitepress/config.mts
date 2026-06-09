@@ -18,11 +18,15 @@ export default defineConfig({
         nav: [
           { text: 'Home', link: '/' },
           { text: 'About', link: '/about' },
+          { text: 'Talks', link: '/talks' },
         ],
         sidebar: [
           {
             text: 'Introduction',
-            items: [{ text: 'About', link: '/about' }],
+            items: [
+              { text: 'About', link: '/about' },
+              { text: 'Talks', link: '/talks' },
+            ],
           },
         ],
       },
@@ -35,11 +39,15 @@ export default defineConfig({
         nav: [
           { text: 'ホーム', link: '/ja/' },
           { text: '自己紹介', link: '/ja/about' },
+          { text: '登壇資料', link: '/ja/talks' },
         ],
         sidebar: [
           {
             text: 'はじめに',
-            items: [{ text: '自己紹介', link: '/ja/about' }],
+            items: [
+              { text: '自己紹介', link: '/ja/about' },
+              { text: '登壇資料', link: '/ja/talks' },
+            ],
           },
         ],
       },
