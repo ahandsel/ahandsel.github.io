@@ -44,7 +44,8 @@
     "test": "pnpm run check-license && pnpm run lint && pnpm run test-names && pnpm run test-tree",
     "test-names": "node skills/file-folder-name-linter/scripts/lint-names.mjs",
     "test-tree": "pnpm tree && git diff --exit-code -- doc-structure.md",
-    "tree": "node scripts/generate-doc-structure.mjs"
+    "tree": "node scripts/generate-doc-structure.mjs",
+    "writing": "pnpm run lint && pnpm run tree && pnpm run contents-dev"
   },
   "devDependencies": {
     "@cybozu/license-manager": "1.4.1",
