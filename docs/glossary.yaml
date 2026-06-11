@@ -15,3 +15,17 @@
     - en: 'special characters'
       ja: '特殊記号'
       context: 'noun; user input'
+
+- group: 'Names'
+  terms:
+    - en: 'Genji Fujimori'
+      ja: '藤森 源司'
+      context: 'proper noun; full person name; order is language-specific'
+
+    - en: 'Fujimori'
+      ja: '藤森'
+      context: 'proper noun; last (family) name'
+
+    - en: 'Genji'
+      ja: '源司'
+      context: 'proper noun; first (given) name'
