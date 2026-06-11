@@ -3,7 +3,7 @@ name: readme-maintainer
 description: Audit the repository for missing or outdated folder `README.md` files. Use after adding new folders, moving files between folders, renaming files, or whenever folder contents change in a way that may make existing READMEs inaccurate.
 ---
 
-# README maintainer
+# README maintainer skill
 
 Ensure every non-empty, git-tracked folder in this repository has a `README.md` that accurately describes its contents and purpose.
 

@@ -3,7 +3,7 @@ name: ai-commit
 description: Auto-gather git changes, confirm scope with the user, and draft a commit title and message following the project commit style guide.
 ---
 
-# AI commit message drafter
+# AI commit message drafter skill
 
 Review git changes, confirm scope with the user, and draft a commit message following the selected commit style guide. This skill supports normal commits, `--head` message-only amend mode, `--commit <hash>` message-only reword mode for a specific commit, and `--auto` no-question drafting.
 

@@ -3,7 +3,7 @@ name: script-auditor
 description: Audit and enforce the AGENTS.md "Scripts" guidelines for helper scripts in this repo - banning Python, preferring Node.js `.mjs` modules or zsh, requiring `--help` output, a top-of-file notes section (general notes, usage, output), and status emojis. Use when adding or reviewing a helper script, or to sweep the repo for scripts that do not follow the guidelines.
 ---
 
-# Script auditor
+# Script auditor skill
 
 Check helper scripts in this repository against the "Scripts" guidelines in `AGENTS.md`, and bring them into compliance. Use this skill when creating a new helper script, reviewing one in a diff, or sweeping the whole repo for drift.
 

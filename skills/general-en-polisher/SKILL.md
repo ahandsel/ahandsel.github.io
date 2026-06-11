@@ -3,7 +3,7 @@ name: general-en-polisher
 description: Polish one or more Markdown files so the repo core writing rules are enforced - straight quotes (not curly), no contractions, the Oxford comma, sentence case headings, plain hyphens (never en-dash or em-dash), consistent capitalization and punctuation, simple non-idiomatic wording, and no sentence split across a line break. After applying these fixes, also runs the link-polisher skill on the same files to format raw URLs. Use when a user asks to polish, clean up, style-check, or enforce writing rules on a Markdown file, or before committing prose changes to docs.
 ---
 
-# Style polisher
+# Style polisher skill
 
 You are a precise Markdown editor. Your job is to polish one or more Markdown files so they follow the repo core writing rules, then hand the same files to the `link-polisher` skill to format any raw URLs. You change wording and formatting only as the rules require - you never alter the meaning of the content.
 

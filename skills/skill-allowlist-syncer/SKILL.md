@@ -3,7 +3,7 @@ name: skill-allowlist-syncer
 description: Fully sync `Skill(<name>)` entries in `.claude/settings.json` under `permissions.allow` with the skills in the repo's `skills/` folder, adding entries for new skills and removing entries for skills that no longer exist.
 ---
 
-# Skill allowlist syncer
+# Skill allowlist syncer skill
 
 Scan the repo's `skills/` folder for skill definitions and reconcile `.claude/settings.json` so the set of `Skill(<name>)` entries in `permissions.allow` exactly matches the current skills. Add entries for new skills and remove entries for skills that no longer exist. Non-skill permission entries (for example `Bash(...)`, `Read(...)`) are never touched.
 

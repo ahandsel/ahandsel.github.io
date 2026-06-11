@@ -3,7 +3,7 @@ name: gh-pr-reporter
 description: Fetch all comments on a GitHub pull request (reviews, inline review comments, and general issue comments) and emit a single consolidated Markdown report. Use when a user wants to read, summarize, audit, or triage every comment on a PR in one place. Accepts a PR number, a `owner/repo#n` reference, or a github.com pull-request URL.
 ---
 
-# gh PR reporter
+# gh PR reporter skill
 
 Compile every comment on a GitHub pull request into a single Markdown report so the user can read or triage them in one place.
 
@@ -21,8 +21,8 @@ The skill only reads from GitHub. It never posts, edits, or resolves comments.
 A pull request identifier in any of these forms:
 
 * **Number only:** `498` - uses the repo of the current working directory (resolved via `gh repo view`).
-* **Owner/repo + number:** `owner/example-repo#498`.
-* **GitHub URL:** `https://github.com/owner/example-repo/pull/498` (an `/issues/<n>` URL with the same number is also accepted).
+* **Owner/repo + number:** `example-org/example-repo#498`.
+* **GitHub URL:** `https://github.com/example-org/example-repo/pull/498` (an `/issues/<n>` URL with the same number is also accepted).
 
 If the user gives a bare number while the current directory is not a clone of the target repo, ask for the repo or pass `--repo owner/repo` to the helper.
 
@@ -41,13 +41,13 @@ If the user gives a bare number while the current directory is not a clone of th
 node skills/gh-pr-reporter/scripts/get-pr-comments.mjs 498
 
 # Report on a PR in another repo by URL.
-node skills/gh-pr-reporter/scripts/get-pr-comments.mjs https://github.com/owner/example-repo/pull/498
+node skills/gh-pr-reporter/scripts/get-pr-comments.mjs https://github.com/example-org/example-repo/pull/498
 
 # Report on a PR in another repo by ref.
-node skills/gh-pr-reporter/scripts/get-pr-comments.mjs owner/example-repo#498
+node skills/gh-pr-reporter/scripts/get-pr-comments.mjs example-org/example-repo#498
 
 # Override the repo when only a number is given.
-node skills/gh-pr-reporter/scripts/get-pr-comments.mjs 498 --repo owner/example-repo
+node skills/gh-pr-reporter/scripts/get-pr-comments.mjs 498 --repo example-org/example-repo
 
 # Emit JSON for further processing instead of Markdown.
 node skills/gh-pr-reporter/scripts/get-pr-comments.mjs 498 --json

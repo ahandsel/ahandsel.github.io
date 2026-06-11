@@ -6,7 +6,7 @@
 // * Uses the GitHub CLI (`gh`), which handles authentication. Requires `gh` installed and authenticated, and (when only a PR number is given) the current working directory to be inside a clone of the target repo.
 // Usage:
 //   node skills/gh-pr-reporter/scripts/get-pr-comments.mjs <pr-ref> [options]
-//   <pr-ref>: a PR number (498), URL (https://github.com/owner/repo/pull/498), or owner/repo#number.
+//   <pr-ref>: a PR number (123), URL (https://github.com/owner/repo/pull/123), or owner/repo#number.
 // Output:
 // * Markdown report on stdout by default; pass `--json` to emit a JSON object with `pr`, `reviews`, `reviewComments`, and `issueComments` fields instead.
 // * Exit codes: 0 success, 1 fetch failure (auth, network, PR not found), 2 invalid arguments.
@@ -23,9 +23,9 @@ comments) and emit a consolidated report.
 
 <pr-ref>
   A PR identifier in any of these forms:
-    - Number only:        498
-    - Owner/repo + #:     owner/example-repo#498
-    - GitHub URL:         https://github.com/owner/example-repo/pull/498
+    - Number only:        123
+    - Owner/repo + #:     owner/repo#123
+    - GitHub URL:         https://github.com/owner/repo/pull/123
 
   When only a number is given, the script reads the repo from "gh repo view".
 

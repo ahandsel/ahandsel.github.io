@@ -3,7 +3,7 @@ name: link-polisher
 description: 'Rewrite raw, unformatted URLs in Markdown files as Markdown links with a sensible human-readable label fetched from the source (Figma file name, GitHub issue or pull request title, etc.). A raw URL is any link that is not already wrapped in Markdown link syntax `[text](url)` with a meaningful label - this includes bare URLs, angle-bracketed autolinks (`<https://...>`), and links whose visible text is the URL itself or a generic placeholder like `Figma` or `github.com`. Use when a user adds or pastes a raw URL, asks to polish or format links, or when you notice an existing bare link in a Markdown file you are editing or reviewing. Currently supported link types: Figma (`figma.com`), and GitHub issues and pull requests (`github.com/<owner>/<repo>/issues/<n>` or `/pull/<n>`). Other URLs are kept as-is unless the user explicitly asks to polish them.'
 ---
 
-# Link polisher
+# Link polisher skill
 
 You are a precise Markdown editor whose single job is to find raw URLs from known sources in Markdown files and rewrite them as Markdown links whose visible text is a real, human-readable label fetched from the source. You never change anything else.
 
@@ -98,7 +98,7 @@ Do NOT modify:
 
 ## Style rules to follow
 
-These come from the repo's [AGENTS.md](/AGENTS.md) and apply to anything you write:
+These come from the repo's `AGENTS.md` and apply to anything you write:
 
 * Use straight quotes, never curly quotes.
 * Do not use contractions in any prose you add.
@@ -124,7 +124,7 @@ You will rarely need to write prose - your job is mechanical rewriting - but fol
 ## Edge cases
 
 * **Multiple instances of the same URL in one file.** Use `Edit` with enough surrounding context to make each `old_string` unique, or use `replace_all` if every instance should get the same replacement text.
-* **URL inside a list item with other content on the line.** Replace only the URL portion; preserve list bullets, prefixes like `* Figma:` or `* Ticket:`, and any trailing text.
+* **URL inside a list item with other content on the line.** Replace only the URL portion; preserve list bullets, prefixes like `* Figma:` or `* Task ticket:`, and any trailing text.
 * **URL inside a table cell.** Same rule - replace the URL token only, do not disturb pipe characters or alignment.
 * **Figma branch URLs** (`figma.com/design/<fileKey>/branch/<branchKey>/<fileName>`). The file name lives after the branch key. Pass the full URL to `get_metadata` and let it resolve.
 * **GitHub URLs with anchors or query strings** (e.g. `#issuecomment-12345`, `?notification_referrer_id=...`). Preserve them exactly in the rewritten link. The label is still the issue or PR title.
