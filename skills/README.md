@@ -26,11 +26,11 @@ To use a skill, enter the skill's name in the AI interface (VS Code extension, t
 | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------ |
 | [`ai-commit`][]           | Auto-gather git changes, confirm scope with the user, and draft a commit title and message following the project commit style guide.                                                                               | 2026-06-03 13:30   |
 | [`general-en-polisher`][] | Polishes Markdown files to enforce the repo core writing rules (straight quotes, no contractions, the Oxford comma, sentence case headings, plain hyphens, and more), then runs `link-polisher` on the same files. | 2026-06-03 09:37   |
-| [`git-pull-main`][]       | Bring the current git branch up to date with commits from the main branch (pull, rebase, or merge main).                                                                                                           | 2026-03-31 08:36   |
+| [`gh-sync-with-main`][]   | Bring the current git branch up to date with commits from the main branch (pull, rebase, or merge main).                                                                                                           | 2026-06-08 00:00   |
 
 [`ai-commit`]: ./ai-commit/SKILL.md
 [`general-en-polisher`]: ./general-en-polisher/SKILL.md
-[`git-pull-main`]: ./git-pull-main/SKILL.md
+[`gh-sync-with-main`]: ./gh-sync-with-main/SKILL.md
 
 
 ### Repository maintenance skills
@@ -50,14 +50,12 @@ To use a skill, enter the skill's name in the AI interface (VS Code extension, t
 
 ### Other utility skills
 
-| Skill                  | Description                                                                                                                                                                                             | Last updated (UTC) |
-| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ |
-| [`gh-cli`][]           | Interact with GitHub repositories using the GitHub CLI (gh). Covers PRs, issues, releases, workflow runs, and branch operations.                                                                        | 2026-05-14 06:13   |
-| [`gh-issue-to-task`][] | Generates a `tasks/<n>-<slug>.md` scaffold from a GitHub issue: fetches the issue, extracts linked specs and Figma URLs, infers Phrase project, tag, and branch, and writes the file (optional enrich). | 2026-06-08 00:00   |
-| [`gh-pr-reporter`][]   | Fetches every comment on a GitHub PR (reviews, inline review comments, and general comments) and emits a single consolidated Markdown report.                                                           | 2026-06-04 14:30   |
-| [`link-polisher`][]    | Rewrites raw URLs in Markdown files as Markdown links with a human-readable label fetched from the source (Figma file name, GitHub issue or pull request title).                                        | 2026-06-03 04:16   |
+| Skill                | Description                                                                                                                                                      | Last updated (UTC) |
+| -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ |
+| [`gh-cli`][]         | Interact with GitHub repositories using the GitHub CLI (gh). Covers PRs, issues, releases, workflow runs, and branch operations.                                 | 2026-05-14 06:13   |
+| [`gh-pr-reporter`][] | Fetches every comment on a GitHub PR (reviews, inline review comments, and general comments) and emits a single consolidated Markdown report.                    | 2026-06-04 14:30   |
+| [`link-polisher`][]  | Rewrites raw URLs in Markdown files as Markdown links with a human-readable label fetched from the source (Figma file name, GitHub issue or pull request title). | 2026-06-03 04:16   |
 
 [`gh-cli`]: ./gh-cli/SKILL.md
-[`gh-issue-to-task`]: ./gh-issue-to-task/SKILL.md
 [`gh-pr-reporter`]: ./gh-pr-reporter/SKILL.md
 [`link-polisher`]: ./link-polisher/SKILL.md
