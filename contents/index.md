@@ -5,6 +5,9 @@ layout: home
 hero:
   name: Genji Fujimori
   tagline: Check out my various projects and websites
+  image:
+    src: /kamikochi-bridge-hiking-sketch-color-crop.png
+    alt: Hiking across a suspension bridge in Kamikochi
   actions:
     - theme: brand
       text: About
