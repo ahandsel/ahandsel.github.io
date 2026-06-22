@@ -32,6 +32,14 @@ This is a personal portfolio site built with [VitePress](https://vitepress.dev/)
 * `pnpm contents-preview` - Preview the production build locally.
 
 
+## VitePress
+
+This site is built with VitePress. For any VitePress-related question, configuration, customization, or troubleshooting, consult these official resources first:
+
+* [VitePress documentation](https://vitepress.dev/) - official guides, configuration reference, and default theme API.
+* [vuejs/vitepress on GitHub](https://github.com/vuejs/vitepress) - source code, issues, and release notes.
+
+
 ## Skills
 
 Prioritize local skills in `skills/` over external or global skills.
