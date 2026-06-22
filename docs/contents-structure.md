@@ -10,6 +10,20 @@
 │   ├───📄 about.md
 │   ├───📄 index.md
 │   └───📄 talks.md
+├───📁 public/
+│   ├───📄 cat-icon-background.png
+│   ├───📄 cat-icon-clear.png
+│   ├───📄 favicon.ico
+│   ├───📄 kamikochi-bridge-hiking-illustration-dark.png
+│   ├───📄 kamikochi-bridge-hiking-illustration.png
+│   ├───📄 kamikochi-bridge-hiking-sketch-color-crop.png
+│   ├───📄 kamikochi-bridge-hiking-sketch-color.png
+│   ├───📄 kamikochi-bridge-hiking-sketch.png
+│   ├───📄 kamikochi-me-hiking.png
+│   ├───📄 office-me-headshot.png
+│   ├───📄 office-me-meeting.png
+│   ├───📄 office-me-writing.png
+│   └───📄 robots.txt
 ├───📄 README.md
 ├───📄 about.md
 ├───📄 index.md

@@ -1,9 +1,11 @@
 // generate-doc-structure.mjs notes
 // Usage:
-//   node scripts/generate-doc-structure.mjs
+//   node scripts/generate-doc-structure.mjs            Write docs/contents-structure.md
+//   node scripts/generate-doc-structure.mjs --check    Verify the file is up to date (no write)
+//   node scripts/generate-doc-structure.mjs --help      Show this help
 //
 // Output:
-//   docs/contents-structure.md
+//   docs/contents-structure.md (or, with --check, a pass/fail status and exit code)
 //
 // Description:
 // * Purpose: Generates a snapshot of the contents/ folder in a tree view and saves it as a Markdown file.
@@ -11,14 +13,35 @@
 // * Files and folders listed in .gitignore are excluded automatically via tree-extended's -gitignore flag.
 // * Add files or folders to foldersToScan to include them in the output. Each entry can specify extra tree-extended filter args for customization.
 // * Add files to filesToIgnore to exclude them from the output.
+// * --check compares freshly generated content against the existing file and exits non-zero if they differ, without writing or touching git.
 //
 // Version history:
+// v2.1.0 (2026-06-22): Added --check mode (verify the file is up to date without writing) and --help output.
 // v2.0.1 (2026-03-23): Enabled multiple folder scanning with section headings, added filtering of ignored files, and improved error handling for missing folders. Updated output formatting for cleaner Markdown presentation.
 
 import { execFileSync } from 'node:child_process';
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+
+// Parse CLI flags.
+const argv = process.argv.slice(2);
+if (argv.includes('--help') || argv.includes('-h')) {
+  console.log(
+    [
+      'generate-doc-structure.mjs — snapshot contents/ as a tree into docs/contents-structure.md',
+      '',
+      'Usage:',
+      '  node scripts/generate-doc-structure.mjs            Write docs/contents-structure.md',
+      '  node scripts/generate-doc-structure.mjs --check    Verify the file is up to date (no write)',
+      '  node scripts/generate-doc-structure.mjs --help     Show this help',
+      '',
+      '--check exits 0 if docs/contents-structure.md matches the generated output, 1 if it is stale or missing.',
+    ].join('\n'),
+  );
+  process.exit(0);
+}
+const checkMode = argv.includes('--check');
 
 // Resolve repository root from this script location.
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -137,6 +160,24 @@ if (sections.length === 0) {
   process.exit(0);
 }
 
+const fileContents = `# Contents structure\n\n${output}\n`;
+
+// --check: compare against the existing file without writing.
+if (checkMode) {
+  const existing = existsSync(outputPath)
+    ? readFileSync(outputPath, 'utf8')
+    : null;
+  if (existing === fileContents) {
+    console.log('✅ %s is up to date.', outputPath);
+    process.exit(0);
+  }
+  console.error(
+    '❌ %s is out of date. Run "pnpm tree" and commit the result.',
+    outputPath,
+  );
+  process.exit(1);
+}
+
 // Save the tree output as a Markdown file.
-writeFileSync(outputPath, `# Contents structure\n\n${output}\n`, 'utf8');
+writeFileSync(outputPath, fileContents, 'utf8');
 console.log('Wrote %s (%d sections).', outputPath, sections.length);
