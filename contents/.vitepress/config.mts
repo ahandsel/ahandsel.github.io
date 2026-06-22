@@ -8,6 +8,12 @@ export default defineConfig({
   title: 'Genji Fujimori',
   description: "Genji Fujimori's portfolio",
 
+  // Browser favicon and iOS home screen icon. Served from contents/public/.
+  head: [
+    ['link', { rel: 'icon', href: '/favicon.ico' }],
+    ['link', { rel: 'apple-touch-icon', href: '/cat-icon-background.png' }],
+  ],
+
   // English is the default locale, served at the site root (/).
   // Japanese lives under /ja/. VitePress renders a language switcher in the nav.
   locales: {
