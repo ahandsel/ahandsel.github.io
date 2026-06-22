@@ -1,3 +1,5 @@
+allowBuilds:
+  esbuild: false
 # Configure pnpm settings for the workspace
 
 # Delay installing published versions to reduce security risk.
