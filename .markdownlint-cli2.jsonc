@@ -18,7 +18,9 @@
     "MD026": false,
     "MD029": { "style": "ordered" },
     "MD032": false,
-    "MD033": { "allowed_elements": ["br", "pre", "script", "ul", "li", "ol"] },
+    "MD033": {
+      "allowed_elements": ["br", "pre", "script", "ul", "li", "ol", "RepoCards"],
+    },
     "MD036": false,
     "search-replace": {
       "rules": [

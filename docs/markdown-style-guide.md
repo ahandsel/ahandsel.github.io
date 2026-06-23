@@ -6,6 +6,10 @@ This document describes how Markdown documents in this repository should be form
 ## Table of contents <!-- omit in toc -->
 
 * [Linter rules](#linter-rules)
+  * [Enabled and customized rules](#enabled-and-customized-rules)
+  * [Disabled rules](#disabled-rules)
+  * [Search and replace rules](#search-and-replace-rules)
+  * [Custom rules](#custom-rules)
 * [Banners for important notes within docs](#banners-for-important-notes-within-docs)
 * [Link style guidelines](#link-style-guidelines)
 
@@ -17,17 +21,17 @@ These rules are enforced by [markdownlint-cli2](https://github.com/DavidAnson/ma
 
 ### Enabled and customized rules
 
-| Rule  | Setting                                         | What it means                                                                               |
-| ----- | ----------------------------------------------- | ------------------------------------------------------------------------------------------- |
-| MD004 | `style: asterisk`                               | Use `*` for unordered list items, never `-` or `+`.                                         |
-| MD007 | `indent: 2`                                     | Indent nested unordered lists by 2 spaces.                                                  |
-| MD009 | `br_spaces: 2`                                  | Trailing whitespace is not allowed, except exactly 2 trailing spaces to force a line break. |
-| MD012 | `maximum: 2`                                    | Allow at most 2 consecutive blank lines.                                                    |
-| MD022 | `lines_above: 2, lines_below: 1`                | Leave 2 blank lines above every heading and 1 blank line below.                             |
-| MD025 | `front_matter_title`                            | Only one top-level (H1) heading per document; a front matter `title` counts as the H1.      |
-| MD029 | `style: ordered`                                | Number ordered list items sequentially (1, 2, 3, ...).                                      |
-| MD031 | `blanks-around-fences: true`                    | Surround fenced code blocks with blank lines.                                               |
-| MD033 | `allowed_elements: br, pre, script, ul, li, ol` | Inline HTML is restricted to `<br>`, `<pre>`, `<script>`, `<ul>`, `<li>`, and `<ol>`.       |
+| Rule  | Setting                                                    | What it means                                                                                                                     |
+| ----- | ---------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| MD004 | `style: asterisk`                                          | Use `*` for unordered list items, never `-` or `+`.                                                                               |
+| MD007 | `indent: 2`                                                | Indent nested unordered lists by 2 spaces.                                                                                        |
+| MD009 | `br_spaces: 2`                                             | Trailing whitespace is not allowed, except exactly 2 trailing spaces to force a line break.                                       |
+| MD012 | `maximum: 2`                                               | Allow at most 2 consecutive blank lines.                                                                                          |
+| MD022 | `lines_above: 2, lines_below: 1`                           | Leave 2 blank lines above every heading and 1 blank line below.                                                                   |
+| MD025 | `front_matter_title`                                       | Only one top-level (H1) heading per document; a front matter `title` counts as the H1.                                            |
+| MD029 | `style: ordered`                                           | Number ordered list items sequentially (1, 2, 3, ...).                                                                            |
+| MD031 | `blanks-around-fences: true`                               | Surround fenced code blocks with blank lines.                                                                                     |
+| MD033 | `allowed_elements: br, pre, script, ul, li, ol, RepoCards` | Inline HTML is restricted to `<br>`, `<pre>`, `<script>`, `<ul>`, `<li>`, `<ol>`, and the registered Vue component `<RepoCards>`. |
 
 
 ### Disabled rules

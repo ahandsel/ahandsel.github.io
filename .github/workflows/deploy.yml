@@ -57,8 +57,13 @@ jobs:
         run: pnpm install
 
       # Step 6: Build the VitePress site
+      # GITHUB_TOKEN raises the GitHub API rate limit for the Projects page
+      # data loader (contents/.vitepress/theme/repos.data.mts) from 60 to 5000
+      # requests per hour. It is optional; the build also works without it.
       - name: Build VitePress site
         run: pnpm build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # Step 7: Prepare artifact for GitHub Pages
       - name: Setup GitHub Pages

@@ -19,6 +19,12 @@
     monospace;
 }
 
+/* Slightly heavier base body text (medium) for a denser feel. Headings keep
+   their own heavier weights. */
+body {
+  font-weight: 500;
+}
+
 /**
  * Colors
  *
@@ -60,15 +66,32 @@
  * -------------------------------------------------------------------------- */
 
 :root {
+  /* Backgrounds (warm cream) */
+  --vp-c-bg: #faf8f4;
+  --vp-c-bg-alt: #f0ede6;
+  --vp-c-bg-elv: #faf8f4;
+  --vp-c-bg-soft: #f0ede6;
+
+  /* Text (soft near-black) */
+  --vp-c-text-1: #2a2926;
+  --vp-c-text-2: #6b6560;
+  --vp-c-text-3: #9a938c;
+
+  /* Borders and dividers */
+  --vp-c-divider: #e0dbd4;
+  --vp-c-border: #d6d0c8;
+  --vp-c-gutter: #e0dbd4;
+
   --vp-c-default-1: var(--vp-c-gray-1);
   --vp-c-default-2: var(--vp-c-gray-2);
   --vp-c-default-3: var(--vp-c-gray-3);
   --vp-c-default-soft: var(--vp-c-gray-soft);
 
-  --vp-c-brand-1: var(--vp-c-indigo-1);
-  --vp-c-brand-2: var(--vp-c-indigo-2);
-  --vp-c-brand-3: var(--vp-c-indigo-3);
-  --vp-c-brand-soft: var(--vp-c-indigo-soft);
+  /* Brand (terracotta) */
+  --vp-c-brand-1: #b06534;
+  --vp-c-brand-2: #9a5729;
+  --vp-c-brand-3: #c17040;
+  --vp-c-brand-soft: rgba(193, 112, 64, 0.12);
 
   --vp-c-tip-1: var(--vp-c-brand-1);
   --vp-c-tip-2: var(--vp-c-brand-2);
@@ -84,6 +107,30 @@
   --vp-c-danger-2: var(--vp-c-red-2);
   --vp-c-danger-3: var(--vp-c-red-3);
   --vp-c-danger-soft: var(--vp-c-red-soft);
+}
+
+.dark {
+  /* Backgrounds (warm charcoal) */
+  --vp-c-bg: #1c1b19;
+  --vp-c-bg-alt: #252420;
+  --vp-c-bg-elv: #252420;
+  --vp-c-bg-soft: #2e2d28;
+
+  /* Text (warm off-white) */
+  --vp-c-text-1: #ede9e0;
+  --vp-c-text-2: #a8a198;
+  --vp-c-text-3: #7a746c;
+
+  /* Borders and dividers */
+  --vp-c-divider: #3a3835;
+  --vp-c-border: #45423d;
+  --vp-c-gutter: #3a3835;
+
+  /* Brand (terracotta) */
+  --vp-c-brand-1: #d4885a;
+  --vp-c-brand-2: #e09a6e;
+  --vp-c-brand-3: #c17040;
+  --vp-c-brand-soft: rgba(212, 136, 90, 0.16);
 }
 
 /**
@@ -151,4 +198,104 @@
 
 .DocSearch {
   --docsearch-primary-color: var(--vp-c-brand-1) !important;
+}
+
+/**
+ * Animation: Circle dark/light mode transition
+ *
+ * Used with the View Transitions API wired up in Layout.vue. The old and new
+ * themes are stacked so the growing circle reveals the incoming theme on top.
+ * -------------------------------------------------------------------------- */
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root),
+.dark::view-transition-new(root) {
+  z-index: 1;
+}
+
+::view-transition-new(root),
+.dark::view-transition-old(root) {
+  z-index: 9999;
+}
+
+/**
+ * Animation: Rainbow brand accent (home page only)
+ *
+ * The `--rainbow-hue` custom property is registered so it can be smoothly
+ * animated, then the brand colors are derived from it. The `rainbow-active`
+ * class is toggled on <html> by the theme on the home page.
+ * -------------------------------------------------------------------------- */
+
+@property --rainbow-hue {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+
+@keyframes rainbow-hue {
+  from {
+    --rainbow-hue: 0;
+  }
+  to {
+    --rainbow-hue: 360;
+  }
+}
+
+.rainbow-active {
+  animation: rainbow-hue 40s linear infinite;
+  --vp-c-brand-1: hsl(var(--rainbow-hue) 60% 42%);
+  --vp-c-brand-2: hsl(var(--rainbow-hue) 62% 48%);
+  --vp-c-brand-3: hsl(var(--rainbow-hue) 64% 54%);
+  --vp-c-brand-soft: hsl(var(--rainbow-hue) 60% 50% / 0.14);
+
+  /* Animate the blurred hero background blob along with the accent. */
+  --vp-home-hero-image-background-image: linear-gradient(
+    -45deg,
+    hsl(var(--rainbow-hue) 70% 60%) 50%,
+    hsl(calc(var(--rainbow-hue) + 80) 70% 60%) 50%
+  );
+
+  /* Animate the hero headline text gradient too. */
+  --vp-home-hero-name-background: linear-gradient(
+    120deg,
+    hsl(var(--rainbow-hue) 75% 55%) 30%,
+    hsl(calc(var(--rainbow-hue) + 80) 75% 60%)
+  );
+}
+
+.dark.rainbow-active {
+  --vp-c-brand-1: hsl(var(--rainbow-hue) 70% 66%);
+  --vp-c-brand-2: hsl(var(--rainbow-hue) 66% 58%);
+  --vp-c-brand-3: hsl(var(--rainbow-hue) 64% 50%);
+  --vp-c-brand-soft: hsl(var(--rainbow-hue) 65% 55% / 0.16);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rainbow-active {
+    animation: none;
+  }
+}
+
+/* Freeze the rainbow during a dark/light view transition (set by Layout.vue)
+   so the snapshot of <html> stays stable while the circle reveal plays. */
+.vt-freeze {
+  animation-play-state: paused !important;
+}
+
+/**
+ * Component: Language switcher
+ *
+ * The default theme hides the nav-bar translations menu below 1280px and only
+ * exposes it inside the mobile hamburger screen. Keep it visible at every
+ * width so the language switcher is always available.
+ * -------------------------------------------------------------------------- */
+
+.VPNavBarTranslations {
+  display: flex !important;
+  align-items: center;
 }

@@ -77,7 +77,7 @@ Apply these rules when reviewing or creating content:
 * Use 2-space indentation for nested lists.
 * Leave 2 blank lines above headings and 1 blank line below.
 * Do not use curly quotes or em dashes. The linter auto-corrects these.
-* Inline HTML is restricted to `<br>`, `<pre>`, `<script>`, `<ul>`, `<li>`, and `<ol>`.
+* Inline HTML is restricted to `<br>`, `<pre>`, `<script>`, `<ul>`, `<li>`, and `<ol>`, plus the registered Vue component `<RepoCards>`.
 
 
 ## Translation

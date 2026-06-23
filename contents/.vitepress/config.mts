@@ -25,6 +25,7 @@ export default defineConfig({
           { text: 'Home', link: '/' },
           { text: 'About', link: '/about' },
           { text: 'Talks', link: '/talks' },
+          { text: 'Projects', link: '/projects' },
         ],
         sidebar: [
           {
@@ -32,6 +33,7 @@ export default defineConfig({
             items: [
               { text: 'About', link: '/about' },
               { text: 'Talks', link: '/talks' },
+              { text: 'Projects', link: '/projects' },
             ],
           },
         ],
@@ -46,6 +48,7 @@ export default defineConfig({
           { text: 'ホーム', link: '/ja/' },
           { text: '自己紹介', link: '/ja/about' },
           { text: '登壇資料', link: '/ja/talks' },
+          { text: 'プロジェクト', link: '/ja/projects' },
         ],
         sidebar: [
           {
@@ -53,6 +56,7 @@ export default defineConfig({
             items: [
               { text: '自己紹介', link: '/ja/about' },
               { text: '登壇資料', link: '/ja/talks' },
+              { text: 'プロジェクト', link: '/ja/projects' },
             ],
           },
         ],
