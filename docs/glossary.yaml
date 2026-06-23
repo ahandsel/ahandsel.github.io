@@ -29,3 +29,13 @@
     - en: 'Genji'
       ja: '源司'
       context: 'proper noun; first (given) name'
+
+- group: 'Brands'
+  terms:
+    - en: 'Kintone'
+      ja: 'kintone'
+      context: 'proper noun; product name; capitalized "Kintone" in English, lowercase "kintone" in Japanese; refers to the product, not the company'
+
+    - en: 'Cybozu'
+      ja: 'サイボウズ'
+      context: 'proper noun; company name; the employer; distinct from the kintone product'
