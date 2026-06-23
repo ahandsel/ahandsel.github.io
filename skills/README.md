@@ -27,10 +27,12 @@ To use a skill, enter the skill's name in the AI interface (VS Code extension, t
 | [`ai-commit`][]           | Auto-gather git changes, confirm scope with the user, and draft a commit title and message following the project commit style guide.                                                                               | 2026-06-03 13:30   |
 | [`general-en-polisher`][] | Polishes Markdown files to enforce the repo core writing rules (straight quotes, no contractions, the Oxford comma, sentence case headings, plain hyphens, and more), then runs `link-polisher` on the same files. | 2026-06-03 09:37   |
 | [`gh-sync-with-main`][]   | Bring the current git branch up to date with commits from the main branch (pull, rebase, or merge main).                                                                                                           | 2026-06-08 00:00   |
+| [`general-ja-polisher`][] | Reviews Japanese Markdown for natural phrasing and compliance with repo Japanese style guides (general, technical, glossary, word list); edits by default, `--fix` to apply, `--report-only` for a dry run.        | 2026-06-22 00:00   |
 
 [`ai-commit`]: ./ai-commit/SKILL.md
 [`general-en-polisher`]: ./general-en-polisher/SKILL.md
 [`gh-sync-with-main`]: ./gh-sync-with-main/SKILL.md
+[`general-ja-polisher`]: ./general-ja-polisher/SKILL.md
 
 
 ### Repository maintenance skills
