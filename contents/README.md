@@ -6,17 +6,20 @@ This folder holds all bilingual page content, the VitePress config, and the cust
 
 ## Layout
 
-English is the default locale and lives at the site root.
+English lives under [`en/`](./en/).
 Japanese lives under [`ja/`](./ja/).
 The language switcher in the nav is rendered automatically from the `locales` config.
 
-* `/` → [`index.md`](./index.md) (English home)
-* `/about` → [`about.md`](./about.md) (English about)
-* `/talks` → [`talks.md`](./talks.md) (English talks)
+* `/` → [`index.md`](./index.md) (redirects to English home)
+* `/en/` → [`en/index.md`](./en/index.md) (English home)
+* `/en/about` → [`en/about.md`](./en/about.md) (English about)
+* `/en/projects` → [`en/projects.md`](./en/projects.md) (English projects)
+* `/en/talks` → [`en/talks.md`](./en/talks.md) (English talks)
 * `/ja/` → [`ja/index.md`](./ja/index.md) (Japanese home)
 * `/ja/about` → [`ja/about.md`](./ja/about.md) (Japanese about)
+* `/ja/projects` → [`ja/projects.md`](./ja/projects.md) (Japanese projects)
 * `/ja/talks` → [`ja/talks.md`](./ja/talks.md) (Japanese talks)
-* `/en/...` → redirect stubs generated at build time that point back to the canonical English path
+* `/about`, `/projects`, and `/talks` → redirect stubs generated at build time that point to the canonical English path
 
 When adding a new page, create the file in both locales and register it under the matching `themeConfig.nav` and `themeConfig.sidebar` entries in `.vitepress/config.mts`.
 
@@ -24,9 +27,10 @@ When adding a new page, create the file in both locales and register it under th
 ## Subfolders
 
 * `.vitepress/` - VitePress configuration and the custom theme.
-  * `config.mts` - Site config, locales, theme config, and the `buildEnd` hook that emits `/en/*` redirect stubs.
+  * `config.mts` - Site config, locales, theme config, and the `buildEnd` hook that emits root-level English redirect stubs.
   * `theme/` - Custom theme entry and overrides.
-* [`ja/`](./ja/) - Japanese pages, mirroring the structure of the English pages at the root.
+* [`en/`](./en/) - English pages, mirroring the Japanese page structure.
+* [`ja/`](./ja/) - Japanese pages, mirroring the English page structure.
 
 
 ## Local commands

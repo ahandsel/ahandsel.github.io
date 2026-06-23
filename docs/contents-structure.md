@@ -9,6 +9,11 @@
 │   │   ├───📄 repos.data.mts
 │   │   └───📄 style.css
 │   └───📄 config.mts
+├───📁 en/
+│   ├───📄 about.md
+│   ├───📄 index.md
+│   ├───📄 projects.md
+│   └───📄 talks.md
 ├───📁 ja/
 │   ├───📄 about.md
 │   ├───📄 index.md
@@ -34,8 +39,5 @@
 │   ├───📄 office-me-writing.png
 │   └───📄 robots.txt
 ├───📄 README.md
-├───📄 about.md
-├───📄 index.md
-├───📄 projects.md
-└───📄 talks.md
+└───📄 index.md
 ```

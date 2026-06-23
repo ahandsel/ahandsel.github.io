@@ -4,14 +4,17 @@ layout: home
 
 hero:
   name: 藤森 源司
-  tagline: 私のさまざまなプロジェクトやウェブサイトをぜひご覧ください
+  tagline: プロジェクトやウェブサイトをご覧ください。
+  image:
+    src: /kamikochi-bridge-hiking-sketch-color-crop.png
+    alt: 上高地のつり橋を渡るハイカー
   actions:
     - theme: brand
       text: 自己紹介
       link: /ja/about
     - theme: alt
       text: English
-      link: /
+      link: /en/
 
 features:
   - icon: 🗼

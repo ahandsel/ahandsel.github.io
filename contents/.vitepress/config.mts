@@ -14,26 +14,29 @@ export default defineConfig({
     ['link', { rel: 'apple-touch-icon', href: '/cat-icon-background.png' }],
   ],
 
-  // English is the default locale, served at the site root (/).
-  // Japanese lives under /ja/. VitePress renders a language switcher in the nav.
+  // English content lives under /en/ and Japanese under /ja/. The site root (/)
+  // redirects to /en/ (see contents/index.md). English stays the default
+  // (root) locale - its pages simply sit in the en/ folder - so `link` points
+  // at /en/ and there is no phantom locale in the language switcher.
   locales: {
     root: {
       label: 'English',
       lang: 'en',
+      link: '/en/',
       themeConfig: {
         nav: [
-          { text: 'Home', link: '/' },
-          { text: 'About', link: '/about' },
-          { text: 'Talks', link: '/talks' },
-          { text: 'Projects', link: '/projects' },
+          { text: 'Home', link: '/en/' },
+          { text: 'About', link: '/en/about' },
+          { text: 'Talks', link: '/en/talks' },
+          { text: 'Projects', link: '/en/projects' },
         ],
         sidebar: [
           {
             text: 'Introduction',
             items: [
-              { text: 'About', link: '/about' },
-              { text: 'Talks', link: '/talks' },
-              { text: 'Projects', link: '/projects' },
+              { text: 'About', link: '/en/about' },
+              { text: 'Talks', link: '/en/talks' },
+              { text: 'Projects', link: '/en/projects' },
             ],
           },
         ],
@@ -69,18 +72,23 @@ export default defineConfig({
     socialLinks: [{ icon: 'github', link: 'https://github.com/ahandsel' }],
   },
 
-  // Generate /en/* redirect stubs at build time so any legacy or hand-typed
-  // /en/foo link resolves to the canonical /foo (the English default).
+  // English now lives under /en/. Generate root-level redirect stubs at build
+  // time so any legacy or hand-typed /foo link resolves to the canonical
+  // /en/foo. The site root (/) is handled separately by contents/index.md, so
+  // the en/index.html page is skipped here.
   // Skipped by `vitepress dev` (buildEnd only fires on production builds).
   async buildEnd(siteConfig: SiteConfig) {
     const distDir = siteConfig.outDir;
-    const rootFiles = await collectRootHtml(distDir);
+    const enFiles = await collectEnHtml(distDir);
 
     await Promise.all(
-      rootFiles.map(async (relPath) => {
+      enFiles.map(async (relPath) => {
+        // relPath is relative to dist/en (e.g. "about.html", "index.html").
+        if (relPath === 'index.html') return;
         const target =
-          '/' + relPath.replace(/(?:^|\/)index\.html$/, '').replace(/\.html$/, '');
-        const stubPath = path.join(distDir, 'en', relPath);
+          '/en/' +
+          relPath.replace(/(?:^|\/)index\.html$/, '').replace(/\.html$/, '');
+        const stubPath = path.join(distDir, relPath);
         await fs.mkdir(path.dirname(stubPath), { recursive: true });
         await fs.writeFile(stubPath, redirectHtml(target), 'utf8');
       }),
@@ -88,24 +96,22 @@ export default defineConfig({
   },
 });
 
-// Walk dist/ and collect HTML files that belong to the English (root) locale.
-// Excludes the ja/ and en/ subtrees, plus the 404 page.
-async function collectRootHtml(distDir: string): Promise<string[]> {
+// Walk dist/en/ and collect its HTML files, relative to that directory.
+async function collectEnHtml(distDir: string): Promise<string[]> {
   const out: string[] = [];
+  const enDir = path.join(distDir, 'en');
   async function walk(dir: string, rel: string) {
     const entries = await fs.readdir(dir, { withFileTypes: true });
     for (const entry of entries) {
       const childRel = rel ? `${rel}/${entry.name}` : entry.name;
       if (entry.isDirectory()) {
-        if (entry.name === 'en' || entry.name === 'ja') continue;
         await walk(path.join(dir, entry.name), childRel);
       } else if (entry.isFile() && entry.name.endsWith('.html')) {
-        if (childRel === '404.html') continue;
         out.push(childRel);
       }
     }
   }
-  await walk(distDir, '');
+  await walk(enDir, '');
   return out;
 }
 
