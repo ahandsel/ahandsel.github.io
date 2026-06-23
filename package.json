@@ -45,7 +45,7 @@
     "lint-code": "prettier --write .",
     "lint-md": "markdownlint-cli2 --fix",
     "preview": "vitepress preview contents",
-    "test": "pnpm run lint && pnpm run test-names && pnpm run test-tree && pnpm run check-license && pnpm run contents-build && pnpm run contents-preview",
+    "test": "pnpm run lint && pnpm run test-names && pnpm run tree && pnpm run check-license && pnpm run contents-build && pnpm run contents-preview",
     "test-names": "node skills/file-folder-name-linter/scripts/lint-names.mjs",
     "test-tree": "node scripts/generate-doc-structure.mjs --check",
     "tree": "node scripts/generate-doc-structure.mjs",
