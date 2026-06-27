@@ -2,7 +2,7 @@
 
 
 Genji Fujimori is a [Kintone] developer advocate and a UX writer and localization specialist for a new product at [Cybozu].
-Born in Anchorage, Alaska, and raised in California's San Francisco Bay Area, Genji is now based in Tokyo.
+A Californian living in Japan, Genji is now based in Tokyo.
 
 
 ## Work
