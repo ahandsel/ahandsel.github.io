@@ -20,7 +20,7 @@ features:
     details: 'サイボウズの kintone Developer Relations チームの採用説明会。Global Developer Advocate と Technical Content Creator の 2 職種、ミッション、英語の流暢さとビジネスレベルの日本語を含む要件、関連するエンジニア職を紹介。最終更新：2022 年 6 月 8 日 (水)'
     link: https://ahandsel.github.io/Talks/Slides_KDP_Hiring_Jun_2022/
   - title: Le Wagon×サイボウズワークショップ（英語）
-    details: 'Le Wagon Tokyo コーディングブートキャンプとの共同開催によるキャリア講演。サイボウズのエンジニア 5 人が入社後最初の 1 か月を紹介。Global Developer Advocate と Developer Tools Engineer を含むエンジニアのキャリアと募集中の職種、「100 人 100 通り」の文化、ブートキャンプ卒業生向けの Q&A を扱う。最終更新：2022 年 5 月 16 日 (月)'
+    details: 'Le Wagon Tokyo コーディングブートキャンプとの共同開催によるキャリア講演。サイボウズのエンジニア 5 人が入社後最初の 1 か月を紹介。Global Developer Advocate と Developer Tools Engineer を含むエンジニアのキャリアと募集中の職種、「100 人 100 通り」の文化、ブートキャンプ卒業生向けの質疑応答を扱う。最終更新：2022 年 5 月 16 日 (月)'
     link: https://ahandsel.github.io/Talks/Slides_lewagon_cybozu/
   - title: 段落のつなぎ方読書会（日本語）
     details: '『論理が伝わる 世界標準の「書く技術」』第 5 章についての読書会資料。背景に沿って段落をつなぐ引継型と、分岐点で段落を展開する展開型を説明。1 つの文書で 2 つの型を混在させない理由を紹介。最終更新：2022 年 5 月 16 日 (月)'
