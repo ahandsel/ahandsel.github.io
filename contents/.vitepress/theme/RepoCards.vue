@@ -85,16 +85,53 @@ function formatDate(iso: string): string {
   border: 1px solid var(--vp-c-divider);
   border-radius: 12px;
   background-color: var(--vp-c-bg-soft);
+  /* `fade-in-up` is defined globally in theme/style.css. */
+  animation: fade-in-up 0.6s ease-out both;
   transition:
     border-color 0.25s,
     box-shadow 0.25s,
     transform 0.25s;
 }
 
+/* Stagger the first several cards so the grid reveals in sequence. */
+.repo-card:nth-child(1) {
+  animation-delay: 0.05s;
+}
+
+.repo-card:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.repo-card:nth-child(3) {
+  animation-delay: 0.15s;
+}
+
+.repo-card:nth-child(4) {
+  animation-delay: 0.2s;
+}
+
+.repo-card:nth-child(5) {
+  animation-delay: 0.25s;
+}
+
+.repo-card:nth-child(6) {
+  animation-delay: 0.3s;
+}
+
 .repo-card:hover {
   border-color: var(--vp-c-brand-1);
   box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
   transform: translateY(-2px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .repo-card {
+    animation: none;
+  }
+
+  .repo-card:hover {
+    transform: none;
+  }
 }
 
 .repo-card__head {

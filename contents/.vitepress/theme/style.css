@@ -288,6 +288,199 @@ body {
 }
 
 /**
+ * Animation: Entrance, float, and hover micro-interactions
+ *
+ * Adapted from the motion vocabulary on openclaw.ai: a gentle `fade-in-up`
+ * entrance staggered across the home hero and feature cards, a slow `float`
+ * bob on the hero illustration, and a lift-on-hover on the feature cards.
+ * Everything here is disabled under `prefers-reduced-motion` further down.
+ * -------------------------------------------------------------------------- */
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* The hero image is centered by the default theme with
+   `transform: translate(-50%, -50%)`, so the bob must preserve that offset to
+   avoid knocking the image off-center. */
+@keyframes float {
+  0%,
+  100% {
+    transform: translate(-50%, -50%);
+  }
+  50% {
+    transform: translate(-50%, calc(-50% - 10px));
+  }
+}
+
+/* Staggered reveal of the home hero, top to bottom. */
+.VPHero .name {
+  animation: fade-in-up 0.8s ease-out both;
+}
+
+.VPHero .text {
+  animation: fade-in-up 0.8s ease-out 0.1s both;
+}
+
+.VPHero .tagline {
+  animation: fade-in-up 0.8s ease-out 0.2s both;
+}
+
+.VPHero .actions {
+  animation: fade-in-up 0.8s ease-out 0.3s both;
+}
+
+.VPHero .image {
+  animation: fade-in-up 0.8s ease-out 0.2s both;
+}
+
+/* Slow bob on the hero illustration, paused while hovered. */
+.VPHero .image-src {
+  animation: float 5s ease-in-out infinite;
+}
+
+.VPHero .image-src:hover {
+  animation-play-state: paused;
+}
+
+/* Feature cards fade up in sequence, then lift on hover. */
+.VPFeatures .VPFeature {
+  animation: fade-in-up 0.8s ease-out both;
+  transition:
+    border-color 0.25s,
+    box-shadow 0.25s,
+    transform 0.25s;
+}
+
+.VPFeatures .items .item:nth-child(1) .VPFeature {
+  animation-delay: 0.4s;
+}
+
+.VPFeatures .items .item:nth-child(2) .VPFeature {
+  animation-delay: 0.5s;
+}
+
+.VPFeatures .items .item:nth-child(3) .VPFeature {
+  animation-delay: 0.6s;
+}
+
+.VPFeatures .items .item:nth-child(4) .VPFeature {
+  animation-delay: 0.7s;
+}
+
+.VPFeatures .VPFeature:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .VPHero .name,
+  .VPHero .text,
+  .VPHero .tagline,
+  .VPHero .actions,
+  .VPHero .image,
+  .VPHero .image-src,
+  .VPFeatures .VPFeature {
+    animation: none;
+  }
+
+  .VPFeatures .VPFeature:hover {
+    transform: none;
+  }
+}
+
+/**
+ * Component: Collapsible sidebar
+ *
+ * The default theme has no control to collapse the whole desktop sidebar.
+ * Layout.vue renders a floating `.sidebar-toggle` button that toggles the
+ * `sidebar-collapsed` class on <html>. Collapsing sets `--vp-sidebar-width`
+ * to 0 so the content reflows to full width (the default theme keeps it
+ * centered within the max width at large viewports), and hides the sidebar.
+ *
+ * This only applies at >= 960px. Below that, the default theme already swaps
+ * the sidebar for the mobile hamburger menu, so the toggle is hidden.
+ * -------------------------------------------------------------------------- */
+
+@media (min-width: 960px) {
+  html.sidebar-collapsed {
+    --vp-sidebar-width: 0px;
+  }
+
+  html.sidebar-collapsed .VPSidebar {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(-100%);
+  }
+}
+
+.sidebar-toggle {
+  position: fixed;
+  bottom: 16px;
+  left: 8px;
+  z-index: calc(var(--vp-z-index-sidebar) + 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  color: var(--vp-c-text-2);
+  background-color: var(--vp-c-bg-soft);
+  border: 1px solid var(--vp-c-border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition:
+    left 0.25s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.sidebar-toggle:hover {
+  color: var(--vp-c-brand-1);
+  border-color: var(--vp-c-brand-1);
+  background-color: var(--vp-c-bg);
+}
+
+.sidebar-toggle__icon {
+  transition: transform 0.25s ease;
+}
+
+/* Flip the chevron to point right when the sidebar is collapsed. */
+.sidebar-toggle.is-collapsed .sidebar-toggle__icon {
+  transform: rotate(180deg);
+}
+
+/* Hide the toggle on small screens, where the hamburger menu takes over. */
+@media (max-width: 959px) {
+  .sidebar-toggle {
+    display: none;
+  }
+}
+
+/* When the sidebar is open, park the button near its right edge. */
+@media (min-width: 960px) {
+  html:not(.sidebar-collapsed) .sidebar-toggle {
+    left: calc(var(--vp-sidebar-width) - 40px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sidebar-toggle,
+  .sidebar-toggle__icon {
+    transition: none;
+  }
+}
+
+/**
  * Component: Language switcher
  *
  * The default theme hides the nav-bar translations menu below 1280px and only
