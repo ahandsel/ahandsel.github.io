@@ -65,7 +65,7 @@
     "prettier-plugin-toml": "^2.0.6",
     "sh-syntax": "^0.5.8",
     "tree-extended": "^4.6.0",
-    "vitepress": "2.0.0-alpha.17"
+    "vitepress": "2.0.0-alpha.18"
   },
   "packageManager": "pnpm@11.8.0",
   "engines": {
