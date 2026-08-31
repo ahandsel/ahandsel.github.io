@@ -21,6 +21,8 @@
 // * With --json: { violations: [...], styleGuides: [...] } on stdout.
 // * Exit codes: 0 = clean, 1 = violations found, 2 = configuration error.
 // Version history:
+// * v1.1 - 2026-08-31 - Treat NOTICE.txt as a standard doc basename, matching
+//   the existing LICENSE.txt, NOTICE, and NOTICE.md entries.
 // * v1.0 - 2026-06-05 - Initial release.
 
 import { spawnSync } from 'node:child_process';
@@ -54,6 +56,7 @@ const STANDARD_DOC_BASENAMES = new Set([
   'AUTHORS.md',
   'NOTICE',
   'NOTICE.md',
+  'NOTICE.txt',
   'SKILL.md',
   'Brewfile',
   'Makefile',
