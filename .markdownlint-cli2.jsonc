@@ -77,6 +77,12 @@
   "ignores": [
     // All figma-* skills are vendored from the official Figma plugin.
     "**/skills/figma-*/**",
+    // Vendored third-party skills imported with their upstream LICENSE files.
+    "**/skills/gh-address-comments/**",
+    "**/skills/gh-fix-ci/**",
+    "**/skills/playwright/**",
+    "**/skills/security-best-practices/**",
+    "**/skills/security-threat-model/**",
   ],
 
   // Optional CLI behavior
