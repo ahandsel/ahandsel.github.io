@@ -3,7 +3,7 @@
 This guide outlines the different types of help documents and what each type aims to achieve.
 
 
-## Change log <!-- omit in toc -->
+## Changelog <!-- omit in toc -->
 
 * 2025-03-25 - Initial draft
 
