@@ -4,13 +4,20 @@ on:
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
 
-permissions:
-  contents: write
+permissions: {} # Default permission set as none; the job grants only what it needs
+
+# One run per pull request; a new push cancels the stale run.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   lint-autofix:
     if: github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write # Required to push the formatting fixes back to the branch
     env:
       PR_HEAD_REF: ${{ github.head_ref }}
     steps:
@@ -43,6 +50,12 @@ jobs:
       - name: Run lint
         run: pnpm lint
 
+      # Regenerate the contents tree snapshot so a stale
+      # docs/contents-structure.md is fixed here instead of only failing the
+      # PR build check.
+      - name: Regenerate contents tree
+        run: pnpm tree
+
       - name: Commit and push changes
         run: |
           if git diff --quiet; then
@@ -51,6 +64,8 @@ jobs:
           fi
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add -A
+          # Stage tracked modifications only, so an untracked build or install
+          # artifact can never be committed by this workflow.
+          git add -u
           git commit -m "chore: apply lint fixes"
           git push origin HEAD:"$PR_HEAD_REF"

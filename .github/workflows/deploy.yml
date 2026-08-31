@@ -9,10 +9,7 @@ on:
   push:
     branches: [main] # Run this workflow only for commits to `main`
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
+permissions: {} # Default permission set as none; each job grants only what it needs
 
 # Ensures that only one deploy runs at a time for this project
 concurrency:
@@ -25,6 +22,9 @@ jobs:
     name: Build and upload VitePress site
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    permissions:
+      contents: read # Read-only checkout for the build
+      pages: read # Required by configure-pages to read the Pages site config
 
     steps:
       # Step 1: Checkout repository code
@@ -61,7 +61,7 @@ jobs:
       # data loader (contents/.vitepress/theme/repos.data.mts) from 60 to 5000
       # requests per hour. It is optional; the build also works without it.
       - name: Build VitePress site
-        run: pnpm build
+        run: pnpm vitepress-build
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -78,6 +78,10 @@ jobs:
     name: Deploy to GitHub Pages
     needs: build
     runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pages: write # Required to publish to GitHub Pages
+      id-token: write # Required by deploy-pages to verify the deployment origin
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
