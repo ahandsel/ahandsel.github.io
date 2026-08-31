@@ -22,10 +22,4 @@ features:
   - title: Le Wagon and Cybozu workshop (EN)
     details: 'A career talk co-hosted with the Le Wagon Tokyo coding bootcamp. Five Cybozu engineers share their first month at the company. Covers engineering career paths and open roles, including Global Developer Advocate and Developer Tools Engineer. Covers the 100 work styles for 100 people culture and a Q&A for bootcamp graduates. Last updated: Mon, May 16, 2022.'
     link: https://ahandsel.github.io/Talks/Slides_lewagon_cybozu/
-  - title: Connecting paragraphs book club (JA)
-    details: 'A book club presentation on chapter 5 of 論理が伝わる 世界標準の「書く技術」 (Logic-Driven Writing). Explains the inheritance pattern (引継型), which supports a background-driven flow. Explains the expansion pattern (展開型), which branches at key points. Explains why documents should not mix the two patterns. Last updated: Mon, May 16, 2022.'
-    link: https://ahandsel.github.io/Talks/Slides_Book_ConnectingParagraphs/
-  - title: System consulting department tech stack overview (EN & JA)
-    details: 'A bilingual onboarding overview of the technologies used by the System Consulting department at Cybozu. Covers operating systems, networking, databases, shell scripting, regular expressions, authentication, web servers, cloud computing, HTML, CSS, JavaScript, APIs, Git, and GitHub. Helps new members explain technical concepts to partners and external developers. Last updated: Mon, May 16, 2022.'
-    link: https://ahandsel.github.io/Talks/Slides_SC_Tech_Overview/
 ---

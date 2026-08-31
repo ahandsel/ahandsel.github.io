@@ -28,7 +28,7 @@ features:
   - icon: 🤖
     title: Useful AI prompts
     details: A growing list of AI prompts I rely on for everyday work with ChatGPT.
-    link: https://github.com/ahandsel/useful-ai-prompts
+    link: https://ahandsel.github.io/useful-ai-prompts/
   - icon: ✍️
     title: Copy in the wild
     details: Examples of copywriting I gather to improve my own UX writing, emails, and more.
