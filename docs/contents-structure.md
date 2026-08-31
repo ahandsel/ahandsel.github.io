@@ -8,7 +8,9 @@
 │   │   ├───📄 index.ts
 │   │   ├───📄 repos.data.mts
 │   │   └───📄 style.css
-│   └───📄 config.mts
+│   ├───📄 config.mts
+│   ├───📄 env.d.ts
+│   └───📄 llms-pages.ts
 ├───📁 en/
 │   ├───📄 about.md
 │   ├───📄 index.md
