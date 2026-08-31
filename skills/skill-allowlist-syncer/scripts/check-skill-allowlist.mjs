@@ -11,7 +11,7 @@
 //
 // Description:
 // * Purpose: Reconcile `Skill(<name>)` entries in `.claude/settings.json` `permissions.allow` against the repo's `skills/` folder.
-// * Default mode prints a report and exits 1 when drift is detected so it can be wired into `pnpm test`.
+// * Default mode prints a report and exits 1 when drift is detected so it can be wired into `pnpm check`.
 // * With `--write`, edits `.claude/settings.json`: appends missing `Skill(<name>)` entries and removes stale ones.
 // * Non-Skill permission entries (`Bash(...)`, `Read(...)`, etc.) are never reordered, rewritten, or removed.
 // * Skill names come from the `name:` frontmatter field in each `SKILL.md`, falling back to the directory name if missing.
