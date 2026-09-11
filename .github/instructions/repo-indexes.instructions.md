@@ -10,3 +10,4 @@ These folders carry indexes that a change has to keep in sync by hand, and no wo
 * Adding or changing a durable memory keeps `memory/MEMORY.md` in sync with the individual memory file.
 * A new memory file uses a kebab-case slug that starts with the `auditing-`, `styling-`, `tooling-`, or `wording-` category prefix, and it records one subject.
 * A new or renamed script under `skills/<skill-name>/scripts/` has matching permission entries in `.claude/settings.json`, in the correct `allow`, `ask`, or `deny` tier.
+* The `WebFetch(domain:<host>)` entries in the `allow` array are the standing web-research allowlist that the "Web research" section of `AGENTS.md` describes. Adding or removing a site is a deliberate owner decision, so treat a change there as a policy change rather than a formatting one.
