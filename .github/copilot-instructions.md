@@ -90,6 +90,17 @@ Apply these when writing or editing files rather than reviewing them:
 * Keep the `scripts` block in `package.json` sorted alphabetically.
 
 
+## Web research
+
+These come from the "Web research" section of `AGENTS.md`, which stays authoritative.
+
+* Before you read anything on the web, list the sites you want to check and wait for the user to approve the list.
+* The rule covers every route to the network: the fetch and search tools, a browser session, a shell command such as `curl` or `wget`, and an MCP server that reads a remote resource for you.
+* Approval covers the task at hand only, and a site the work turns up later needs its own ask.
+* The standing allowlist of pre-approved sites lives in `.claude/settings.json` under `permissions.allow` as `WebFetch(domain:<host>)` entries. Read it before you ask, and leave an already-approved site out of the list you present.
+* The rule is about reaching the network, not about running Node. Repository scripts and the allowlisted `gh` commands act on this repository, so they are not web research.
+
+
 ## Automated checks
 
 * `.github/workflows/pr-build-check.yml` runs the read-only gate on pull requests: naming rules, the contents tree snapshot, en/ja parity, the script tests, the typecheck, the license check, and a production build.
