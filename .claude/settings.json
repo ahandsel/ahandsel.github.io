@@ -84,21 +84,32 @@
       "Skill(security-best-practices)",
       "Skill(security-threat-model)",
       "Skill(skill-allowlist-syncer)",
-      "Skill(vitepress-include-lint)"
+      "Skill(vitepress-include-lint)",
+      "WebFetch(domain:ahandsel.github.io)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:vitepress.dev)"
     ],
     "ask": [
       "Bash(bash skills/playwright/scripts/playwright-cli.sh:*)",
+      "Bash(curl:*)",
       "Bash(git push --force *)",
       "Bash(git push --force-with-lease *)",
       "Bash(git push -f *)",
       "Bash(git push:*)",
       "Bash(git push)",
+      "Bash(node --eval:*)",
+      "Bash(node -e:*)",
       "Bash(node scripts/trim-png.mjs:*)",
+      "Bash(npx:*)",
       "Bash(pnpm clean:*)",
       "Bash(pnpm cleanup:*)",
+      "Bash(pnpm dlx:*)",
       "Bash(skills/playwright/scripts/playwright-cli.sh:*)",
+      "Bash(wget:*)",
       "Bash(zsh ./scripts/cleanup-temp-files.sh:*)",
-      "Bash(zsh scripts/cleanup-temp-files.sh:*)"
+      "Bash(zsh scripts/cleanup-temp-files.sh:*)",
+      "WebSearch"
     ],
     "deny": [
       "Bash(rm -rf /*)",
