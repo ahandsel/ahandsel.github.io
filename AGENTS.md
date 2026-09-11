@@ -119,6 +119,64 @@ Each memory is one file holding one fact, decision, or open question, and [memor
   Those files arrive with YAML frontmatter; rewrite one into the `memory/MEMORY.md` format the next time you touch it, and remember that everything here is tracked by git.
 
 
+## Web research
+
+Reaching a website is not a free action.
+Before you read anything on the web, present the list of sites you want to check and wait for the user to approve it.
+
+The rule covers every route to the network:
+
+* The `WebFetch` and `WebSearch` tools.
+* A browser session driven by the `playwright` skill.
+* Any shell command that makes a request, such as `curl`, `wget`, `npx`, `pnpm dlx`, or an inline `node -e` script that calls `fetch`.
+* An MCP server that reads a remote resource for you.
+
+The rule is about reaching the network, not about running Node.
+The repository scripts under `scripts/` and `skills/<skill-name>/scripts/` stay allowed, and so do the `gh` commands in the allowlist, because they act on this repository rather than on the open web.
+
+
+### How to ask
+
+1. Stop before the first request.
+2. List every site you want to visit, one per line, giving the URL or the domain and one short sentence on what you need from it.
+3. Wait for the user to approve the list. Do not treat silence, a related instruction, or your own judgment as approval.
+4. Visit only what the user approved. When the work turns up a site that is not on the approved list, ask again before you follow it.
+
+Approval covers the task at hand only, so a later task starts over even in the same session.
+A URL that the user puts in the request is already approved, and so is a page linked from it when the user tells you to follow the link.
+
+
+### Standing allowlist
+
+Some sites are approved in advance and need no ask.
+They live in [.claude/settings.json](.claude/settings.json) under `permissions.allow` as `WebFetch(domain:<host>)` entries, which is the same list Claude Code enforces, so the repository keeps one list rather than two.
+Read that list before you ask, and leave an already-approved site out of the list you present.
+
+The list starts small on purpose:
+
+* `ahandsel.github.io` - the published site, for checking a live page.
+* `github.com` and `raw.githubusercontent.com` - this repository, its issues, and its pull requests.
+* `vitepress.dev` - the VitePress documentation that the "VitePress" section above sends you to.
+
+To add a site, add a `WebFetch(domain:<host>)` entry to the `allow` array and keep the array sorted.
+To remove one, delete its entry.
+The repository owner decides what belongs on this list.
+
+
+### What the permission rules do
+
+`.claude/settings.json` backs the rule for Claude Code:
+
+* The `WebFetch(domain:<host>)` entries in `allow` let the standing allowlist through without a prompt.
+* Every other host prompts, because `WebFetch` carries no blanket `allow` entry.
+* `WebSearch` sits in `ask`, so a search always prompts.
+* `curl`, `wget`, `npx`, `pnpm dlx`, and the inline `node -e` and `node --eval` forms sit in `ask`.
+
+Those entries match a literal command prefix, so they raise the bar rather than seal it, and a request phrased another way still reaches the network.
+This repository deliberately does not deny `node` outright, because its own tooling is Node and that ban would cost far more than it buys.
+The written rule above is what actually binds you, it binds every agent rather than Claude Code alone, and no permission list replaces it.
+
+
 ## Copilot instructions
 
 GitHub Copilot reads its own instruction files, which restate for Copilot what this file already says for every other agent.
