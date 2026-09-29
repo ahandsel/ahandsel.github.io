@@ -1,0 +1,68 @@
+# .github/workflows/vitepress-auto-update.yml
+# Bump VitePress to the latest @next release and open a pull request.
+# Triggered every Monday at midnight UTC, or via "Run workflow".
+
+name: Auto-Update VitePress
+
+on:
+  schedule:
+    - cron: '0 0 * * 1' # Every Monday at midnight UTC
+  workflow_dispatch: {} # Allow manual execution from the GitHub Actions tab
+
+permissions: {} # Default permission set as none; the job grants only what it needs
+
+# One run at a time; do not cancel an in-flight update mid-push.
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
+jobs:
+  update-vitepress:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write # Required to push the update branch
+      pull-requests: write # Required to open the pull request
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # actions/checkout@v5.0.0, pinned
+
+      - name: Detect pnpm version
+        id: pnpm-version
+        run: |
+          version="$(jq -r '.packageManager' package.json | cut -d'@' -f2)"
+          echo "version=${version}" >> "$GITHUB_OUTPUT"
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061 # pnpm/action-setup@v4.2.0, pinned
+        with:
+          version: ${{ steps.pnpm-version.outputs.version }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # actions/setup-node@v5.0.0, pinned
+        with:
+          node-version: 24 # Match engines.node (>=24.12) in package.json
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Update VitePress
+        run: pnpm vitepress-update
+
+      - name: Create pull request
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # peter-evans/create-pull-request@v8.1.1, pinned
+        with:
+          branch: update/vitepress
+          delete-branch: true
+          title: '⬆️ Bump VitePress to the latest @next release'
+          commit-message: '⬆️ Bump VitePress to the latest @next release'
+          body: |
+            ## Summary
+            * Bumps VitePress to the latest `@next` release via `pnpm vitepress-update`.
+
+            ## Test plan
+            * [ ] `pnpm check` passes
+            * [ ] Spot-check the site after merge
+          labels: dependencies

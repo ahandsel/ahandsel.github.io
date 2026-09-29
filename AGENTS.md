@@ -53,7 +53,7 @@ This repository has no `agents/` folder and defines no custom subagents. Load th
 * `pnpm index` - List every `pnpm` script defined in `package.json`.
 * `pnpm clean` - Remove the VitePress cache and `dist` folders.
 * `pnpm cleanup` - Find temporary files, delete the empty ones, and prompt before deleting the rest.
-* `pnpm vitepress-update` - Upgrade VitePress with `vp-update`.
+* `pnpm vitepress-update` - Upgrade VitePress to the latest `@next` release.
 
 The command names and semantics intentionally match the ones in the owner's other documentation repositories, so the same muscle memory works everywhere.
 
@@ -303,5 +303,6 @@ Keep scripts in `package.json` sorted alphabetically.
 * `.github/workflows/pr-build-check.yml` runs the read-only gate on pull requests: naming rules, the contents tree snapshot, en/ja parity, the script tests, the typecheck, the license check, and a production build. It posts the results as a sticky comment on the pull request.
 * `.github/workflows/pr-lint-autofix.yml` runs `pnpm lint` and `pnpm tree` on pull requests and commits the fixes back to the branch. It is skipped for pull requests from forks.
 * `.github/workflows/sync-copilot-skills.yml` runs on every push to `main` that touches `skills/` and copies each skill with a counterpart under `.github/skills/` over that counterpart, because GitHub Copilot does not support symlinks.
+* `.github/workflows/vitepress-auto-update.yml` runs `pnpm vitepress-update` every Monday (and on manual dispatch) and opens a pull request when VitePress has a newer `@next` release.
 * Dependabot (`.github/dependabot.yml`) opens weekly pull requests for npm dependencies, including VitePress, and monthly grouped pull requests for GitHub Actions.
 * Pull request CI covers the same ground as `pnpm check` except formatting is fixed by the autofix workflow rather than gated. Still run `pnpm check` locally before you push.

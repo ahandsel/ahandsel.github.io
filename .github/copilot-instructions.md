@@ -107,6 +107,7 @@ These come from the "Web research" section of `AGENTS.md`, which stays authorita
 * `.github/workflows/pr-lint-autofix.yml` runs `pnpm lint` and `pnpm tree` on non-fork pull requests and commits the fixes back to the branch.
 * `.github/workflows/deploy.yml` runs `pnpm vitepress-build` and deploys to GitHub Pages on every push to `main`.
 * `.github/workflows/sync-copilot-skills.yml` copies each skill with a counterpart under `.github/skills/` over that counterpart on every push to `main` that touches `skills/`.
+* `.github/workflows/vitepress-auto-update.yml` runs `pnpm vitepress-update` every Monday (and on manual dispatch) and opens a pull request when VitePress has a newer `@next` release.
 * Dependabot opens weekly pull requests for npm dependencies and monthly grouped pull requests for GitHub Actions, per `.github/dependabot.yml`.
 * `pnpm check` runs the same gate locally, plus the formatting pass; run it before every push.
 

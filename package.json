@@ -50,7 +50,7 @@
     "vitepress-build": "vitepress build contents",
     "vitepress-dev": "vitepress dev contents",
     "vitepress-preview": "vitepress preview contents",
-    "vitepress-update": "pnpm dlx vp-update"
+    "vitepress-update": "pnpm add -D vitepress@next"
   },
   "devDependencies": {
     "@cybozu/license-manager": "1.4.1",
