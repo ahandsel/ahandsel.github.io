@@ -8,6 +8,10 @@ on:
   workflow_dispatch: {} # Allow manual execution from the GitHub Actions tab
   push:
     branches: [main] # Run this workflow only for commits to `main`
+    # Skill-copy sync commits touch only .github/skills/ and do not change the
+    # published site, so skip the Pages deploy for those pushes.
+    paths-ignore:
+      - '.github/skills/**'
 
 permissions: {} # Default permission set as none; each job grants only what it needs
 

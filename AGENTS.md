@@ -299,7 +299,7 @@ Keep scripts in `package.json` sorted alphabetically.
 
 ## Continuous integration
 
-* `.github/workflows/deploy.yml` builds the site with `pnpm vitepress-build` and deploys `contents/.vitepress/dist` to GitHub Pages on every push to `main`, and on manual dispatch. It passes `GITHUB_TOKEN` to raise the API rate limit for the Projects page data loader.
+* `.github/workflows/deploy.yml` builds the site with `pnpm vitepress-build` and deploys `contents/.vitepress/dist` to GitHub Pages on every push to `main` that is not limited to `.github/skills/`, and on manual dispatch. It passes `GITHUB_TOKEN` to raise the API rate limit for the Projects page data loader.
 * `.github/workflows/pr-build-check.yml` runs the read-only gate on pull requests: naming rules, the contents tree snapshot, en/ja parity, the script tests, the typecheck, the license check, and a production build. It posts the results as a sticky comment on the pull request.
 * `.github/workflows/pr-lint-autofix.yml` runs `pnpm lint` and `pnpm tree` on pull requests and commits the fixes back to the branch. It is skipped for pull requests from forks.
 * `.github/workflows/sync-copilot-skills.yml` runs on every push to `main` that touches `skills/` and opens a pull request that copies each skill with a counterpart under `.github/skills/` over that counterpart, because GitHub Copilot does not support symlinks.
