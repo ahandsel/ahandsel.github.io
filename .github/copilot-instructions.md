@@ -108,7 +108,7 @@ These come from the "Web research" section of `AGENTS.md`, which stays authorita
 * `.github/workflows/deploy.yml` runs `pnpm vitepress-build` and deploys to GitHub Pages on every push to `main` that is not limited to `.github/skills/`.
 * `.github/workflows/sync-copilot-skills.yml` opens a pull request that copies each skill with a counterpart under `.github/skills/` over that counterpart on every push to `main` that touches `skills/`.
 * `.github/workflows/vitepress-auto-update.yml` runs `pnpm vitepress-update` every Monday (and on manual dispatch) and opens a pull request when VitePress has a newer `@next` release.
-* Dependabot opens weekly pull requests for npm dependencies and monthly grouped pull requests for GitHub Actions, per `.github/dependabot.yml`.
+* Dependabot opens weekly pull requests for npm dependencies other than VitePress, and monthly grouped pull requests for GitHub Actions, per `.github/dependabot.yml`. VitePress stays on the dedicated auto-update workflow.
 * `pnpm check` runs the same gate locally, plus the formatting pass; run it before every push.
 
 Because no automation compares page content between languages, review logic, links, and translations closely.

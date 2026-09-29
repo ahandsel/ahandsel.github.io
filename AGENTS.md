@@ -304,5 +304,5 @@ Keep scripts in `package.json` sorted alphabetically.
 * `.github/workflows/pr-lint-autofix.yml` runs `pnpm lint` and `pnpm tree` on pull requests and commits the fixes back to the branch. It is skipped for pull requests from forks.
 * `.github/workflows/sync-copilot-skills.yml` runs on every push to `main` that touches `skills/` and opens a pull request that copies each skill with a counterpart under `.github/skills/` over that counterpart, because GitHub Copilot does not support symlinks.
 * `.github/workflows/vitepress-auto-update.yml` runs `pnpm vitepress-update` every Monday (and on manual dispatch) and opens a pull request when VitePress has a newer `@next` release.
-* Dependabot (`.github/dependabot.yml`) opens weekly pull requests for npm dependencies, including VitePress, and monthly grouped pull requests for GitHub Actions.
+* Dependabot (`.github/dependabot.yml`) opens weekly pull requests for npm dependencies other than VitePress, and monthly grouped pull requests for GitHub Actions. VitePress stays on the dedicated auto-update workflow so Dependabot does not open a second bump PR.
 * Pull request CI covers the same ground as `pnpm check` except formatting is fixed by the autofix workflow rather than gated. Still run `pnpm check` locally before you push.
