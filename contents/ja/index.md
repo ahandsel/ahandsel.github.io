@@ -24,7 +24,7 @@ features:
   - icon: 🥾
     title: Tokyo hiker
     details: 東京近郊で歩いたハイキングコースとトレイルの記録。
-    link: https://ahandsel.github.io/tokyo-hiker/ja/
+    link: https://ahandsel.github.io/tokyo-hiker/
   - icon: 🤖
     title: Useful AI prompts
     details: ChatGPT などで日々使っている AI プロンプト集。
@@ -32,5 +32,5 @@ features:
   - icon: ✍️
     title: Copy in the wild
     details: UX ライティングやメール文面の参考に集めた、実際のコピー例。
-    link: https://ahandsel.github.io/copy-in-the-wild/ja/
+    link: https://ahandsel.github.io/copy-in-the-wild/
 ---
