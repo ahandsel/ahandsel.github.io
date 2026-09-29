@@ -1,18 +1,18 @@
 name: Sync Copilot skill copies
 
-# GitHub Copilot does not support symlinks, so .github/skills/ holds real
-# copies of the canonical skills/ folders. This workflow keeps the copies in
-# sync: on every push to main that touches skills/, it copies each skill that
-# has a counterpart under .github/skills/ over that counterpart and commits
-# the result. The sync commit only touches .github/skills/, so it cannot
-# retrigger this workflow.
+# GitHub Copilot does not support symlinks.
+# Because of this, .github/skills/ contains real copies of the canonical skills/ folders.
+# This workflow keeps those copies in sync.
+# When a push to main changes skills/, it updates matching skills under .github/skills/.
+# If the copies are different, it opens a pull request.
+# It never pushes changes directly to main.
 
 on:
   push:
     branches: [main]
     paths:
       - 'skills/**'
-  workflow_dispatch: # Allows manual trigger
+  workflow_dispatch: {} # Allow manual execution from the GitHub Actions tab
 
 permissions: {} # Default permission set as none; the job grants only what it needs
 
@@ -26,7 +26,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
-      contents: write # Required to push the refreshed copies back to main
+      contents: write # Required to push the sync branch
+      pull-requests: write # Required to open the pull request
     steps:
       - name: Checkout repository
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # actions/checkout@v5.0.0, pinned
@@ -44,14 +45,19 @@ jobs:
             fi
           done
 
-      - name: Commit and push changes
-        run: |
-          if [ -z "$(git status --porcelain -- .github/skills)" ]; then
-            echo "✅ Copies already in sync. Nothing to commit."
-            exit 0
-          fi
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add .github/skills
-          git commit -m "chore: sync Copilot skill copies from skills/"
-          git push origin HEAD:main
+      - name: Create pull request
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # peter-evans/create-pull-request@v8.1.1, pinned
+        with:
+          branch: sync/copilot-skills
+          delete-branch: true
+          add-paths: |
+            .github/skills
+          title: 'chore: sync Copilot skill copies from skills/'
+          commit-message: 'chore: sync Copilot skill copies from skills/'
+          body: |
+            ## Summary
+            * Refreshes each `.github/skills/<name>` copy from the canonical `skills/<name>` folder.
+
+            ## Test plan
+            * [ ] Diff under `.github/skills/` matches the intended skill updates
+            * [ ] No files outside `.github/skills/` are in the diff

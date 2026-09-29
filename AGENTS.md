@@ -183,7 +183,7 @@ GitHub Copilot reads its own instruction files, which restate for Copilot what t
 
 * [.github/copilot-instructions.md](.github/copilot-instructions.md) is the repository-wide set that GitHub loads for Copilot code review and for authoring.
 * `.github/instructions/*.instructions.md` carry the path-scoped detail, and GitHub applies one on top of the repository-wide file when a changed file matches its `applyTo` glob.
-* `.github/skills/<skill-name>` holds a real copy of the matching `skills/<skill-name>` folder because GitHub Copilot does not support symlinks. The folder under `skills/` stays canonical: edit the skill there only, and let `.github/workflows/sync-copilot-skills.yml` refresh the copy after the push to `main`.
+* `.github/skills/<skill-name>` holds a real copy of the matching `skills/<skill-name>` folder because GitHub Copilot does not support symlinks. The folder under `skills/` stays canonical: edit the skill there only, and let `.github/workflows/sync-copilot-skills.yml` open a pull request that refreshes the copy after the push to `main`.
 * This file stays the primary instruction source. Keep a rule here and let the Copilot files point at it, rather than moving a rule into `.github/`.
 * When you add, rename, or remove a scoped file, update the instruction-file list in `.github/copilot-instructions.md`.
 
@@ -302,7 +302,7 @@ Keep scripts in `package.json` sorted alphabetically.
 * `.github/workflows/deploy.yml` builds the site with `pnpm vitepress-build` and deploys `contents/.vitepress/dist` to GitHub Pages on every push to `main`, and on manual dispatch. It passes `GITHUB_TOKEN` to raise the API rate limit for the Projects page data loader.
 * `.github/workflows/pr-build-check.yml` runs the read-only gate on pull requests: naming rules, the contents tree snapshot, en/ja parity, the script tests, the typecheck, the license check, and a production build. It posts the results as a sticky comment on the pull request.
 * `.github/workflows/pr-lint-autofix.yml` runs `pnpm lint` and `pnpm tree` on pull requests and commits the fixes back to the branch. It is skipped for pull requests from forks.
-* `.github/workflows/sync-copilot-skills.yml` runs on every push to `main` that touches `skills/` and copies each skill with a counterpart under `.github/skills/` over that counterpart, because GitHub Copilot does not support symlinks.
+* `.github/workflows/sync-copilot-skills.yml` runs on every push to `main` that touches `skills/` and opens a pull request that copies each skill with a counterpart under `.github/skills/` over that counterpart, because GitHub Copilot does not support symlinks.
 * `.github/workflows/vitepress-auto-update.yml` runs `pnpm vitepress-update` every Monday (and on manual dispatch) and opens a pull request when VitePress has a newer `@next` release.
 * Dependabot (`.github/dependabot.yml`) opens weekly pull requests for npm dependencies, including VitePress, and monthly grouped pull requests for GitHub Actions.
 * Pull request CI covers the same ground as `pnpm check` except formatting is fixed by the autofix workflow rather than gated. Still run `pnpm check` locally before you push.
