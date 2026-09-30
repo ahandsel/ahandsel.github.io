@@ -5,7 +5,8 @@ description: Lint repository file and folder names for format compliance. Use wh
 
 # File and folder name linter skill
 
-Sweep the repository for file and folder names that drift from the project's naming conventions. Use this skill when the user asks to check naming, enforce file extensions, validate `notes/` naming, or sweep the repo for non-compliant paths.
+Sweep the repository for file and folder names that drift from the project's naming conventions.
+Use this skill when the user asks to check naming, enforce file extensions, validate `notes/` naming, or sweep the repo for non-compliant paths.
 
 The skill enforces a fixed set of rules from this `SKILL.md` and surfaces every discovered repository style guide (`AGENTS.md`, `README.md`, `docs/`, `markdown-style-guide.md`, etc.) at the end of the report so the reviewer can sanity-check intent on gray-area findings.
 
@@ -14,9 +15,16 @@ The skill enforces a fixed set of rules from this `SKILL.md` and surfaces every 
 
 The linter enforces three rules on every run:
 
-1. **`notes/` naming.** Files under `notes/` (including subfolders such as `notes/img/`) must match `YYYY-MM-DD-<kebab-name>.<ext>`. For example, `notes/2026-05-19-pr-1-audit.md` passes; `notes/pr1.md`, `notes/note.md`, and `notes/2026-5-19-foo.md` fail. Allowed extensions: `.md`, `.png`, `.jpg`, `.jpeg`, `.gif`, `.webp`, `.svg`.
-2. **`.yaml` not `.yml`.** Any tracked file ending in `.yml` is flagged with a `.yaml` suggestion. This is the only rule the linter can auto-fix.
-3. **Kebab-case.** File basenames (before the first dot) and folder names must match `^[a-z0-9][a-z0-9-]*$` - lowercase letters, digits, and hyphens, starting with a letter or digit. No underscores, no uppercase, no spaces.
+1. **`notes/` naming.**
+   Files under `notes/` (including subfolders such as `notes/img/`) must match `YYYY-MM-DD-<kebab-name>.<ext>`.
+   For example, `notes/2026-05-19-pr-1-audit.md` passes; `notes/pr1.md`, `notes/note.md`, and `notes/2026-5-19-foo.md` fail.
+   Allowed extensions: `.md`, `.png`, `.jpg`, `.jpeg`, `.gif`, `.webp`, `.svg`.
+2. **`.yaml` not `.yml`.**
+   Any tracked file ending in `.yml` is flagged with a `.yaml` suggestion.
+   This is the only rule the linter can auto-fix.
+3. **Kebab-case.**
+   File basenames (before the first dot) and folder names must match `^[a-z0-9][a-z0-9-]*$` - lowercase letters, digits, and hyphens, starting with a letter or digit.
+   No underscores, no uppercase, no spaces.
 
 
 ## Scope
@@ -76,19 +84,30 @@ Exit codes:
    * If the user just touched a folder, pass that folder so the report stays focused: `pnpm lint-naming notes/`.
    * For a repo-wide sweep, run with no arguments.
 
-2. **Lint.** Run `pnpm lint-naming`. Read the grouped report. Violations are grouped by rule (`notes/` naming, `.yml` extension, kebab-case) so the fix list stays clear.
+2. **Lint.**
+   Run `pnpm lint-naming`.
+   Read the grouped report.
+   Violations are grouped by rule (`notes/` naming, `.yml` extension, kebab-case) so the fix list stays clear.
 
-3. **Report.** Summarize for the user: which paths violate which rule, and which violations are auto-fixable.
+3. **Report.**
+   Summarize for the user: which paths violate which rule, and which violations are auto-fixable.
 
 4. **Fix.**
-   * **`.yml` files:** run `pnpm lint-naming --fix` to rename them in place to `.yaml`. Safe in this repo - no link rewrites needed.
-   * **`notes/` naming violations:** rename manually. The date prefix depends on the note's actual date, which the linter cannot infer.
-   * **Kebab-case violations:** rename manually. Renames may break Markdown reference links elsewhere in the repo; review each one and update any inbound links in the same change.
-   * **False positives:** if a path is intentionally non-compliant (a third-party artifact, a generated file, an external dependency), add a glob to `.namelintignore` with a one-line `#` comment explaining why. Do not edit the script's default ignore list for project-specific cases.
+   * **`.yml` files:** run `pnpm lint-naming --fix` to rename them in place to `.yaml`.
+     Safe in this repo - no link rewrites needed.
+   * **`notes/` naming violations:** rename manually.
+     The date prefix depends on the note's actual date, which the linter cannot infer.
+   * **Kebab-case violations:** rename manually.
+     Renames may break Markdown reference links elsewhere in the repo; review each one and update any inbound links in the same change.
+   * **False positives:** if a path is intentionally non-compliant (a third-party artifact, a generated file, an external dependency), add a glob to `.namelintignore` with a one-line `#` comment explaining why.
+     Do not edit the script's default ignore list for project-specific cases.
 
-5. **Re-lint.** Run `pnpm lint-naming` again. Confirm the verdict is now clean (exit `0`).
+5. **Re-lint.**
+   Run `pnpm lint-naming` again.
+   Confirm the verdict is now clean (exit `0`).
 
-6. **Sanity-check intent.** When in doubt about a rule, consult the style guides printed at the end of the report (informational `ℹ️` block) before changing the script's defaults.
+6. **Sanity-check intent.**
+   When in doubt about a rule, consult the style guides printed at the end of the report (informational `ℹ️` block) before changing the script's defaults.
 
 
 ## Bundled resources
@@ -106,7 +125,8 @@ Behavior:
 * Skips default ignores (standard docs, dotfiles, package manager files, vendored Figma skills) and any path matched by `.namelintignore`.
 * Runs three rule checks (`notes/` naming, `.yml` extension, kebab-case) and groups the findings.
 * Prints a human-readable report by default, or `{ violations: [...], styleGuides: [...] }` with `--json`.
-* With `--fix`, renames `*.yml` to `*.yaml` in place. Other rules report only.
+* With `--fix`, renames `*.yml` to `*.yaml` in place.
+  Other rules report only.
 * Discovers and prints style-guide files (`*style-guide*`, `*-rules.md`, `AGENTS.md`, `repo-commit-style-guide.md`) as informational pointers - never affects the exit code.
 
 The script reads files for discovery and only writes when `--fix` is passed; in that case, the only mutation is the `.yml` -> `.yaml` rename.
@@ -114,8 +134,13 @@ The script reads files for discovery and only writes when `--fix` is passed; in 
 
 ## Constraints
 
-* Do not add new rules to this skill without confirming with the user. The skill enforces a fixed set of three rules by design.
-* Do not edit the script's hardcoded default ignore list to silence a project-specific finding. Add a glob to `.namelintignore` instead, with a one-line `#` comment explaining why.
-* Do not auto-rename for the kebab-case or `notes/` naming rules. Renames in those categories need human review for link breakage and content-dependent dates.
-* Do not silence a violation by deleting the file. Confirm with the user first - the file may be intentional and just needs a rename.
-* Before acting on a flagged finding, read the surrounding context. The checks are heuristic in the sense that a rule may legitimately not apply to a vendored asset or a generated artifact; in those cases, add an ignore entry rather than rename.
+* Do not add new rules to this skill without confirming with the user.
+  The skill enforces a fixed set of three rules by design.
+* Do not edit the script's hardcoded default ignore list to silence a project-specific finding.
+  Add a glob to `.namelintignore` instead, with a one-line `#` comment explaining why.
+* Do not auto-rename for the kebab-case or `notes/` naming rules.
+  Renames in those categories need human review for link breakage and content-dependent dates.
+* Do not silence a violation by deleting the file.
+  Confirm with the user first - the file may be intentional and just needs a rename.
+* Before acting on a flagged finding, read the surrounding context.
+  The checks are heuristic in the sense that a rule may legitimately not apply to a vendored asset or a generated artifact; in those cases, add an ignore entry rather than rename.

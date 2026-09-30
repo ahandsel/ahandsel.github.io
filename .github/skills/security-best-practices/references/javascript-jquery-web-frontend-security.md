@@ -91,19 +91,25 @@ A sink is a code path where untrusted input can become interpreted as executable
 Key jQuery sink categories:
 
 * HTML insertion / parsing:
-  * DOM manipulation methods that accept HTML strings such as `.html()`, `.append()`, and related methods (see CVE notes below). ([NVD][1])
+  * DOM manipulation methods that accept HTML strings such as `.html()`, `.append()`, and related methods (see CVE notes below).
+    ([NVD][1])
   * `$(htmlString)` (when the argument can be interpreted as HTML markup).
-  * `jQuery.parseHTML(html, …, keepScripts)` especially with `keepScripts=true`. ([jQuery API][2])
-  * `.load(url)` (loads HTML into DOM; has special script execution behavior). ([jQuery API][3])
+  * `jQuery.parseHTML(html, …, keepScripts)` especially with `keepScripts=true`.
+    ([jQuery API][2])
+  * `.load(url)` (loads HTML into DOM; has special script execution behavior).
+    ([jQuery API][3])
 
 * Script execution / dynamic code loading:
-  * `$.getScript()` / `$.ajax({ dataType: "script" })` (executes fetched JavaScript). ([jQuery API][4])
-  * JSONP (`dataType: "jsonp"` or implicit JSONP behavior) (executes remote JavaScript as a response). ([jQuery API][5])
+  * `$.getScript()` / `$.ajax({ dataType: "script" })` (executes fetched JavaScript).
+    ([jQuery API][4])
+  * JSONP (`dataType: "jsonp"` or implicit JSONP behavior) (executes remote JavaScript as a response).
+    ([jQuery API][5])
   * `eval`, `new Function`, `setTimeout("…")`, `setInterval("…")`, `$.globalEval` (if present)
 
 * Dangerous attribute assignment:
   * Assigning untrusted strings to `href`, `src`, `srcdoc`, `style`, or event-handler attributes (`onload`, `onclick`, etc.)
-  * `javascript:` URLs are particularly dangerous and discouraged. ([MDN Web Docs][6])
+  * `javascript:` URLs are particularly dangerous and discouraged.
+    ([MDN Web Docs][6])
 
 
 ### 2.3 Required audit finding format
@@ -130,8 +136,10 @@ This is the smallest "production baseline" that prevents common jQuery-related s
 ### 3.1 Use a supported, patched jQuery version (MUST)
 
 * MUST use a supported jQuery major version and keep it updated.
-* As of 2026-01-27, the jQuery project ships jQuery 4.0.0 as the latest major release. ([blog.jquery.com][7])
-* If you must support very old browsers (notably IE < 11), jQuery 4 does not support them and you may need to stay on jQuery 3.x; treat this as a higher risk posture and patch aggressively. ([blog.jquery.com][7])
+* As of 2026-01-27, the jQuery project ships jQuery 4.0.0 as the latest major release.
+  ([blog.jquery.com][7])
+* If you must support very old browsers (notably IE < 11), jQuery 4 does not support them and you may need to stay on jQuery 3.x; treat this as a higher risk posture and patch aggressively.
+  ([blog.jquery.com][7])
 
 
 ### 3.2 Load jQuery safely (MUST)
@@ -140,23 +148,33 @@ This is the smallest "production baseline" that prevents common jQuery-related s
   * Your own build pipeline (bundled via npm/yarn + lockfile), or
   * The official jQuery CDN / a trusted CDN with Subresource Integrity (SRI) enabled.
 
-* If loading from a CDN, SHOULD use SRI (`integrity`) and correct `crossorigin` settings; the jQuery project explicitly supports and recommends SRI on its CDN. (Retrieved from [jquery.com][8])
+* If loading from a CDN, SHOULD use SRI (`integrity`) and correct `crossorigin` settings; the jQuery project explicitly supports and recommends SRI on its CDN.
+  (Retrieved from [jquery.com][8])
 
 
 ### 3.3 CSP + Trusted Types (SHOULD, and MUST where available/required by policy)
 
-* SHOULD deploy a Content Security Policy (CSP) that reduces XSS impact (especially `script-src` restrictions and avoiding `unsafe-inline`). If not done through HTTP server, this can be done through the `<meta http-equiv="Content-Security-Policy" content="...">` tag. ([OWASP Cheat Sheet Series][9]) NOTE: It is most important to set the CSP's script-src. All other directives are not as important and can generally be excluded for the ease of development.
-* SHOULD consider Trusted Types as a strong defense-in-depth against DOM XSS. ([W3C][10])
-* If you deploy the CSP directive `require-trusted-types-for`, then code MUST route DOM-injection through Trusted Types policies. ([MDN Web Docs][11])
-* Note: jQuery 4.0 explicitly added Trusted Types support so that TrustedHTML can be used with jQuery manipulation methods without violating `require-trusted-types-for`. ([blog.jquery.com][7])
+* SHOULD deploy a Content Security Policy (CSP) that reduces XSS impact (especially `script-src` restrictions and avoiding `unsafe-inline`).
+  If not done through HTTP server, this can be done through the `<meta http-equiv="Content-Security-Policy" content="...">` tag.
+  ([OWASP Cheat Sheet Series][9]) NOTE: It is most important to set the CSP's script-src.
+  All other directives are not as important and can generally be excluded for the ease of development.
+* SHOULD consider Trusted Types as a strong defense-in-depth against DOM XSS.
+  ([W3C][10])
+* If you deploy the CSP directive `require-trusted-types-for`, then code MUST route DOM-injection through Trusted Types policies.
+  ([MDN Web Docs][11])
+* Note: jQuery 4.0 explicitly added Trusted Types support so that TrustedHTML can be used with jQuery manipulation methods without violating `require-trusted-types-for`.
+  ([blog.jquery.com][7])
 
 
 ### 3.4 Security headers and cookie posture (defense in depth; SHOULD)
 
-Even though these are typically set server-side, they materially reduce the blast radius of jQuery-related mistakes. However if the context is only the frontend web application, these cannot be acted on.
+Even though these are typically set server-side, they materially reduce the blast radius of jQuery-related mistakes.
+However if the context is only the frontend web application, these cannot be acted on.
 
-* SHOULD set common security headers (CSP, `X-Content-Type-Options: nosniff`, clickjacking protection via `frame-ancestors` / `X-Frame-Options`, `Referrer-Policy`). ([OWASP Cheat Sheet Series][12])
-* SHOULD avoid storing long-lived secrets/tokens in places accessible to JavaScript (like `localStorage`) unless the threat model explicitly accepts "XSS == account takeover". This is not jQuery-specific, but jQuery-heavy DOM manipulation increases the chance of DOM XSS regressions; reduce the payoff.
+* SHOULD set common security headers (CSP, `X-Content-Type-Options: nosniff`, clickjacking protection via `frame-ancestors` / `X-Frame-Options`, `Referrer-Policy`).
+  ([OWASP Cheat Sheet Series][12])
+* SHOULD avoid storing long-lived secrets/tokens in places accessible to JavaScript (like `localStorage`) unless the threat model explicitly accepts "XSS == account takeover".
+  This is not jQuery-specific, but jQuery-heavy DOM manipulation increases the chance of DOM XSS regressions; reduce the payoff.
 
 ---
 
@@ -170,14 +188,18 @@ Each rule contains: required practice, insecure patterns, detection hints, and r
 
 Severity: Medium (High if internet-facing app AND version is known-vulnerable)
 
-NOTE: Before performing an upgrade, get concent from the user and try to understand if they have reasons to keep it back. Upgrading can break applications in unexpected ways. Report and recommend upgrades rather than just performing them.
+NOTE: Before performing an upgrade, get concent from the user and try to understand if they have reasons to keep it back.
+Upgrading can break applications in unexpected ways.
+Report and recommend upgrades rather than just performing them.
 
 Required:
 
 * MUST NOT use jQuery versions with known high-impact vulnerabilities when a patched version exists.
 * MUST upgrade past:
-  * CVE-2019-11358 (prototype pollution in jQuery before 3.4.0). ([NVD][13])
-  * CVE-2020-11022 / CVE-2020-11023 (XSS risks in DOM manipulation methods when handling untrusted HTML; patched in 3.5.0). ([NVD][1])
+  * CVE-2019-11358 (prototype pollution in jQuery before 3.4.0).
+    ([NVD][13])
+  * CVE-2020-11022 / CVE-2020-11023 (XSS risks in DOM manipulation methods when handling untrusted HTML; patched in 3.5.0).
+    ([NVD][1])
 
 Insecure patterns:
 
@@ -192,7 +214,8 @@ Detection hints:
 
 Fix:
 
-* Upgrade to current jQuery (prefer latest stable major; as of 2026-01-27, 4.0.0 is current). ([blog.jquery.com][7])
+* Upgrade to current jQuery (prefer latest stable major; as of 2026-01-27, 4.0.0 is current).
+  ([blog.jquery.com][7])
 * If upgrade is constrained, at minimum upgrade beyond the CVE thresholds and add compensating controls (strong CSP, strict sanitization, remove risky APIs like JSONP, remove deep-extend of untrusted objects).
 
 Notes:
@@ -209,7 +232,8 @@ Severity: High
 Required:
 
 * MUST load jQuery and plugins only from trusted origins.
-* If loaded from CDN, SHOULD use SRI (`integrity`) and correct `crossorigin` handling. ([jquery.com][8])
+* If loaded from CDN, SHOULD use SRI (`integrity`) and correct `crossorigin` handling.
+  ([jquery.com][8])
 
 Insecure patterns:
 
@@ -224,9 +248,12 @@ Detection hints:
 Fix:
 
 * Prefer bundling via npm + lockfile.
-* If using CDN, copy official script tag (jQuery CDN supports SRI). ([jquery.com][8])
+* If using CDN, copy official script tag (jQuery CDN supports SRI).
+  ([jquery.com][8])
 
-Note: If unable to get the correct SRI tag, skip this step but tell the user. If you end up using the wrong one the app will not function. In that case remove it and inform the user.
+Note: If unable to get the correct SRI tag, skip this step but tell the user.
+If you end up using the wrong one the app will not function.
+In that case remove it and inform the user.
 
 ---
 
@@ -239,8 +266,10 @@ Required:
 
 * MUST treat any HTML string insertion as a code execution boundary.
 * MUST use safe alternatives for untrusted text:
-  * `.text(untrusted)` (text, not HTML). ([jQuery API][14])
-  * `.val(untrusted)` for form fields. ([jQuery API][15])
+  * `.text(untrusted)` (text, not HTML).
+    ([jQuery API][14])
+  * `.val(untrusted)` for form fields.
+    ([jQuery API][15])
   * Create elements and set text/attributes safely instead of concatenating HTML strings.
 
 Insecure patterns (examples):
@@ -264,7 +293,9 @@ Fix:
 
 Notes:
 
-* Older jQuery versions had additional edge cases even when attempting sanitization; patched in 3.5.0+. Still: never rely on "string sanitization" alone-prefer structured creation or proven sanitizers. ([GitHub][16])
+* Older jQuery versions had additional edge cases even when attempting sanitization; patched in 3.5.0+.
+  Still: never rely on "string sanitization" alone-prefer structured creation or proven sanitizers.
+  ([GitHub][16])
 
 ---
 
@@ -277,10 +308,13 @@ Required:
 
 * MUST NOT "roll your own" HTML sanitizer with regexes.
 * If user-controlled HTML must be displayed (e.g., rich text comments), MUST sanitize using a well-maintained HTML sanitizer and a restrictive allowlist.
-  * DOMPurify is a common choice; use conservative configuration and keep it updated. ([GitHub][17])
-  * Where available, MAY consider the browser HTML Sanitizer API (note: limited browser availability). ([MDN Web Docs][18])
+  * DOMPurify is a common choice; use conservative configuration and keep it updated.
+    ([GitHub][17])
+  * Where available, MAY consider the browser HTML Sanitizer API (note: limited browser availability).
+    ([MDN Web Docs][18])
 
-* SHOULD pair sanitization with CSP and, where feasible, Trusted Types for defense in depth. ([OWASP Cheat Sheet Series][9])
+* SHOULD pair sanitization with CSP and, where feasible, Trusted Types for defense in depth.
+  ([OWASP Cheat Sheet Series][9])
 
 Insecure patterns:
 
@@ -313,7 +347,8 @@ Severity: High (if attacker-controlled)
 Required:
 
 * MUST NOT pass attacker-controlled strings to `$()` when they might be interpreted as HTML.
-* MUST treat `jQuery.parseHTML(html, …, keepScripts)` as a high-risk primitive; keepScripts MUST be `false` for any untrusted input. ([jQuery API][2])
+* MUST treat `jQuery.parseHTML(html, …, keepScripts)` as a high-risk primitive; keepScripts MUST be `false` for any untrusted input.
+  ([jQuery API][2])
 
 Insecure patterns:
 
@@ -341,7 +376,8 @@ Required:
 
 * MUST NOT use `.load()` with attacker-controlled URLs or attacker-controlled HTML fragments.
 * MUST understand jQuery `.load()` script behavior:
-  * Without a selector in the URL, content is passed to `.html()` before scripts are removed, which can execute scripts. ([jQuery API][3])
+  * Without a selector in the URL, content is passed to `.html()` before scripts are removed, which can execute scripts.
+    ([jQuery API][3])
 
 * SHOULD prefer `fetch()`/XHR to retrieve data, then render with safe DOM creation or sanitize explicitly.
 
@@ -353,7 +389,8 @@ Insecure patterns:
 Detection hints:
 
 * Search for `.load(` across JS/TS files.
-* Identify whether a selector is appended to the URL (the behavior differs). ([jQuery API][3])
+* Identify whether a selector is appended to the URL (the behavior differs).
+  ([jQuery API][3])
 * Trace whether the URL can be influenced by user input.
 
 Fix:
@@ -375,7 +412,8 @@ Required:
 
 * MUST NOT fetch-and-execute scripts from untrusted or user-influenced URLs.
 * MUST treat these as code execution primitives:
-  * `$.getScript(url)` executes the fetched script in the global context. ([jQuery API][4])
+  * `$.getScript(url)` executes the fetched script in the global context.
+    ([jQuery API][4])
   * `$.ajax({ dataType: "script" })` and other script-typed requests that execute responses.
 
 * SHOULD remove these patterns unless there is a strong, reviewed justification.
@@ -406,7 +444,8 @@ Severity: Medium (High if attacker can influence URL/endpoint)
 Required:
 
 * MUST NOT use JSONP for untrusted endpoints because it executes JavaScript responses.
-* When using `$.ajax`, MUST explicitly disable JSONP for non-fully-trusted targets; jQuery's own docs recommend setting `jsonp: false` "for security reasons" if you don't trust the target. ([jQuery API][5])
+* When using `$.ajax`, MUST explicitly disable JSONP for non-fully-trusted targets; jQuery's own docs recommend setting `jsonp: false` "for security reasons" if you don't trust the target.
+  ([jQuery API][5])
 * SHOULD prefer CORS with JSON (`dataType: "json"`) and explicit origin allowlists server-side.
 
 Insecure patterns:
@@ -434,12 +473,14 @@ Fix:
 
 Severity: High
 
-NOTE: This only matters when using cookie based auth. If the request use Authorization header, there is no CSRF potential.
+NOTE: This only matters when using cookie based auth.
+If the request use Authorization header, there is no CSRF potential.
 
 Required:
 
 * If authentication uses cookies, MUST protect state-changing requests (POST/PUT/PATCH/DELETE) against CSRF.
-* SHOULD use server-verified CSRF tokens; for AJAX calls, tokens are commonly sent in a custom header. ([OWASP Cheat Sheet Series][19])
+* SHOULD use server-verified CSRF tokens; for AJAX calls, tokens are commonly sent in a custom header.
+  ([OWASP Cheat Sheet Series][19])
 * MUST NOT treat "it's an AJAX request" as CSRF protection by itself.
 
 Insecure patterns:
@@ -455,7 +496,8 @@ Detection hints:
 Fix:
 
 * Add CSRF token inclusion in a centralized place, e.g., `$.ajaxSetup({ headers: { "X-CSRF-Token": token } })`, and ensure server verifies.
-* Follow OWASP CSRF guidance for token properties and validation. ([OWASP Cheat Sheet Series][19])
+* Follow OWASP CSRF guidance for token properties and validation.
+  ([OWASP Cheat Sheet Series][19])
 
 False positive notes:
 
@@ -471,7 +513,8 @@ Severity: Low (High for events like onclick)
 Required:
 
 * MUST validate/allowlist URLs written into `href`, `src`, `action`, etc.
-* MUST block dangerous schemes; `javascript:` URLs are discouraged because they can execute code. ([MDN Web Docs][6])
+* MUST block dangerous schemes; `javascript:` URLs are discouraged because they can execute code.
+  ([MDN Web Docs][6])
 * MUST NOT set event-handler attributes (`onclick`, `onerror`, etc.) from strings.
 * SHOULD avoid writing untrusted strings into `style` attributes; prefer toggling predefined CSS classes.
 
@@ -502,7 +545,8 @@ Severity: Medium (can become High if it enables wrong-element selection in secur
 
 Required:
 
-* If you must select by an ID/class that can contain special CSS characters, SHOULD use `jQuery.escapeSelector()` (available in jQuery 3.0+). ([jQuery API][20])
+* If you must select by an ID/class that can contain special CSS characters, SHOULD use `jQuery.escapeSelector()` (available in jQuery 3.0+).
+  ([jQuery API][20])
 * MUST NOT concatenate raw attacker-controlled strings into selector expressions.
 
 Insecure patterns:
@@ -534,7 +578,8 @@ Severity: Medium
 Required:
 
 * MUST NOT deep-merge (`$.extend(true, …)`) attacker-controlled objects into application objects without filtering dangerous keys.
-* MUST ensure jQuery is >= 3.4.0 to avoid CVE-2019-11358 prototype pollution behavior. ([NVD][13])
+* MUST ensure jQuery is >= 3.4.0 to avoid CVE-2019-11358 prototype pollution behavior.
+  ([NVD][13])
 
 Insecure patterns:
 
@@ -563,9 +608,12 @@ Severity: Medium
 
 Required:
 
-* SHOULD deploy CSP as defense-in-depth against XSS. ([OWASP Cheat Sheet Series][9])
-* If enabling Trusted Types (`require-trusted-types-for`), MUST ensure DOM injection goes through Trusted Types policies. ([MDN Web Docs][11])
-* When using jQuery 4, SHOULD take advantage of its Trusted Types support (TrustedHTML inputs). ([blog.jquery.com][7])
+* SHOULD deploy CSP as defense-in-depth against XSS.
+  ([OWASP Cheat Sheet Series][9])
+* If enabling Trusted Types (`require-trusted-types-for`), MUST ensure DOM injection goes through Trusted Types policies.
+  ([MDN Web Docs][11])
+* When using jQuery 4, SHOULD take advantage of its Trusted Types support (TrustedHTML inputs).
+  ([blog.jquery.com][7])
 
 Insecure patterns:
 
@@ -634,42 +682,69 @@ Always try to confirm:
 
 Primary jQuery project documentation and release notes:
 
-* jQuery 4.0.0 release notes (Trusted Types/CSP changes; version info): `https://blog.jquery.com/2026/01/17/jquery-4-0-0/`. ([blog.jquery.com][7])
-* Download jQuery (latest version info; CDN + SRI guidance): `https://jquery.com/download/`. ([jquery.com][8])
-* jQuery API: `.html()`: `https://api.jquery.com/html/`. ([jQuery API][21])
-* jQuery API: `.text()`: `https://api.jquery.com/text/`. ([jQuery API][14])
-* jQuery API: `.append()`: `https://api.jquery.com/append/`. ([jQuery API][22])
-* jQuery API: `.load()` (script execution behavior): `https://api.jquery.com/load/`. ([jQuery API][3])
-* jQuery API: `jQuery.parseHTML(…, keepScripts)`: `https://api.jquery.com/jQuery.parseHTML/`. ([jQuery API][2])
-* jQuery API: `$.ajax()` (`jsonp: false` security note): `https://api.jquery.com/jQuery.ajax/`. ([jQuery API][5])
-* jQuery API: `$.getScript()` (executes script): `https://api.jquery.com/jQuery.getScript/`. ([jQuery API][4])
-* jQuery API: `jQuery.escapeSelector()`: `https://api.jquery.com/jQuery.escapeSelector/`. ([jQuery API][20])
+* jQuery 4.0.0 release notes (Trusted Types/CSP changes; version info): `https://blog.jquery.com/2026/01/17/jquery-4-0-0/`.
+  ([blog.jquery.com][7])
+* Download jQuery (latest version info; CDN + SRI guidance): `https://jquery.com/download/`.
+  ([jquery.com][8])
+* jQuery API: `.html()`: `https://api.jquery.com/html/`.
+  ([jQuery API][21])
+* jQuery API: `.text()`: `https://api.jquery.com/text/`.
+  ([jQuery API][14])
+* jQuery API: `.append()`: `https://api.jquery.com/append/`.
+  ([jQuery API][22])
+* jQuery API: `.load()` (script execution behavior): `https://api.jquery.com/load/`.
+  ([jQuery API][3])
+* jQuery API: `jQuery.parseHTML(…, keepScripts)`: `https://api.jquery.com/jQuery.parseHTML/`.
+  ([jQuery API][2])
+* jQuery API: `$.ajax()` (`jsonp: false` security note): `https://api.jquery.com/jQuery.ajax/`.
+  ([jQuery API][5])
+* jQuery API: `$.getScript()` (executes script): `https://api.jquery.com/jQuery.getScript/`.
+  ([jQuery API][4])
+* jQuery API: `jQuery.escapeSelector()`: `https://api.jquery.com/jQuery.escapeSelector/`.
+  ([jQuery API][20])
 
 jQuery vulnerabilities / advisories:
 
-* NVD CVE-2019-11358 (prototype pollution; jQuery < 3.4.0): `https://nvd.nist.gov/vuln/detail/CVE-2019-11358`. ([NVD][13])
-* NVD CVE-2020-11022 (XSS risk in DOM manipulation methods; patched in 3.5.0): `https://nvd.nist.gov/vuln/detail/CVE-2020-11022`. ([NVD][1])
-* NVD CVE-2020-11023 (XSS risk involving `<option>`; patched in 3.5.0): `https://nvd.nist.gov/vuln/detail/CVE-2020-11023`. ([NVD][23])
-* GitHub Security Advisory GHSA-gxr4-xjj5-5px2 (jQuery htmlPrefilter XSS; patched in 3.5.0): `https://github.com/jquery/jquery/security/advisories/GHSA-gxr4-xjj5-5px2`. ([GitHub][16])
+* NVD CVE-2019-11358 (prototype pollution; jQuery < 3.4.0): `https://nvd.nist.gov/vuln/detail/CVE-2019-11358`.
+  ([NVD][13])
+* NVD CVE-2020-11022 (XSS risk in DOM manipulation methods; patched in 3.5.0): `https://nvd.nist.gov/vuln/detail/CVE-2020-11022`.
+  ([NVD][1])
+* NVD CVE-2020-11023 (XSS risk involving `<option>`; patched in 3.5.0): `https://nvd.nist.gov/vuln/detail/CVE-2020-11023`.
+  ([NVD][23])
+* GitHub Security Advisory GHSA-gxr4-xjj5-5px2 (jQuery htmlPrefilter XSS; patched in 3.5.0): `https://github.com/jquery/jquery/security/advisories/GHSA-gxr4-xjj5-5px2`.
+  ([GitHub][16])
 
 OWASP Cheat Sheet Series (web app security foundations relevant to jQuery usage):
 
-* XSS Prevention: `https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html`. ([OWASP Cheat Sheet Series][24])
-* DOM-based XSS Prevention: `https://cheatsheetseries.owasp.org/cheatsheets/DOM_based_XSS_Prevention_Cheat_Sheet.html`. ([OWASP Cheat Sheet Series][25])
-* CSRF Prevention: `https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html`. ([OWASP Cheat Sheet Series][19])
-* HTTP Security Headers: `https://cheatsheetseries.owasp.org/cheatsheets/HTTP_Headers_Cheat_Sheet.html`. ([OWASP Cheat Sheet Series][12])
-* Content Security Policy Cheat Sheet: `https://cheatsheetseries.owasp.org/cheatsheets/Content_Security_Policy_Cheat_Sheet.html`. ([OWASP Cheat Sheet Series][9])
+* XSS Prevention: `https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html`.
+  ([OWASP Cheat Sheet Series][24])
+* DOM-based XSS Prevention: `https://cheatsheetseries.owasp.org/cheatsheets/DOM_based_XSS_Prevention_Cheat_Sheet.html`.
+  ([OWASP Cheat Sheet Series][25])
+* CSRF Prevention: `https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html`.
+  ([OWASP Cheat Sheet Series][19])
+* HTTP Security Headers: `https://cheatsheetseries.owasp.org/cheatsheets/HTTP_Headers_Cheat_Sheet.html`.
+  ([OWASP Cheat Sheet Series][12])
+* Content Security Policy Cheat Sheet: `https://cheatsheetseries.owasp.org/cheatsheets/Content_Security_Policy_Cheat_Sheet.html`.
+  ([OWASP Cheat Sheet Series][9])
 
 Browser/platform references (SRI, CSP, Trusted Types, and dangerous URL schemes):
 
-* MDN: Subresource Integrity (SRI): `https://developer.mozilla.org/en-US/docs/Web/Security/Defenses/Subresource_Integrity`. ([MDN Web Docs][26])
-* W3C: SRI specification: `https://www.w3.org/TR/sri-2/`. ([W3C][27])
-* MDN: CSP guide: `https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CSP`. ([MDN Web Docs][28])
-* MDN: `require-trusted-types-for` directive: `https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Content-Security-Policy/require-trusted-types-for`. ([MDN Web Docs][11])
-* MDN: Trusted Types API: `https://developer.mozilla.org/en-US/docs/Web/API/Trusted_Types_API`. ([MDN Web Docs][29])
-* W3C: Trusted Types specification: `https://www.w3.org/TR/trusted-types/`. ([W3C][10])
-* MDN: `javascript:` URL scheme warning: `https://developer.mozilla.org/en-US/docs/Web/URI/Reference/Schemes/javascript`. ([MDN Web Docs][6])
-* DOMPurify project documentation: `https://github.com/cure53/DOMPurify`. ([GitHub][17])
+* MDN: Subresource Integrity (SRI): `https://developer.mozilla.org/en-US/docs/Web/Security/Defenses/Subresource_Integrity`.
+  ([MDN Web Docs][26])
+* W3C: SRI specification: `https://www.w3.org/TR/sri-2/`.
+  ([W3C][27])
+* MDN: CSP guide: `https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CSP`.
+  ([MDN Web Docs][28])
+* MDN: `require-trusted-types-for` directive: `https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Content-Security-Policy/require-trusted-types-for`.
+  ([MDN Web Docs][11])
+* MDN: Trusted Types API: `https://developer.mozilla.org/en-US/docs/Web/API/Trusted_Types_API`.
+  ([MDN Web Docs][29])
+* W3C: Trusted Types specification: `https://www.w3.org/TR/trusted-types/`.
+  ([W3C][10])
+* MDN: `javascript:` URL scheme warning: `https://developer.mozilla.org/en-US/docs/Web/URI/Reference/Schemes/javascript`.
+  ([MDN Web Docs][6])
+* DOMPurify project documentation: `https://github.com/cure53/DOMPurify`.
+  ([GitHub][17])
 
 [1]: https://nvd.nist.gov/vuln/detail/cve-2020-11022?utm_source=chatgpt.com 'CVE-2020-11022 Detail - NVD'
 [2]: https://api.jquery.com/jQuery.parseHTML/?utm_source=chatgpt.com 'jQuery.parseHTML()'

@@ -2,15 +2,11 @@
 
 // update-branch-from-main.mjs notes
 // General notes:
-// * Purpose: Bring the current git branch up to date with a base branch
-//   (default `main`) using rebase by default, or merge when requested. Used by
-//   the gh-sync-with-main skill.
-// * Refuses to run while checked out on the base branch and refuses a dirty
-//   working tree unless --allow-dirty is passed.
-// * Fetches the base branch from the remote first, then rebases or merges onto
-//   the remote-tracking ref (e.g. origin/main). Exits on the first git failure
-//   and leaves the repository in git's native conflict state for manual
-//   resolution.
+// * Purpose: Bring the current git branch up to date with a base branch (default `main`) using rebase by default, or merge when requested.
+//   Used by the gh-sync-with-main skill.
+// * Refuses to run while checked out on the base branch and refuses a dirty working tree unless --allow-dirty is passed.
+// * Fetches the base branch from the remote first, then rebases or merges onto the remote-tracking ref (e.g. origin/main).
+//   Exits on the first git failure and leaves the repository in git's native conflict state for manual resolution.
 // Usage:
 //   node skills/gh-sync-with-main/scripts/update-branch-from-main.mjs
 //   node skills/gh-sync-with-main/scripts/update-branch-from-main.mjs --strategy merge
@@ -25,9 +21,9 @@
 // Output:
 // * Prints the planned git commands, then runs them, then a final status line.
 // * Status emojis: ✅ success, ⚠️ refusal/warning, ❌ git command failure.
-// * Exit codes: 0 success, 1 refusal (on base branch, dirty tree, no branch),
-//   2 invalid arguments, or the failing git command's exit code.
+// * Exit codes: 0 success, 1 refusal (on base branch, dirty tree, no branch), 2 invalid arguments, or the failing git command's exit code.
 // Version history:
+// * v1.1 - 2026-09-30 - Apply sentence-per-line formatting to comments and help text.
 // * v1.0 - 2026-06-08 - Initial release. Port of update_branch_from_main.py to a Node.js ES module.
 
 import { spawnSync } from 'node:child_process';
@@ -35,22 +31,19 @@ import { spawnSync } from 'node:child_process';
 function printUsage() {
   console.log(`Usage: node update-branch-from-main.mjs [options]
 
-Bring the current git branch up to date with a base branch. Rebases by default
-for a clean linear history; use --strategy merge when history should not be
-rewritten.
+Bring the current git branch up to date with a base branch.
+Rebases by default for a clean linear history; use --strategy merge when history should not be rewritten.
 
 Options:
   --base-branch <name>  Base branch to sync from. Defaults to main.
   --remote <name>       Remote to fetch from. Defaults to origin.
   --strategy <mode>     Update strategy: rebase or merge. Defaults to rebase.
-  --allow-dirty         Allow updating even if the working tree has local
-                        changes.
+  --allow-dirty         Allow updating even if the working tree has local changes.
   --help, -h            Show this message.
 
 Exit codes:
   0  Success.
-  1  Refusal (checked out on the base branch, dirty working tree, or the
-     current branch could not be determined).
+  1  Refusal (checked out on the base branch, dirty working tree, or the current branch could not be determined).
   2  Invalid arguments.
   *  The failing git command's exit code on a git error.
 `);

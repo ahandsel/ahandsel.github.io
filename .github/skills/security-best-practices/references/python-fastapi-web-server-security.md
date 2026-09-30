@@ -7,7 +7,8 @@ This document is designed as a **security spec** that supports:
 
 It is intentionally written as a set of **normative requirements** ("MUST/SHOULD/MAY") plus **audit rules** (what bad patterns look like, how to detect them, and how to fix/mitigate them).
 
-FastAPI is commonly deployed with an ASGI server (e.g., Uvicorn) and is built on Starlette + Pydantic, so this spec covers those layers where they affect security. ([PyPI][1])
+FastAPI is commonly deployed with an ASGI server (e.g., Uvicorn) and is built on Starlette + Pydantic, so this spec covers those layers where they affect security.
+([PyPI][1])
 
 ---
 
@@ -20,7 +21,8 @@ FastAPI is commonly deployed with an ASGI server (e.g., Uvicorn) and is built on
 * MUST treat uncertainty honestly: if a protection might exist in infrastructure (reverse proxy, WAF, CDN, service mesh), report it as "not visible in app code; verify at runtime/config".
 * MUST treat browser controls correctly:
   * CORS is **not** an auth mechanism; it only affects browsers.
-  * CSRF defenses apply when the browser automatically attaches credentials (cookies); they are usually not relevant for purely header-token APIs. ([OWASP Cheat Sheet Series][2])
+  * CSRF defenses apply when the browser automatically attaches credentials (cookies); they are usually not relevant for purely header-token APIs.
+    ([OWASP Cheat Sheet Series][2])
 
 ---
 
@@ -113,14 +115,22 @@ This is the smallest "production baseline" that prevents common FastAPI/ASGI mis
 
 Baseline goals:
 
-* No debug tracebacks or auto-reload in production. ([PyPI][4])
-* Run under a production ASGI server configuration (workers, timeouts, resource controls). ([PyPI][4])
-* Host header validation enabled (TrustedHostMiddleware or equivalent). ([PyPI][5])
-* CORS disabled unless explicitly needed; if enabled, it is strict and least-privilege. ([OWASP Cheat Sheet Series][6])
-* Auth is enforced consistently via dependencies (no "oops, forgot auth on this route"). ([FastAPI][7])
-* If cookies/sessions are used, cookie flags are secure and CSRF is addressed. ([OWASP Cheat Sheet Series][8])
-* Request size limits and multipart limits exist at the edge and are validated in app as needed (to mitigate memory/CPU DoS). ([advisories.gitlab.com][9])
-* Dependencies are patched promptly, especially Starlette/python-multipart (multiple DoS and traversal advisories exist historically). ([advisories.gitlab.com][10])
+* No debug tracebacks or auto-reload in production.
+  ([PyPI][4])
+* Run under a production ASGI server configuration (workers, timeouts, resource controls).
+  ([PyPI][4])
+* Host header validation enabled (TrustedHostMiddleware or equivalent).
+  ([PyPI][5])
+* CORS disabled unless explicitly needed; if enabled, it is strict and least-privilege.
+  ([OWASP Cheat Sheet Series][6])
+* Auth is enforced consistently via dependencies (no "oops, forgot auth on this route").
+  ([FastAPI][7])
+* If cookies/sessions are used, cookie flags are secure and CSRF is addressed.
+  ([OWASP Cheat Sheet Series][8])
+* Request size limits and multipart limits exist at the edge and are validated in app as needed (to mitigate memory/CPU DoS).
+  ([advisories.gitlab.com][9])
+* Dependencies are patched promptly, especially Starlette/python-multipart (multiple DoS and traversal advisories exist historically).
+  ([advisories.gitlab.com][10])
 
 ---
 
@@ -137,7 +147,8 @@ Severity: High (if production)
 Required:
 
 * MUST NOT run production using auto-reload/watch mode (e.g., Uvicorn reload).
-* MUST run with a production process model (e.g., multiple workers where appropriate) and stable server settings. ([PyPI][4])
+* MUST run with a production process model (e.g., multiple workers where appropriate) and stable server settings.
+  ([PyPI][4])
 
 Insecure patterns:
 
@@ -151,11 +162,13 @@ Detection hints:
 
 Fix:
 
-* Remove reload in production; run Uvicorn/Gunicorn with stable settings and explicit worker configuration. ([PyPI][4])
+* Remove reload in production; run Uvicorn/Gunicorn with stable settings and explicit worker configuration.
+  ([PyPI][4])
 
 Note:
 
-* Reload is fine for local development. Only flag when it is clearly used as a production entrypoint.
+* Reload is fine for local development.
+  Only flag when it is clearly used as a production entrypoint.
 
 ---
 
@@ -166,12 +179,14 @@ Severity: Critical
 
 Required:
 
-* MUST NOT enable debug tracebacks in production (FastAPI/Starlette debug mode can expose sensitive internals and make some exploit chains easier). ([PyPI][5])
+* MUST NOT enable debug tracebacks in production (FastAPI/Starlette debug mode can expose sensitive internals and make some exploit chains easier).
+  ([PyPI][5])
 * MUST treat any configuration that returns detailed stack traces to clients as sensitive.
 
 Insecure patterns:
 
-* `app = FastAPI(debug=True)` (or Starlette `debug=True`), or equivalent environment toggles enabling debug in production. ([PyPI][5])
+* `app = FastAPI(debug=True)` (or Starlette `debug=True`), or equivalent environment toggles enabling debug in production.
+  ([PyPI][5])
 * Server/log config that exposes tracebacks to end users.
 
 Detection hints:
@@ -222,7 +237,8 @@ Required:
 
 * MUST implement authentication as a dependency (or router-level dependency) so that protected endpoints cannot "forget" auth.
 * MUST default to "deny" for privileged routers/endpoints; explicitly mark truly public routes.
-* SHOULD centralize auth enforcement at router boundaries (e.g., protected `APIRouter` for authenticated endpoints). ([FastAPI][7])
+* SHOULD centralize auth enforcement at router boundaries (e.g., protected `APIRouter` for authenticated endpoints).
+  ([FastAPI][7])
 
 Insecure patterns:
 
@@ -236,7 +252,8 @@ Detection hints:
 
 Fix:
 
-* Move authentication into a dependency and attach it to the router/endpoint consistently using `Depends()`/`Security()`. ([FastAPI][7])
+* Move authentication into a dependency and attach it to the router/endpoint consistently using `Depends()`/`Security()`.
+  ([FastAPI][7])
 
 ---
 
@@ -247,7 +264,8 @@ Severity: High
 
 Required:
 
-* SHOULD use the `Authorization: Bearer <token>` header for token auth, not query parameters. ([FastAPI][11])
+* SHOULD use the `Authorization: Bearer <token>` header for token auth, not query parameters.
+  ([FastAPI][11])
 * MUST NOT place secrets (tokens, reset links containing long-lived secrets, API keys) in query strings when avoidable.
 
 Insecure patterns:
@@ -303,7 +321,8 @@ Required:
 
 * MUST validate JWT signature and enforce an algorithm allowlist.
 * MUST validate standard claims appropriate to your system (at least `exp`; typically also `iss`/`aud` if multi-service or multi-tenant).
-* MUST treat JWT contents as readable by the client; do not put secrets in JWT payloads. ([FastAPI][12])
+* MUST treat JWT contents as readable by the client; do not put secrets in JWT payloads.
+  ([FastAPI][12])
 
 Insecure patterns:
 
@@ -319,7 +338,8 @@ Detection hints:
 Fix:
 
 * Enforce strict validation (signature, allowed algorithms, exp, and any required issuer/audience constraints).
-* Store only identifiers/claims you are comfortable exposing to the client. ([FastAPI][12])
+* Store only identifiers/claims you are comfortable exposing to the client.
+  ([FastAPI][12])
 
 ---
 
@@ -331,7 +351,8 @@ Severity: High
 Required:
 
 * MUST perform object-level authorization whenever accessing a resource by user-controlled identifier (ID in path/query/body).
-* MUST perform property-level authorization and response shaping to prevent "excessive data exposure" (e.g., admin-only fields). ([OWASP Foundation][13])
+* MUST perform property-level authorization and response shaping to prevent "excessive data exposure" (e.g., admin-only fields).
+  ([OWASP Foundation][13])
 
 Insecure patterns:
 
@@ -357,10 +378,16 @@ Severity: High (only if TLS is enabled)
 
 Required (production, HTTPS):
 
-* MUST set session cookies to be sent only over HTTPS (secure). IMPORTANT NOTE: Only set `Secure` in production environment when TLS is configured. When running in a local dev environment over HTTP, do not set `Secure` property on cookies. You should do this conditionally based on if the app is running in production mode. You should also include a property like `SESSION_COOKIE_SECURE` which can be used to disable `Secure` cookies when testing over HTTP.
+* MUST set session cookies to be sent only over HTTPS (secure).
+  IMPORTANT NOTE: Only set `Secure` in production environment when TLS is configured.
+  When running in a local dev environment over HTTP, do not set `Secure` property on cookies.
+  You should do this conditionally based on if the app is running in production mode.
+  You should also include a property like `SESSION_COOKIE_SECURE` which can be used to disable `Secure` cookies when testing over HTTP.
 * MUST set HttpOnly for session cookies (not accessible to JS).
-* SHOULD use `SameSite=Lax` (or `Strict` if UX allows); if you require cross-site cookies, document the CSRF implications and add compensating controls. ([OWASP Cheat Sheet Series][8])
-* If using Starlette `SessionMiddleware`, MUST set `https_only=True` in production and choose an appropriate `same_site`. ([PyPI][5])
+* SHOULD use `SameSite=Lax` (or `Strict` if UX allows); if you require cross-site cookies, document the CSRF implications and add compensating controls.
+  ([OWASP Cheat Sheet Series][8])
+* If using Starlette `SessionMiddleware`, MUST set `https_only=True` in production and choose an appropriate `same_site`.
+  ([PyPI][5])
 
 Insecure patterns:
 
@@ -374,7 +401,8 @@ Detection hints:
 
 Fix:
 
-* Set secure cookie attributes; prefer short lifetimes for high-privilege sessions. ([OWASP Cheat Sheet Series][8])
+* Set secure cookie attributes; prefer short lifetimes for high-privilege sessions.
+  ([OWASP Cheat Sheet Series][8])
 
 ---
 
@@ -386,7 +414,8 @@ Severity: High
 Required:
 
 * MUST assume cookie-based session data is readable by the client (signed ≠ encrypted); do not store secrets/PII unless encrypted server-side.
-* Store only opaque identifiers (e.g., session ID) or non-sensitive state in the cookie; store sensitive session state server-side. ([OWASP Cheat Sheet Series][8])
+* Store only opaque identifiers (e.g., session ID) or non-sensitive state in the cookie; store sensitive session state server-side.
+  ([OWASP Cheat Sheet Series][8])
 
 Insecure patterns:
 
@@ -409,14 +438,18 @@ Fix:
 
 Severity: High
 
-Note: This only applies if using cookie based auth. If the application uses header or token based auth such as Authorization header, then CSRF is not an issue.
+Note: This only applies if using cookie based auth.
+If the application uses header or token based auth such as Authorization header, then CSRF is not an issue.
 
 Required:
 
 * MUST protect all state-changing endpoints (POST/PUT/PATCH/DELETE) that rely on cookies for authentication.
-* SHOULD use a proven CSRF approach (synchronizer token pattern, or well-reviewed middleware) rather than rolling your own. ([OWASP Cheat Sheet Series][2])
-* MAY add defense-in-depth (Origin/Referer checks, SameSite cookies, Fetch Metadata), but tokens are the primary defense for cookie-authenticated apps. ([OWASP Cheat Sheet Series][2])
-* IMPORTANT NOTE: If cookies are not used for auth (auth is via `Authorization` header), CSRF is usually not applicable. ([FastAPI][11])
+* SHOULD use a proven CSRF approach (synchronizer token pattern, or well-reviewed middleware) rather than rolling your own.
+  ([OWASP Cheat Sheet Series][2])
+* MAY add defense-in-depth (Origin/Referer checks, SameSite cookies, Fetch Metadata), but tokens are the primary defense for cookie-authenticated apps.
+  ([OWASP Cheat Sheet Series][2])
+* IMPORTANT NOTE: If cookies are not used for auth (auth is via `Authorization` header), CSRF is usually not applicable.
+  ([FastAPI][11])
 
 Insecure patterns:
 
@@ -430,7 +463,8 @@ Detection hints:
 
 Fix:
 
-* Add CSRF tokens (and validate them) on state-changing actions when cookie auth is in use. ([OWASP Cheat Sheet Series][2])
+* Add CSRF tokens (and validate them) on state-changing actions when cookie auth is in use.
+  ([OWASP Cheat Sheet Series][2])
 
 ---
 
@@ -443,7 +477,8 @@ Required:
 
 * SHOULD use Pydantic models for request bodies instead of accepting arbitrary `dict`/`Any`.
 * SHOULD configure models to reject unexpected fields where appropriate (prevents "mass assignment" style bugs).
-* MUST validate and normalize identifiers (IDs, email, URLs) before using them for access control or side effects. ([OWASP Cheat Sheet Series][14])
+* MUST validate and normalize identifiers (IDs, email, URLs) before using them for access control or side effects.
+  ([OWASP Cheat Sheet Series][14])
 
 Insecure patterns:
 
@@ -457,7 +492,8 @@ Detection hints:
 
 Fix:
 
-* Use explicit Pydantic models with allowlisted fields; reject extras for write endpoints. ([OWASP Cheat Sheet Series][14])
+* Use explicit Pydantic models with allowlisted fields; reject extras for write endpoints.
+  ([OWASP Cheat Sheet Series][14])
 
 ---
 
@@ -469,7 +505,8 @@ Severity: Medium
 Required:
 
 * MUST define response models that include only intended fields (especially for user objects, auth-related objects, billing objects).
-* SHOULD use separate models for "create input", "db/internal", and "public output" to avoid leaking sensitive fields. ([FastAPI][15])
+* SHOULD use separate models for "create input", "db/internal", and "public output" to avoid leaking sensitive fields.
+  ([FastAPI][15])
 
 Insecure patterns:
 
@@ -483,7 +520,8 @@ Detection hints:
 
 Fix:
 
-* Add explicit response models; create "public" schemas that exclude sensitive fields. ([FastAPI][15])
+* Add explicit response models; create "public" schemas that exclude sensitive fields.
+  ([FastAPI][15])
 
 ---
 
@@ -496,7 +534,8 @@ Required:
 
 * MUST use templating with auto-escaping enabled for HTML.
 * MUST NOT mark untrusted content as safe (no unsafe "raw HTML" rendering of user-controlled data).
-* SHOULD deploy a CSP when serving HTML that includes any user content. ([OWASP Cheat Sheet Series][16])
+* SHOULD deploy a CSP when serving HTML that includes any user content.
+  ([OWASP Cheat Sheet Series][16])
 
 Insecure patterns:
 
@@ -510,7 +549,8 @@ Detection hints:
 
 Fix:
 
-* Keep auto-escaping on; sanitize user HTML only if absolutely required using a trusted sanitizer; add CSP. ([OWASP Cheat Sheet Series][16])
+* Keep auto-escaping on; sanitize user HTML only if absolutely required using a trusted sanitizer; add CSP.
+  ([OWASP Cheat Sheet Series][16])
 
 Note:
 
@@ -529,7 +569,8 @@ Required:
 * MUST treat "template-from-string" rendering as dangerous if influenced by untrusted input.
 * If untrusted templates are absolutely required (rare, high-risk):
   * MUST use a sandboxed templating approach and restrict capabilities.
-  * MUST assume sandbox escapes are possible; add isolation and strict allowlists. ([OWASP Foundation][17])
+  * MUST assume sandbox escapes are possible; add isolation and strict allowlists.
+    ([OWASP Foundation][17])
 
 Insecure patterns:
 
@@ -544,7 +585,8 @@ Detection hints:
 Fix:
 
 * Replace with non-executable templating (simple string substitution).
-* If truly needed, use Jinja's sandbox environment plus strong isolation. ([jinja.palletsprojects.com][18])
+* If truly needed, use Jinja's sandbox environment plus strong isolation.
+  ([jinja.palletsprojects.com][18])
 
 ---
 
@@ -562,7 +604,9 @@ Required (typical API/web app):
 
 NOTE:
 
-* Headers may be set by a proxy/CDN. If not visible in app code, flag as "verify at edge". ([OWASP Cheat Sheet Series][6])
+* Headers may be set by a proxy/CDN.
+  If not visible in app code, flag as "verify at edge".
+  ([OWASP Cheat Sheet Series][6])
 
 Insecure patterns:
 
@@ -588,7 +632,8 @@ Required:
 * If CORS is not needed, MUST keep it disabled.
 * If CORS is needed:
   * MUST allowlist trusted origins (do not reflect arbitrary origins).
-  * MUST NOT combine credentialed requests with wildcard origins (this is unsafe and commonly rejected by compliant middleware). ([OWASP Cheat Sheet Series][6])
+  * MUST NOT combine credentialed requests with wildcard origins (this is unsafe and commonly rejected by compliant middleware).
+    ([OWASP Cheat Sheet Series][6])
   * SHOULD restrict allowed methods and headers.
 
 Insecure patterns:
@@ -604,7 +649,8 @@ Detection hints:
 
 Fix:
 
-* Use an explicit origin allowlist and minimal methods/headers; keep credentials off unless required. ([OWASP Cheat Sheet Series][6])
+* Use an explicit origin allowlist and minimal methods/headers; keep credentials off unless required.
+  ([OWASP Cheat Sheet Series][6])
 
 ---
 
@@ -615,7 +661,8 @@ Severity: Low
 
 Required:
 
-* SHOULD use `TrustedHostMiddleware` (or equivalent at edge) to restrict accepted Host values. ([PyPI][5])
+* SHOULD use `TrustedHostMiddleware` (or equivalent at edge) to restrict accepted Host values.
+  ([PyPI][5])
 * MUST NOT trust the `Host` header for security-sensitive decisions without validation.
 
 Insecure patterns:
@@ -643,7 +690,8 @@ Required:
 
 * If behind a reverse proxy, MUST configure forwarded-header trust correctly.
 * MUST NOT blindly trust `X-Forwarded-*` headers from the open internet.
-* If using Uvicorn proxy header support, MUST restrict which IPs are allowed to provide forwarded headers. ([PyPI][4])
+* If using Uvicorn proxy header support, MUST restrict which IPs are allowed to provide forwarded headers.
+  ([PyPI][4])
 
 Insecure patterns:
 
@@ -657,7 +705,8 @@ Detection hints:
 
 Fix:
 
-* Configure Uvicorn with proxy headers only when behind a known proxy, and restrict `forwarded_allow_ips` to that proxy. ([PyPI][4])
+* Configure Uvicorn with proxy headers only when behind a known proxy, and restrict `forwarded_allow_ips` to that proxy.
+  ([PyPI][4])
 * Keep Host allowlisting in place even behind proxies.
 
 ---
@@ -670,7 +719,8 @@ Severity: Low
 Required:
 
 * MUST enforce request size limits at the edge (reverse proxy/load balancer) and validate in app where needed.
-* MUST apply special scrutiny to multipart/form-data handling; historical vulnerabilities include unbounded buffering and DoS vectors. ([advisories.gitlab.com][9])
+* MUST apply special scrutiny to multipart/form-data handling; historical vulnerabilities include unbounded buffering and DoS vectors.
+  ([advisories.gitlab.com][9])
 * SHOULD rate limit and/or add per-IP/per-user throttles for expensive endpoints.
 
 Insecure patterns:
@@ -685,7 +735,8 @@ Detection hints:
 
 Fix:
 
-* Enforce strict body limits and multipart constraints; keep Starlette and python-multipart updated to patched versions. ([advisories.gitlab.com][9])
+* Enforce strict body limits and multipart constraints; keep Starlette and python-multipart updated to patched versions.
+  ([advisories.gitlab.com][9])
 
 ---
 
@@ -697,7 +748,8 @@ Severity: High
 Required:
 
 * MUST NOT pass user-controlled file paths to `FileResponse`/filesystem calls without strict validation and safe base directories.
-* If using `StaticFiles`, MUST keep Starlette updated and understand the security history (path traversal advisory exists for older versions). ([advisories.gitlab.com][10])
+* If using `StaticFiles`, MUST keep Starlette updated and understand the security history (path traversal advisory exists for older versions).
+  ([advisories.gitlab.com][10])
 * MUST NOT serve user uploads as executable/active content (especially HTML/JS) from a static root without safe handling.
 
 Insecure patterns:
@@ -725,7 +777,8 @@ Severity: Low (if affected versions and file serving is enabled)
 Required:
 
 * MUST keep Starlette patched against known file-serving DoS issues if using `FileResponse`/`StaticFiles`.
-* MUST treat unusual `Range` header handling and file serving as a DoS surface. ([advisories.gitlab.com][19])
+* MUST treat unusual `Range` header handling and file serving as a DoS surface.
+  ([advisories.gitlab.com][19])
 
 Insecure patterns:
 
@@ -739,7 +792,8 @@ Detection hints:
 
 Fix:
 
-* Upgrade Starlette to a fixed version per advisory guidance. ([advisories.gitlab.com][19])
+* Upgrade Starlette to a fixed version per advisory guidance.
+  ([advisories.gitlab.com][19])
 * Add edge caching/rate limiting for file endpoints where appropriate.
 
 ---
@@ -752,7 +806,8 @@ Severity: Medium
 Required:
 
 * MUST enforce upload size limits (app + edge).
-* MUST validate file type using allowlists and content checks (not only extension). ([OWASP Cheat Sheet Series][20])
+* MUST validate file type using allowlists and content checks (not only extension).
+  ([OWASP Cheat Sheet Series][20])
 * SHOULD generate server-side filenames (random IDs) and avoid trusting original names.
 * MUST serve potentially active formats safely (download attachment) unless explicitly intended.
 
@@ -768,7 +823,8 @@ Detection hints:
 
 Fix:
 
-* Implement allowlist validation + safe storage + safe serving; add scanning/quarantine if applicable. ([OWASP Cheat Sheet Series][20])
+* Implement allowlist validation + safe storage + safe serving; add scanning/quarantine if applicable.
+  ([OWASP Cheat Sheet Series][20])
 
 ---
 
@@ -780,7 +836,8 @@ Severity: High
 Required:
 
 * MUST use parameterized queries or an ORM that parameterizes under the hood.
-* MUST NOT build SQL by string concatenation / f-strings with untrusted input. ([OWASP Cheat Sheet Series][21])
+* MUST NOT build SQL by string concatenation / f-strings with untrusted input.
+  ([OWASP Cheat Sheet Series][21])
 
 Insecure patterns:
 
@@ -794,7 +851,8 @@ Detection hints:
 
 Fix:
 
-* Replace with parameterized queries / ORM query APIs; validate types before querying. ([OWASP Cheat Sheet Series][21])
+* Replace with parameterized queries / ORM query APIs; validate types before querying.
+  ([OWASP Cheat Sheet Series][21])
 
 ---
 
@@ -825,7 +883,8 @@ Detection hints:
 Fix:
 
 * Use library APIs instead of shell commands.
-* If unavoidable, hard-code the command and allowlist validated parameters; use `--` separator where supported. ([OWASP Cheat Sheet Series][22])
+* If unavoidable, hard-code the command and allowlist validated parameters; use `--` separator where supported.
+  ([OWASP Cheat Sheet Series][22])
 
 ---
 
@@ -834,7 +893,8 @@ Fix:
 
 Severity: Medium (can be High in cloud/VPC environments)
 
-* Note: For small stand alone projects this is less important. It is most important when deploying into an LAN or with other services listening on the same server.
+* Note: For small stand alone projects this is less important.
+  It is most important when deploying into an LAN or with other services listening on the same server.
 
 Required:
 
@@ -842,7 +902,8 @@ Required:
 * SHOULD validate and restrict destinations (allowlist hosts/domains) for any user-influenced URL fetch.
 * SHOULD block access to localhost/private IP ranges/link-local and cloud metadata endpoints.
 * MUST restrict protocols to http/https.
-* SHOULD set timeouts and carefully control redirects. ([OWASP Cheat Sheet Series][23])
+* SHOULD set timeouts and carefully control redirects.
+  ([OWASP Cheat Sheet Series][23])
 
 Insecure patterns:
 
@@ -856,7 +917,8 @@ Detection hints:
 
 Fix:
 
-* Implement strict URL parsing + allowlists; add egress controls; set short timeouts; disable redirects if not required. ([OWASP Cheat Sheet Series][23])
+* Implement strict URL parsing + allowlists; add egress controls; set short timeouts; disable redirects if not required.
+  ([OWASP Cheat Sheet Series][23])
 
 ---
 
@@ -868,7 +930,8 @@ Severity: Low
 Required:
 
 * MUST validate redirect targets derived from untrusted input (`next`, `redirect`, `return_to`).
-* SHOULD prefer redirecting only to same-site relative paths or an allowlist of domains. ([OWASP Cheat Sheet Series][24])
+* SHOULD prefer redirecting only to same-site relative paths or an allowlist of domains.
+  ([OWASP Cheat Sheet Series][24])
 
 Insecure patterns:
 
@@ -880,7 +943,8 @@ Detection hints:
 
 Fix:
 
-* Allow only relative paths or allowlisted domains; fall back to a safe default. ([OWASP Cheat Sheet Series][24])
+* Allow only relative paths or allowlisted domains; fall back to a safe default.
+  ([OWASP Cheat Sheet Series][24])
 
 ---
 
@@ -891,7 +955,8 @@ Severity: Medium to High (depends on data/privilege)
 
 Required:
 
-* MUST authenticate WebSocket connections for any non-public channel (WebSockets don't inherently provide auth). ([OWASP Cheat Sheet Series][25])
+* MUST authenticate WebSocket connections for any non-public channel (WebSockets don't inherently provide auth).
+  ([OWASP Cheat Sheet Series][25])
 * SHOULD enforce origin/CSRF-like protections appropriate for browser-based WebSocket clients (Origin validation is a common control).
 * SHOULD rate limit message frequency and connection attempts; close idle/abusive connections.
 
@@ -908,7 +973,8 @@ Detection hints:
 Fix:
 
 * Require authentication during handshake (e.g., a token or session) and enforce authorization for actions/messages.
-* Validate Origin for browser-based clients where appropriate; apply rate limits and timeouts. ([OWASP Cheat Sheet Series][25])
+* Validate Origin for browser-based clients where appropriate; apply rate limits and timeouts.
+  ([OWASP Cheat Sheet Series][25])
 
 ---
 
@@ -921,13 +987,17 @@ Required:
 
 * SHOULD pin and regularly update security-critical dependencies (FastAPI, Starlette, Uvicorn, Pydantic, python-multipart, auth/JWT libs).
 * MUST respond to known security advisories promptly.
-* MUST treat file serving and multipart parsing dependencies as security-sensitive due to historical CVEs. ([advisories.gitlab.com][10])
+* MUST treat file serving and multipart parsing dependencies as security-sensitive due to historical CVEs.
+  ([advisories.gitlab.com][10])
 
 Audit focus examples (historical):
 
-* Starlette StaticFiles path traversal (fixed in 0.27.0). ([advisories.gitlab.com][10])
-* Starlette multipart/form-data DoS (fixed in 0.40.0). ([advisories.gitlab.com][9])
-* Starlette FileResponse Range header DoS (fixed in 0.49.1). ([advisories.gitlab.com][19])
+* Starlette StaticFiles path traversal (fixed in 0.27.0).
+  ([advisories.gitlab.com][10])
+* Starlette multipart/form-data DoS (fixed in 0.40.0).
+  ([advisories.gitlab.com][9])
+* Starlette FileResponse Range header DoS (fixed in 0.49.1).
+  ([advisories.gitlab.com][19])
 
 Detection hints:
 

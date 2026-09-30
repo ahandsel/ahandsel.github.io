@@ -1,9 +1,7 @@
 // audit-helper-scripts.mjs notes
 // General notes:
 // * Purpose: Audit helper scripts in this repo against the "Scripts" guidelines in AGENTS.md.
-// * Checks each script for: allowed language (no Python; prefer `.mjs` or zsh), a `--help`
-//   flag, a top-of-file notes section (general notes, usage, output, version history), and
-//   status emojis.
+// * Checks each script for: allowed language (no Python; prefer `.mjs` or zsh), a `--help` flag, a top-of-file notes section (general notes, usage, output, version history), and status emojis.
 // * The checks are heuristics meant to surface candidates for review, not a hard gate.
 //
 // Usage:
@@ -13,12 +11,12 @@
 //   node skills/script-auditor/scripts/audit-helper-scripts.mjs path/to/one-script.mjs ...
 //
 // Output:
-// * Human-readable per-script report with a ✅ / ⚠️ / ❌ verdict per check, or `--json` for a
-//   machine-readable array of findings.
+// * Human-readable per-script report with a ✅ / ⚠️ / ❌ verdict per check, or `--json` for a machine-readable array of findings.
 // * Final status line: `result:ok`, `result:findings`, or via exit code on configuration error.
 // * Exit codes: 0 = all scripts pass, 1 = at least one warning or failure, 2 = configuration error.
 //
 // Version history:
+// * v1.2 - 2026-09-30 - Apply sentence-per-line formatting to comments.
 // * v1.1 - 2026-06-04 - Add a version history check to the notes section audit.
 // * v1.0 - 2026-06-04 - Initial release: language, --help, notes, and emoji checks.
 
@@ -62,9 +60,7 @@ function printUsage() {
       '  -h, --help         Show this help and exit.',
       '',
       'Arguments:',
-      '  files...           Specific script paths to audit. When omitted, all',
-      '                     tracked scripts under scripts/ and skills/*/scripts/',
-      '                     are discovered automatically.',
+      '  files...           Specific script paths to audit. When omitted, all tracked scripts under scripts/ and skills/*/scripts/ are discovered automatically.',
       '',
       'Exit codes:',
       '  0  all audited scripts pass',
@@ -148,8 +144,7 @@ function discoverTrackedScripts(repoRoot) {
           rel.startsWith('scripts/') ||
           /\/scripts\//.test(rel),
       )
-      // Skip vendored Figma plugin scripts: they are Figma Plugin API snippets run
-      // inside Figma via use_figma, not repo CLI helpers, so the guidelines do not apply.
+      // Skip vendored Figma plugin scripts: they are Figma Plugin API snippets run inside Figma via use_figma, not repo CLI helpers, so the guidelines do not apply.
       .filter((rel) => !/(^|\/)skills\/figma-[^/]+\//.test(rel))
       .filter((rel) => SCRIPT_EXTS.has(extname(rel)))
       .map((rel) => join(repoRoot, rel))
@@ -216,8 +211,8 @@ function checkHelp(source) {
   };
 }
 
-// The notes section must live near the top, inside comments, and cover the four
-// required parts. We scan the leading comment block (first ~60 lines).
+// The notes section must live near the top, inside comments, and cover the four required parts.
+// We scan the leading comment block (first ~60 lines).
 function checkNotes(source) {
   const head = source.split('\n').slice(0, 60).join('\n');
   const missing = [];
