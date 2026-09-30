@@ -43,7 +43,7 @@
     "lint-md": "markdownlint-cli2 --fix \"**/*.md\"",
     "lint-naming": "node skills/file-folder-name-linter/scripts/lint-names.mjs",
     "preview": "pnpm vitepress-build && pnpm vitepress-preview",
-    "test": "node --test \"tests/**/*.test.mjs\"",
+    "test": "node --experimental-strip-types --test \"tests/**/*.test.mjs\"",
     "test-tree": "node scripts/generate-doc-structure.mjs --check",
     "tree": "node scripts/generate-doc-structure.mjs",
     "typecheck": "vue-tsc --noEmit",
