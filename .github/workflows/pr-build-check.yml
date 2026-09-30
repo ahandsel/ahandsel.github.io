@@ -2,7 +2,8 @@
 # Verify pull requests before merge: naming rules, contents tree snapshot,
 # en/ja parity, script tests, license check, and a production VitePress build.
 # Posts the results as a sticky comment on the pull request.
-# Formatting fixes are handled separately by pr-lint-autofix.yml.
+# Formatting fixes are handled separately by pr-lint-autofix.yml, which skips
+# fork pull requests, so this workflow gates formatting on forks only.
 
 name: PR build check
 
@@ -57,37 +58,47 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      # Step 6: Check file and folder names
+      # Step 6: Check formatting on fork pull requests
+      # pr-lint-autofix.yml fixes formatting on same-repository pull requests, but
+      # it skips forks because it cannot push to them, so gate forks here instead.
+      - name: Check formatting (fork pull requests only)
+        id: format
+        if: ${{ github.event.pull_request.head.repo.full_name != github.repository }}
+        run: |
+          pnpm lint
+          git diff --exit-code
+
+      # Step 7: Check file and folder names
       - name: Check file and folder names
         id: naming
         run: pnpm lint-naming
 
-      # Step 7: Check that docs/contents-structure.md matches contents/
+      # Step 8: Check that docs/contents-structure.md matches contents/
       - name: Check contents tree snapshot
         id: tree
         run: pnpm test-tree
 
-      # Step 8: Check that the en and ja trees stay in parity
+      # Step 9: Check that the en and ja trees stay in parity
       - name: Check en/ja parity
         id: parity
         run: pnpm check-en-ja-parity
 
-      # Step 9: Run the script test suite
+      # Step 10: Run the script test suite
       - name: Run script tests
         id: tests
         run: pnpm test
 
-      # Step 10: Type-check the VitePress config and theme
+      # Step 11: Type-check the VitePress config and theme
       - name: Typecheck
         id: typecheck
         run: pnpm typecheck
 
-      # Step 11: Check OSS licenses
+      # Step 12: Check OSS licenses
       - name: Check licenses
         id: license
         run: pnpm license
 
-      # Step 12: Build the VitePress site
+      # Step 13: Build the VitePress site
       # GITHUB_TOKEN raises the GitHub API rate limit for the Projects page
       # data loader (contents/.vitepress/theme/repos.data.mts).
       - name: Build VitePress site
@@ -96,12 +107,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # Step 13: Verify the build output landed where deploy.yml expects it
+      # Step 14: Verify the build output landed where deploy.yml expects it
       - name: Verify build output
         id: verify
         run: test -f contents/.vitepress/dist/index.html
 
-      # Step 14: Post the report as a sticky pull request comment
+      # Step 15: Post the report as a sticky pull request comment
       # Skipped for fork pull requests, which run with a read-only token.
       - name: Post PR report
         if: ${{ always() && github.event.pull_request.head.repo.fork == false }}
