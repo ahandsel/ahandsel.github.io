@@ -68,7 +68,7 @@
     "sh-syntax": "^0.7.0",
     "tree-extended": "^4.6.0",
     "typescript": "^5.9.3",
-    "vitepress": "2.0.0-alpha.17",
+    "vitepress": "2.0.0-alpha.20",
     "vitepress-plugin-llms": "^1.14.0",
     "vue": "^3.5.43",
     "vue-tsc": "^3.3.11"

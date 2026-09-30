@@ -25,10 +25,6 @@ export default defineConfig({
   // Show a per-page "last updated" timestamp taken from git history.
   lastUpdated: true,
 
-  // Extract shared page metadata into a separate chunk instead of inlining it
-  // into every page payload.
-  metaChunk: true,
-
   // Generate llms.txt, llms-full.txt, and a raw .md twin for every English
   // content page so LLMs can read the site without scraping HTML
   // (https://llmstxt.org/). The twins also back the per-page copy and
