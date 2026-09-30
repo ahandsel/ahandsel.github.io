@@ -14,6 +14,10 @@
  *
  * Output:
  *   A cropped PNG written to the output path, plus a status line reporting the original and trimmed dimensions.
+ *
+ * Version history:
+ *   * v1.1 - 2026-09-30 - Apply sentence-per-line formatting to comments and help text; add a version history.
+ *   * v1.0 - Undocumented prior release.
  */
 
 import fs from 'node:fs';
