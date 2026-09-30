@@ -3,11 +3,9 @@
  * trim-png.mjs
  *
  * General notes:
- *   Trims the empty (transparent or solid-white) border around a PNG so the
- *   canvas is tight to the visible artwork. Pure Node.js - uses only the
- *   built-in `zlib` and `fs` modules, so no external image dependency is
- *   required. Handles 8-bit RGB and RGBA, non-interlaced PNGs and always
- *   writes an 8-bit RGBA PNG.
+ *   Trims the empty (transparent or solid-white) border around a PNG so the canvas is tight to the visible artwork.
+ *   Pure Node.js - uses only the built-in `zlib` and `fs` modules, so no external image dependency is required.
+ *   Handles 8-bit RGB and RGBA, non-interlaced PNGs and always writes an 8-bit RGBA PNG.
  *
  * Usage:
  *   node scripts/trim-png.mjs <input.png> [output.png]
@@ -15,8 +13,7 @@
  *   - Pass --help to print this message.
  *
  * Output:
- *   A cropped PNG written to the output path, plus a status line reporting the
- *   original and trimmed dimensions.
+ *   A cropped PNG written to the output path, plus a status line reporting the original and trimmed dimensions.
  */
 
 import fs from 'node:fs';
@@ -33,9 +30,8 @@ function printHelp() {
     [
       'Usage: node scripts/trim-png.mjs <input.png> [output.png]',
       '',
-      'Trims the transparent or solid-white border around a PNG so the',
-      'canvas is tight to the visible artwork. When output is omitted the',
-      'input file is overwritten in place.',
+      'Trims the transparent or solid-white border around a PNG so the canvas is tight to the visible artwork.',
+      'When output is omitted the input file is overwritten in place.',
     ].join('\n'),
   );
 }
