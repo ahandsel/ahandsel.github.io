@@ -22,7 +22,7 @@ jobs:
       PR_HEAD_REF: ${{ github.head_ref }}
     steps:
       - name: Checkout PR branch
-        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # actions/checkout@v5.0.0, pinned
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # actions/checkout@v5.0.0, pinned
         with:
           ref: ${{ env.PR_HEAD_REF }}
           fetch-depth: 0
@@ -34,12 +34,12 @@ jobs:
           echo "version=${version}" >> "$GITHUB_OUTPUT"
 
       - name: Install pnpm
-        uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061 # pnpm/action-setup@v4.2.0, pinned
+        uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # pnpm/action-setup@v4.2.0, pinned
         with:
           version: ${{ steps.pnpm-version.outputs.version }}
 
       - name: Setup Node.js
-        uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # actions/setup-node@v5.0.0, pinned
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # actions/setup-node@v5.0.0, pinned
         with:
           node-version: 24.12 # Match engines.node (>=24.12) in package.json
           cache: pnpm
