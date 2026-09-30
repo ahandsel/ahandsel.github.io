@@ -20,6 +20,7 @@
 // * Because 1 covers both outcomes, read the report rather than the exit code to tell a found failure from a broken run.
 //
 // Version history:
+// * v1.1 - 2026-09-30 - Recognize only the GitHub Actions `/actions/runs/<id>` path, so an external CI url that happens to contain `/runs/<id>` is reported as `external`. Read the job-specific log with `gh run view --job` whenever the details url names a job, so each check shows its own failure rather than the last failure in the whole run, and drop the REST job-log fallback, which `gh api` rejected for logs holding terminal escape sequences.
 // * v1.0 - 2026-08-28 - Initial release. Ports inspect_pr_checks.py to a Node.js ES module, keeping its output shape, field fallbacks, and exit codes, and adding status emojis.
 
 import { execFileSync } from 'node:child_process';
@@ -85,21 +86,17 @@ run at all, so read the report rather than the exit code to tell them apart.
 `;
 
 // Mirrors the original's GhResult: a non-zero exit is data to inspect, not an exception.
-function runGh(args, cwd, { raw = false } = {}) {
+function runGh(args, cwd) {
   try {
     const stdout = execFileSync('gh', args, {
       cwd,
-      encoding: raw ? 'buffer' : 'utf8',
+      encoding: 'utf8',
       stdio: ['ignore', 'pipe', 'pipe'],
       maxBuffer: 256 * 1024 * 1024,
     });
     return { returncode: 0, stdout, stderr: '' };
   } catch (error) {
-    const stdout = raw
-      ? (error.stdout ?? Buffer.alloc(0))
-      : error.stdout
-        ? String(error.stdout)
-        : '';
+    const stdout = error.stdout ? String(error.stdout) : '';
     const stderr = error.stderr ? String(error.stderr) : (error.message ?? '');
     // A missing gh binary has no exit status of its own.
     return { returncode: error.status ?? 1, stdout, stderr };
@@ -322,21 +319,16 @@ function isFailing(check) {
   return FAILURE_BUCKETS.has(normalizeField(check.bucket));
 }
 
+// Only the GitHub Actions path counts. A bare `/runs/<id>` also appears in
+// external CI urls, and on GitHub it names a check run rather than a workflow run.
 function extractRunId(url) {
   if (!url) return null;
-  for (const pattern of [/\/actions\/runs\/(\d+)/, /\/runs\/(\d+)/]) {
-    const match = pattern.exec(url);
-    if (match) return match[1];
-  }
-  return null;
+  return /\/actions\/runs\/(\d+)/.exec(url)?.[1] ?? null;
 }
 
 function extractJobId(url) {
   if (!url) return null;
-  return (
-    (/\/actions\/runs\/\d+\/job\/(\d+)/.exec(url) ??
-      /\/job\/(\d+)/.exec(url))?.[1] ?? null
-  );
+  return /\/actions\/runs\/\d+\/job\/(\d+)/.exec(url)?.[1] ?? null;
 }
 
 function fetchRunMetadata(runId, repoRoot) {
@@ -368,20 +360,9 @@ function fetchRunMetadata(runId, repoRoot) {
   return data;
 }
 
-function fetchRepoSlug(repoRoot) {
-  const result = runGh(['repo', 'view', '--json', 'nameWithOwner'], repoRoot);
-  if (result.returncode !== 0) return null;
-  const data = parseJsonOr(result.stdout, '{}');
-  return data?.nameWithOwner ? String(data.nameWithOwner) : null;
-}
-
 function isLogPendingMessage(message) {
   const lowered = message.toLowerCase();
   return PENDING_LOG_MARKERS.some((marker) => lowered.includes(marker));
-}
-
-function isZipPayload(payload) {
-  return payload.length >= 2 && payload[0] === 0x50 && payload[1] === 0x4b;
 }
 
 function fetchRunLog(runId, repoRoot) {
@@ -393,43 +374,23 @@ function fetchRunLog(runId, repoRoot) {
   return { log: result.stdout, error: '' };
 }
 
+// `gh run view --job` returns only that job's log. The REST logs endpoint is
+// avoided because `gh api` refuses to print a log that holds terminal escape
+// sequences, which most Actions logs do.
 function fetchJobLog(jobId, repoRoot) {
-  const repoSlug = fetchRepoSlug(repoRoot);
-  if (!repoSlug) {
-    return {
-      log: '',
-      error: 'Error: unable to resolve repository name for job logs.',
-    };
-  }
-
-  const endpoint = `/repos/${repoSlug}/actions/jobs/${jobId}/logs`;
-  const result = runGh(['api', endpoint], repoRoot, { raw: true });
-  const stdoutBuffer = Buffer.isBuffer(result.stdout)
-    ? result.stdout
-    : Buffer.from(result.stdout);
-
+  const result = runGh(['run', 'view', '--job', jobId, '--log'], repoRoot);
   if (result.returncode !== 0) {
-    const message = (result.stderr || stdoutBuffer.toString('utf8')).trim();
-    return { log: '', error: message || 'gh api job logs failed' };
+    const error = (result.stderr || result.stdout || '').trim();
+    return { log: '', error: error || 'gh run view --job failed' };
   }
-  if (isZipPayload(stdoutBuffer)) {
-    return {
-      log: '',
-      error: 'Job logs returned a zip archive; unable to parse.',
-    };
-  }
-  return { log: stdoutBuffer.toString('utf8'), error: '' };
+  return { log: result.stdout, error: '' };
 }
 
-// A run log that is not ready yet may still have a readable per-job log, so the
-// pending case falls back to the job endpoint before giving up.
+// A check that names a job reads that job's log first. The run log mixes every
+// job in the run, so with several failed jobs the last failure marker could belong
+// to a different check. The run log is the fallback when the job log cannot be read.
 function fetchCheckLog(runId, jobId, repoRoot) {
-  const { log, error } = fetchRunLog(runId, repoRoot);
-  if (!error) {
-    return { log, error: '', status: 'ok' };
-  }
-
-  if (isLogPendingMessage(error) && jobId) {
+  if (jobId) {
     const job = fetchJobLog(jobId, repoRoot);
     if (job.log) {
       return { log: job.log, error: '', status: 'ok' };
@@ -437,10 +398,11 @@ function fetchCheckLog(runId, jobId, repoRoot) {
     if (job.error && isLogPendingMessage(job.error)) {
       return { log: '', error: job.error, status: 'pending' };
     }
-    if (job.error) {
-      return { log: '', error: job.error, status: 'error' };
-    }
-    return { log: '', error, status: 'pending' };
+  }
+
+  const { log, error } = fetchRunLog(runId, repoRoot);
+  if (!error) {
+    return { log, error: '', status: 'ok' };
   }
 
   if (isLogPendingMessage(error)) {
