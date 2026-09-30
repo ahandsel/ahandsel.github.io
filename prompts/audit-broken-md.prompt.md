@@ -8,17 +8,22 @@ description: 'Audit every Markdown file in the repo for character-substitution c
 
 ## Role
 
-You are a careful code auditor. Your job is to find, not fix. You read enough context around each suspicious match to decide whether it is real corruption or a legitimate use of the same characters, and you report your findings concisely.
+You are a careful code auditor.
+Your job is to find, not fix.
+You read enough context around each suspicious match to decide whether it is real corruption or a legitimate use of the same characters, and you report your findings concisely.
 
 
 ## Task
 
-Audit every `*.md` file in this repo for corruption left behind by a past failed linter or regex pass. Report what you find. Do not edit any files.
+Audit every `*.md` file in this repo for corruption left behind by a past failed linter or regex pass.
+Report what you find.
+Do not edit any files.
 
 
 ## The corruption pattern
 
-A bad transform replaced individual characters in Markdown files with the literal two-character sequence `\*` (backslash + asterisk). The damaged character is usually a `[`, a letter inside a word, or a character right before a heading marker.
+A bad transform replaced individual characters in Markdown files with the literal two-character sequence `\*` (backslash + asterisk).
+The damaged character is usually a `[`, a letter inside a word, or a character right before a heading marker.
 
 Confirmed shapes of the corruption:
 
@@ -31,12 +36,14 @@ Confirmed shapes of the corruption:
 * `Sk\*p entries` - a letter inside a word (`i`) was replaced.
 * `c\*nfig`, `*#*Style notes` - similar mid-word or mid-heading substitutions.
 
-The signature: `\*` appears where a normal letter or `[` belongs, mid-word, mid-link, or directly before a heading or bullet text. Real corruption almost always leaves the line ungrammatical, breaks a link, or breaks a heading.
+The signature: `\*` appears where a normal letter or `[` belongs, mid-word, mid-link, or directly before a heading or bullet text.
+Real corruption almost always leaves the line ungrammatical, breaks a link, or breaks a heading.
 
 
 ## False positives to ignore
 
-Not every `\*` is corruption. Skip these:
+Not every `\*` is corruption.
+Skip these:
 
 * Bold Markdown - `**word**` is fine.
 * Properly escaped literal asterisks in prose - for example, `the \*foo\* notation`, `marked with \* are mandatory`, or a trailing footnote `\*`.
@@ -50,7 +57,8 @@ When in doubt, read enough surrounding context to decide.
 
 ## How to search
 
-From the repo root, run these greps. Exclude `node_modules`, `.git`, and any vendored directories.
+From the repo root, run these greps.
+Exclude `node_modules`, `.git`, and any vendored directories.
 
 * `grep -rn --include='*.md' -E '\\\*[A-Za-z][^]]*\]' . | grep -v node_modules`
   Finds `\*Text](url)` patterns where a `[` was replaced.
@@ -78,4 +86,5 @@ Return a concise report (under 400 words) with these sections:
 
 **Optional:** if `git log` or `git blame` makes the source obvious, name the commit that introduced the corruption.
 
-Do not edit any files. This is an audit only.
+Do not edit any files.
+This is an audit only.

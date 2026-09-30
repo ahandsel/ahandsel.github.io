@@ -6,7 +6,8 @@ description: 'Set up a Japanese-friendly editor font so Markdown tables that mix
 # Set up a Japanese-friendly font for aligned Markdown tables
 
 Help the user make Markdown tables that mix English and Japanese line up in VS Code.
-Do all the work for them. Assume the user is not technical: never ask them to edit files or run commands themselves; you run the commands and make the edits.
+Do all the work for them.
+Assume the user is not technical: never ask them to edit files or run commands themselves; you run the commands and make the edits.
 
 
 ## Role
@@ -17,12 +18,16 @@ You explain each step in plain language, do the work yourself, and confirm the r
 
 ## Step 1: Ask which font
 
-Ask the user to pick one of these two recommended fonts. Both fix the alignment problem equally well; they only differ in appearance.
+Ask the user to pick one of these two recommended fonts.
+Both fix the alignment problem equally well; they only differ in appearance.
 
-* **HackGen Console** - a little bolder. Recommended default if the user cannot decide.
+* **HackGen Console** - a little bolder.
+  Recommended default if the user cannot decide.
 * **Sarasa Mono J** - a little lighter.
 
-If the user instead asks for one of these alternatives, support that too. Any monospaced font with Japanese support works. Handle it with the same steps, using the Homebrew cask shown here:
+If the user instead asks for one of these alternatives, support that too.
+Any monospaced font with Japanese support works.
+Handle it with the same steps, using the Homebrew cask shown here:
 
 | Font        | Homebrew cask      |
 | ----------- | ------------------ |
@@ -43,7 +48,8 @@ Set the font order in Step 3 so their chosen font comes first.
 
 Installing a cask is safe to re-run; Homebrew skips anything already installed.
 
-**If the user chose an additional font:** install its cask directly. For example, for UDEV Gothic:
+**If the user chose an additional font:** install its cask directly.
+For example, for UDEV Gothic:
 
 ```sh
 brew install --cask font-udev-gothic
@@ -57,7 +63,8 @@ Confirm the chosen font is present before continuing:
   fc-list | grep -E "HackGen Console|Sarasa Mono J"
   ```
 
-* For an additional font, search by a keyword from its name to find its exact family name (the text after the colon). You need that exact name for Step 3, so do not guess it:
+* For an additional font, search by a keyword from its name to find its exact family name (the text after the colon).
+  You need that exact name for Step 3, so do not guess it:
 
   ```sh
   fc-list | grep -i udev
@@ -75,8 +82,11 @@ On macOS the file is:
 
 Do the following:
 
-1. Read the file. If it does not exist, create it with an empty JSON object (`{}`).
-2. Add or update a `[markdown]` language block so the chosen font is set for Markdown files only. Put the user's chosen font first, then `monospace` as a fallback. Use the exact family name you confirmed in Step 2. For example, if they chose HackGen Console:
+1. Read the file.
+   If it does not exist, create it with an empty JSON object (`{}`).
+2. Add or update a `[markdown]` language block so the chosen font is set for Markdown files only.
+   Put the user's chosen font first, then `monospace` as a fallback.
+   Use the exact family name you confirmed in Step 2. For example, if they chose HackGen Console:
 
    ```jsonc
    "[markdown]": {
@@ -84,10 +94,13 @@ Do the following:
    }
    ```
 
-   If they chose Sarasa Mono J, swap the order so `'Sarasa Mono J'` comes first. If they chose an additional font, put its exact family name first, for example `"editor.fontFamily": "'UDEV Gothic', monospace"`.
+   If they chose Sarasa Mono J, swap the order so `'Sarasa Mono J'` comes first.
+   If they chose an additional font, put its exact family name first, for example `"editor.fontFamily": "'UDEV Gothic', monospace"`.
 
 3. If a `[markdown]` block already exists, merge into it: set or replace only `editor.fontFamily` and leave any other keys untouched.
-4. Keep the file as valid JSON with comments (JSONC). Preserve existing settings, formatting, and comments. Do not remove anything the user already has.
+4. Keep the file as valid JSON with comments (JSONC).
+   Preserve existing settings, formatting, and comments.
+   Do not remove anything the user already has.
 
 Scope the font to Markdown so the user's other files keep their usual editor font.
 
@@ -119,4 +132,5 @@ Tell the user, in plain language:
 * That they should close and reopen VS Code, then open a file with a Japanese table to see the columns line up.
 * That this only changes how tables look while editing; the published result on GitHub is unchanged.
 
-Do not edit the repo workspace settings (`.vscode/settings.json`) or commit anything. This setup is personal to the user's machine.
+Do not edit the repo workspace settings (`.vscode/settings.json`) or commit anything.
+This setup is personal to the user's machine.

@@ -5,8 +5,10 @@ description: 'Use when the task requires automating a real browser from the term
 
 # Playwright CLI Skill
 
-Drive a real browser from the terminal using `playwright-cli`. Prefer the bundled wrapper script so the CLI works even when it is not globally installed.
-Treat this skill as CLI-first automation. Do not pivot to `@playwright/test` unless the user explicitly asks for test files.
+Drive a real browser from the terminal using `playwright-cli`.
+Prefer the bundled wrapper script so the CLI works even when it is not globally installed.
+Treat this skill as CLI-first automation.
+Do not pivot to `@playwright/test` unless the user explicitly asks for test files.
 
 
 ## Prerequisite check (required)
@@ -17,7 +19,9 @@ Before proposing commands, check whether `pnpm` is available (the wrapper depend
 command -v pnpm > /dev/null 2>&1
 ```
 
-If it is not available, pause and ask the user to install Node.js and pnpm. This repository uses pnpm only, so do not suggest `npm` or `npx`. Provide these steps verbatim:
+If it is not available, pause and ask the user to install Node.js and pnpm.
+This repository uses pnpm only, so do not suggest `npm` or `npx`.
+Provide these steps verbatim:
 
 ```bash
 # Verify Node.js and pnpm are installed
@@ -29,7 +33,8 @@ corepack enable pnpm
 pnpm --version
 ```
 
-Once `pnpm` is present, proceed with the wrapper script. A global install of `playwright-cli` is optional.
+Once `pnpm` is present, proceed with the wrapper script.
+A global install of `playwright-cli` is optional.
 
 
 ## Skill path (set once)
@@ -89,7 +94,8 @@ Snapshot again after:
 * opening/closing modals or menus
 * tab switches
 
-Refs can go stale. When a command fails due to a missing ref, snapshot again.
+Refs can go stale.
+When a command fails due to a missing ref, snapshot again.
 
 
 ## Recommended patterns

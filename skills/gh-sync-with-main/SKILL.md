@@ -8,7 +8,8 @@ description: Bring the current git branch up to date with commits from the main 
 
 ## Overview
 
-Update the checked out branch from `main` with a small helper script instead of rebuilding the git sequence from scratch. Prefer rebase for a clean linear history, and switch to merge only when the user or repository workflow requires it.
+Update the checked out branch from `main` with a small helper script instead of rebuilding the git sequence from scratch.
+Prefer rebase for a clean linear history, and switch to merge only when the user or repository workflow requires it.
 
 
 ## Workflow
@@ -47,7 +48,8 @@ If git reports conflicts, stop normal automation and guide the user through reso
 ## Guardrails
 
 * Refuse to run on `main`.
-* Refuse to run with a dirty working tree unless the user explicitly accepts `--allow-dirty`. Note that `--allow-dirty` pairs best with `merge`, because `git rebase` still refuses to run with unstaged changes even after the script's own clean-tree check is bypassed.
+* Refuse to run with a dirty working tree unless the user explicitly accepts `--allow-dirty`.
+  Note that `--allow-dirty` pairs best with `merge`, because `git rebase` still refuses to run with unstaged changes even after the script's own clean-tree check is bypassed.
 * Fetch `origin/main` before changing history.
 * Prefer `origin/main` over a stale local `main`.
 * Show the exact git commands before execution so the user can see the plan.

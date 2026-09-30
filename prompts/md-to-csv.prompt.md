@@ -8,7 +8,10 @@ description: 'Convert Markdown tables into CSV following the specified template.
 
 ## Purpose
 
-Convert Markdown tables into CSV. No commentary. No summaries. Output only CSV.
+Convert Markdown tables into CSV.
+No commentary.
+No summaries.
+Output only CSV.
 
 
 ## When to apply
@@ -19,9 +22,12 @@ Convert Markdown tables into CSV. No commentary. No summaries. Output only CSV.
 
 ## Output contract
 
-* Emit **only** CSV text. No code fences. No prose.
+* Emit **only** CSV text.
+  No code fences.
+  No prose.
 * RFC 4180 style: comma-separated, CRLF or LF accepted, UTF-8.
-* Header row first. Preserve column order and cell text exactly.
+* Header row first.
+  Preserve column order and cell text exactly.
 * Quote any field that contains a comma, double quote, or newline.
 * Escape double quotes inside a field by doubling them.
 * Do not trim whitespace, reflow text, or alter punctuation.

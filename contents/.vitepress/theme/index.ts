@@ -9,10 +9,8 @@ import RepoCards from './RepoCards.vue';
 import { hasMarkdownTwin } from '../llms-pages';
 import './style.css';
 
-// vitepress-plugin-llms generates a raw .md twin for English content pages
-// only, so render the copy and download buttons only where a twin exists.
-// Japanese pages and the pages listed in llms-pages.ts would otherwise show
-// buttons that fetch a 404.
+// vitepress-plugin-llms generates a raw .md twin for English content pages only, so render the copy and download buttons only where a twin exists.
+// Japanese pages and the pages listed in llms-pages.ts would otherwise show buttons that fetch a 404.
 const GatedCopyOrDownloadAsMarkdownButtons = defineComponent({
   name: 'GatedCopyOrDownloadAsMarkdownButtons',
   setup() {
@@ -29,13 +27,11 @@ export default {
     // Register globally so Markdown pages can use <RepoCards /> without importing.
     app.component('RepoCards', RepoCards);
 
-    // The copyOrDownloadAsMarkdownButtons markdown-it plugin in config.mts
-    // injects this component name after the H1 of every page.
+    // The copyOrDownloadAsMarkdownButtons markdown-it plugin in config.mts injects this component name after the H1 of every page.
     app.component('CopyOrDownloadAsMarkdownButtons', GatedCopyOrDownloadAsMarkdownButtons);
 
-    // Toggle the rainbow accent animation on the home page only by adding or
-    // removing the `rainbow-active` class on <html>. The animation itself is
-    // defined in style.css.
+    // Toggle the rainbow accent animation on the home page only by adding or removing the `rainbow-active` class on <html>.
+    // The animation itself is defined in style.css.
     if (inBrowser) {
       watch(
         () => router.route.path,

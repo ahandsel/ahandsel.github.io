@@ -8,7 +8,10 @@ description: 'Convert CSV tables into Markdown tables following the specified te
 
 ## Purpose
 
-Convert CSV tables into Markdown tables. No commentary. No summaries. Output only Markdown.
+Convert CSV tables into Markdown tables.
+No commentary.
+No summaries.
+Output only Markdown.
 
 
 ## When to apply
@@ -19,7 +22,9 @@ Convert CSV tables into Markdown tables. No commentary. No summaries. Output onl
 
 ## Output contract
 
-* Emit **only** Markdown table text. No code fences. No prose.
+* Emit **only** Markdown table text.
+  No code fences.
+  No prose.
 * Preserve column order and cell text exactly.
 * Do not trim whitespace, reflow text, or alter punctuation.
 * If multiple CSV tables are provided, convert the first unless the user specifies otherwise.

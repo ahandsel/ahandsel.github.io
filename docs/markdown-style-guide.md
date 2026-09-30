@@ -16,7 +16,8 @@ This document describes how Markdown documents in this repository should be form
 
 ## Linter rules
 
-These rules are enforced by [markdownlint-cli2](https://github.com/DavidAnson/markdownlint-cli2) and configured in [.markdownlint-cli2.jsonc](../.markdownlint-cli2.jsonc). Run `pnpm lint` to format and auto-fix files before every commit.
+These rules are enforced by [markdownlint-cli2](https://github.com/DavidAnson/markdownlint-cli2) and configured in [.markdownlint-cli2.jsonc](../.markdownlint-cli2.jsonc).
+Run `pnpm lint` to format and auto-fix files before every commit.
 
 
 ### Enabled and customized rules
@@ -50,7 +51,8 @@ These default rules are turned off, so they are not enforced:
 
 ### Search and replace rules
 
-The custom `search-replace` rule auto-corrects these characters on lint. Characters are listed by Unicode code point because the literal characters are auto-replaced in this document too.
+The custom `search-replace` rule auto-corrects these characters on lint.
+Characters are listed by Unicode code point because the literal characters are auto-replaced in this document too.
 
 | Character                    | Code point         | Replaced with               | Reason                           |
 | ---------------------------- | ------------------ | --------------------------- | -------------------------------- |

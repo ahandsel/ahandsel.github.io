@@ -5,7 +5,8 @@ It supplements the [general style guide](./general-style-guide-japanese.md), whi
 
 **Audience:** Human writers and AI writing agents contributing to the Japanese content in this repository.
 
-**Scope:** Rules in this guide apply to help documentation only (how-to guides, reference documents, tutorials, and explanations). Refer to the general style guide for baseline Japanese writing rules.
+**Scope:** Rules in this guide apply to help documentation only (how-to guides, reference documents, tutorials, and explanations).
+Refer to the general style guide for baseline Japanese writing rules.
 
 **Priority:** When this guide and the general style guide conflict, this guide takes precedence for help and technical documentation.
 
@@ -32,17 +33,21 @@ It supplements the [general style guide](./general-style-guide-japanese.md), whi
 
 ### 句読点ルール
 
-* 句点「。」は原則として使う。見出しと不完全文には句点を使わない。
+* 句点「。」は原則として使う。
+  見出しと不完全文には句点を使わない。
 
 
 ### リスト項目の文末の句点ルール
 
-* リスト項目の末尾は統一する。完全な文なら句点あり、断片・体言止めなら句点なし。同一リスト内で混在させないこと。
+* リスト項目の末尾は統一する。
+  完全な文なら句点あり、断片・体言止めなら句点なし。
+  同一リスト内で混在させないこと。
 
 
 ### 行為者を主語にした能動態を優先する / Use active voice with the actor as the subject
 
-* 行為者を主語にした能動態を優先する。文が平易になり、誰が何をするのかが明確になるため、読み手にとって理解しやすくなる。
+* 行為者を主語にした能動態を優先する。
+  文が平易になり、誰が何をするのかが明確になるため、読み手にとって理解しやすくなる。
 * 例えば、以下の 2 つの文では、行為者を主語にした能動態の文の方が短く端的で、誰が何をするのかが明確になっている。
   * 例 1：`管理者は、専用のダッシュボードからお知らせの作成、管理、追跡ができます。`
   * 例 2：`管理者向けには、お知らせの作成、管理、追跡を行える専用のダッシュボードを提供しています。`
@@ -108,7 +113,8 @@ It supplements the [general style guide](./general-style-guide-japanese.md), whi
 
 ### 1 文につき 1 つのポイントを伝える / Express one key point per sentence
 
-1 文または 1 節に含めるポイントは 1 つにする。複数のポイントを含む文は、分割して別々の文や節にすること。
+1 文または 1 節に含めるポイントは 1 つにする。
+複数のポイントを含む文は、分割して別々の文や節にすること。
 
 **OK ✅:**
 
@@ -183,7 +189,8 @@ It supplements the [general style guide](./general-style-guide-japanese.md), whi
 
 ### 一行バナー / Single-line banners
 
-一行で表現できる内容であり、リンクや箇条書きなどのテキスト装飾を必要としない場合は、バナーの内容を一行で記載すること。以下のフォーマットを使用すること。
+一行で表現できる内容であり、リンクや箇条書きなどのテキスト装飾を必要としない場合は、バナーの内容を一行で記載すること。
+以下のフォーマットを使用すること。
 
 [バナーの種類] ラベル：内容（完全文で書き、句点も使用する）
 
@@ -194,7 +201,8 @@ It supplements the [general style guide](./general-style-guide-japanese.md), whi
 
 ### 複数行バナー / Multi-line banners
 
-一行で内容がおさまらない場合や、リンクや箇条書きなどのテキスト装飾が必要な場合は、バナーの内容を複数行で記載すること。以下のフォーマットを使用すること。
+一行で内容がおさまらない場合や、リンクや箇条書きなどのテキスト装飾が必要な場合は、バナーの内容を複数行で記載すること。
+以下のフォーマットを使用すること。
 
 [バナーの種類] ラベル：見出し（句点はつけない）
 内容（完全文で書き、句点も使用する）

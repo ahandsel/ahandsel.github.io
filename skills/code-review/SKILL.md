@@ -17,8 +17,12 @@ Rewording reader-facing copy is the author's call, so hand back each finding wit
 
 Two rules hold for the whole run.
 
-* **Evidence.** Every finding names a `path:line`, a command's output, or the row of a canonical source it contradicts. A finding you cannot cite is a suspicion, not a finding.
-* **Canonical.** The sources named below hold the rules. Cite them instead of restating a rule from memory, and when a repo skill owns a domain, load that skill rather than re-deriving what it knows.
+* **Evidence.**
+  Every finding names a `path:line`, a command's output, or the row of a canonical source it contradicts.
+  A finding you cannot cite is a suspicion, not a finding.
+* **Canonical.**
+  The sources named below hold the rules.
+  Cite them instead of restating a rule from memory, and when a repo skill owns a domain, load that skill rather than re-deriving what it knows.
 
 
 ## Step 1: Establish the diff
@@ -100,7 +104,8 @@ Each of these is a finding: a field set on one page of a pair but not the other,
 
 ### Bilingual parity
 
-* The counterpart page exists at the mirrored path and says the same thing. The parity check confirms the path; only reading both pages confirms the meaning.
+* The counterpart page exists at the mirrored path and says the same thing.
+  The parity check confirms the path; only reading both pages confirms the meaning.
 * A page added, renamed, or removed also updates both locale blocks in `contents/.vitepress/config.mts`, so the `nav` and `sidebar` entries stay parallel.
 * A PR that adds new pages includes the published URL for each new page in its body, built from the rules in the "Site URLs" section of `AGENTS.md`.
 
@@ -138,9 +143,15 @@ Done when every surviving finding carries evidence, and you can say why each dro
 
 Order findings by severity, highest first.
 
-* **Blocker.** CI fails, the build breaks, or the page ships something wrong to readers. A page with no counterpart, a broken link, a stale contents tree, or a skill missing from the allowlist.
-* **Should fix.** A real deviation from a canonical source that does not break the build. Wording, formatting, a glossary mismatch, or a missing index entry.
-* **Nit.** A preference with no canonical source behind it. Say so, and keep these few.
+* **Blocker.**
+  CI fails, the build breaks, or the page ships something wrong to readers.
+  A page with no counterpart, a broken link, a stale contents tree, or a skill missing from the allowlist.
+* **Should fix.**
+  A real deviation from a canonical source that does not break the build.
+  Wording, formatting, a glossary mismatch, or a missing index entry.
+* **Nit.**
+  A preference with no canonical source behind it.
+  Say so, and keep these few.
 
 Give each finding its severity, a `path:line`, what is wrong, the canonical source, and the exact fix.
 Then close with a summary table and one verdict.

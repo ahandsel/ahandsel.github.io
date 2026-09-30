@@ -14,6 +14,9 @@ When reviewing or creating English documents in the `contents/en/` directory, fo
 
 ## Note
 
-* The `applyTo` in this file targets `contents/en/**/*.md`. It does not affect changes outside English documents.
-* Reference paths are relative within the repository. If you move or rename files, remember to update the referenced paths as well.
-* Follow the Markdown syntax conventions used in this repository for consistency. See `.markdownlint-cli2.jsonc` for the specific rules applied.
+* The `applyTo` in this file targets `contents/en/**/*.md`.
+  It does not affect changes outside English documents.
+* Reference paths are relative within the repository.
+  If you move or rename files, remember to update the referenced paths as well.
+* Follow the Markdown syntax conventions used in this repository for consistency.
+  See `.markdownlint-cli2.jsonc` for the specific rules applied.

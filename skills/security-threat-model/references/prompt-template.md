@@ -1,6 +1,7 @@
 # Threat Modeling Prompt Template for LLMs
 
-This reference provides a disciplined, repo-grounded prompt that produces AppSec-usable threat models. Use it when you need a reliable output contract and a consistent process to assemble the threat model output
+This reference provides a disciplined, repo-grounded prompt that produces AppSec-usable threat models.
+Use it when you need a reliable output contract and a consistent process to assemble the threat model output
 
 
 ## System prompt

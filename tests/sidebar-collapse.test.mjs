@@ -1,8 +1,6 @@
 // Contract tests for the collapsible sidebar and home motion rules.
-// These assert source invariants the PR auditor caught: rem breakpoints that
-// match VitePress, a zeroed nav column offset while collapsed, LocalNav Menu
-// clearing collapse, backwards fill mode for hover-compatible entrances, and
-// reduced-motion opt-outs. They do not drive a browser.
+// These assert source invariants the PR auditor caught: rem breakpoints that match VitePress, a zeroed nav column offset while collapsed, LocalNav Menu clearing collapse, backwards fill mode for hover-compatible entrances, and reduced-motion opt-outs.
+// They do not drive a browser.
 
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';

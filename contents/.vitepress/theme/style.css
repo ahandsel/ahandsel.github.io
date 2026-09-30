@@ -19,8 +19,8 @@
     monospace;
 }
 
-/* Slightly heavier base body text (medium) for a denser feel. Headings keep
-   their own heavier weights. */
+/* Slightly heavier base body text (medium) for a denser feel.
+   Headings keep their own heavier weights. */
 body {
   font-weight: 500;
 }
@@ -28,41 +28,34 @@ body {
 /**
  * Colors
  *
- * Each colors have exact same color scale system with 3 levels of solid
- * colors with different brightness, and 1 soft color.
+ * Each colors have exact same color scale system with 3 levels of solid colors with different brightness, and 1 soft color.
  *
- * - `XXX-1`: The most solid color used mainly for colored text. It must
- *   satisfy the contrast ratio against when used on top of `XXX-soft`.
+ * - `XXX-1`: The most solid color used mainly for colored text.
+ *   It must satisfy the contrast ratio against when used on top of `XXX-soft`.
  *
  * - `XXX-2`: The color used mainly for hover state of the button.
  *
  * - `XXX-3`: The color for solid background, such as bg color of the button.
- *   It must satisfy the contrast ratio with pure white (#ffffff) text on
- *   top of it.
+ *   It must satisfy the contrast ratio with pure white (#ffffff) text on top of it.
  *
- * - `XXX-soft`: The color used for subtle background such as custom container
- *   or badges. It must satisfy the contrast ratio when putting `XXX-1` colors
- *   on top of it.
+ * - `XXX-soft`: The color used for subtle background such as custom container or badges.
+ *   It must satisfy the contrast ratio when putting `XXX-1` colors on top of it.
  *
- *   The soft color must be semi transparent alpha channel. This is crucial
- *   because it allows adding multiple "soft" colors on top of each other
- *   to create an accent, such as when having inline code block inside
- *   custom containers.
+ *   The soft color must be semi transparent alpha channel.
+ *   This is crucial because it allows adding multiple "soft" colors on top of each other to create an accent, such as when having inline code block inside custom containers.
  *
- * - `default`: The color used purely for subtle indication without any
- *   special meanings attached to it such as bg color for menu hover state.
+ * - `default`: The color used purely for subtle indication without any special meanings attached to it such as bg color for menu hover state.
  *
- * - `brand`: Used for primary brand colors, such as link text, button with
- *   brand theme, etc.
+ * - `brand`: Used for primary brand colors, such as link text, button with brand theme, etc.
  *
- * - `tip`: Used to indicate useful information. The default theme uses the
- *   brand color for this by default.
+ * - `tip`: Used to indicate useful information.
+ *   The default theme uses the brand color for this by default.
  *
- * - `warning`: Used to indicate warning to the users. Used in custom
- *   container, badges, etc.
+ * - `warning`: Used to indicate warning to the users.
+ *   Used in custom container, badges, etc.
  *
- * - `danger`: Used to show error, or dangerous message to the users. Used
- *   in custom container, badges, etc.
+ * - `danger`: Used to show error, or dangerous message to the users.
+ *   Used in custom container, badges, etc.
  * -------------------------------------------------------------------------- */
 
 :root {
@@ -203,8 +196,8 @@ body {
 /**
  * Animation: Circle dark/light mode transition
  *
- * Used with the View Transitions API wired up in Layout.vue. The old and new
- * themes are stacked so the growing circle reveals the incoming theme on top.
+ * Used with the View Transitions API wired up in Layout.vue.
+ * The old and new themes are stacked so the growing circle reveals the incoming theme on top.
  * -------------------------------------------------------------------------- */
 
 ::view-transition-old(root),
@@ -226,9 +219,8 @@ body {
 /**
  * Animation: Rainbow brand accent (home page only)
  *
- * The `--rainbow-hue` custom property is registered so it can be smoothly
- * animated, then the brand colors are derived from it. The `rainbow-active`
- * class is toggled on <html> by the theme on the home page.
+ * The `--rainbow-hue` custom property is registered so it can be smoothly animated, then the brand colors are derived from it.
+ * The `rainbow-active` class is toggled on <html> by the theme on the home page.
  * -------------------------------------------------------------------------- */
 
 @property --rainbow-hue {
@@ -281,8 +273,7 @@ body {
   }
 }
 
-/* Freeze the rainbow during a dark/light view transition (set by Layout.vue)
-   so the snapshot of <html> stays stable while the circle reveal plays. */
+/* Freeze the rainbow during a dark/light view transition (set by Layout.vue) so the snapshot of <html> stays stable while the circle reveal plays. */
 .vt-freeze {
   animation-play-state: paused !important;
 }
@@ -290,15 +281,11 @@ body {
 /**
  * Animation: Entrance, float, and hover micro-interactions
  *
- * Adapted from the motion vocabulary on openclaw.ai: a gentle `fade-in-up`
- * entrance staggered across the home hero and feature cards, a slow `float`
- * bob on the hero illustration, and a lift-on-hover on the feature cards.
+ * Adapted from the motion vocabulary on openclaw.ai: a gentle `fade-in-up` entrance staggered across the home hero and feature cards, a slow `float` bob on the hero illustration, and a lift-on-hover on the feature cards.
  * Everything here is disabled under `prefers-reduced-motion` further down.
  *
  * Use the `backwards` fill mode for `fade-in-up`, never `both` or `forwards`.
- * A forwards fill keeps the final `transform` applied after the animation
- * ends, and animation values beat normal rules in the cascade, so it would
- * silently cancel every `:hover` transform on the same element.
+ * A forwards fill keeps the final `transform` applied after the animation ends, and animation values beat normal rules in the cascade, so it would silently cancel every `:hover` transform on the same element.
  * -------------------------------------------------------------------------- */
 
 @keyframes fade-in-up {
@@ -405,21 +392,17 @@ body {
  * Component: Collapsible sidebar
  *
  * The default theme has no control to collapse the whole desktop sidebar.
- * Layout.vue renders a floating `.sidebar-toggle` button that toggles the
- * `sidebar-collapsed` class on <html>. Collapsing hides the sidebar and
- * removes the content offsets that reserve room for it, so the content
- * reflows to full width (centered within the max width at large viewports).
+ * Layout.vue renders a floating `.sidebar-toggle` button that toggles the `sidebar-collapsed` class on <html>.
+ * Collapsing hides the sidebar and removes the content offsets that reserve room for it, so the content reflows to full width (centered within the max width at large viewports).
  *
- * Do not collapse by setting `--vp-sidebar-width` to 0. The default theme
- * also sizes the nav bar title from that variable, so the site title would
- * shrink to nothing. Override the offsets one by one instead.
+ * Do not collapse by setting `--vp-sidebar-width` to 0.
+ * The default theme also sizes the nav bar title from that variable, so the site title would shrink to nothing.
+ * Override the offsets one by one instead.
  *
- * Breakpoints use the same `rem` values as the default theme (`60rem` /
- * `90rem`), not raw pixel widths, so a non-default root font-size cannot
- * desync the toggle from desktop sidebar mode.
+ * Breakpoints use the same `rem` values as the default theme (`60rem` / `90rem`), not raw pixel widths, so a non-default root font-size cannot desync the toggle from desktop sidebar mode.
  *
- * This only applies at >= 60rem. Below that, the default theme already swaps
- * the sidebar for the mobile hamburger menu, so the toggle is hidden.
+ * This only applies at >= 60rem.
+ * Below that, the default theme already swaps the sidebar for the mobile hamburger menu, so the toggle is hidden.
  * -------------------------------------------------------------------------- */
 
 @media (min-width: 60rem) {
@@ -434,15 +417,13 @@ body {
     padding-left: 0;
   }
 
-  /* Drop the nav column offset so `VPNavBar::before` still paints under the
-     title. Leaving `--vp-nav-col-offset` at the sidebar width would leave a
-     transparent gap once the sidebar curtain is hidden. */
+  /* Drop the nav column offset so `VPNavBar::before` still paints under the title.
+     Leaving `--vp-nav-col-offset` at the sidebar width would leave a transparent gap once the sidebar curtain is hidden. */
   html.sidebar-collapsed .VPNavBar.has-sidebar {
     --vp-nav-col-offset: 0;
   }
 
-  /* The nav bar keeps its title column, but the bottom rule runs full width
-     because there is no sidebar column left to line up with. */
+  /* The nav bar keeps its title column, but the bottom rule runs full width because there is no sidebar column left to line up with. */
   html.sidebar-collapsed .VPNavBar.has-sidebar .divider {
     padding-left: 0;
   }
@@ -503,9 +484,8 @@ body {
   }
 }
 
-/* When the sidebar is open, park the button near its right edge. From 90rem
-   the sidebar grows to fill the gutter beside the centered layout, so match
-   the width formula in the default theme's VPSidebar.vue. */
+/* When the sidebar is open, park the button near its right edge.
+   From 90rem the sidebar grows to fill the gutter beside the centered layout, so match the width formula in the default theme's VPSidebar.vue. */
 @media (min-width: 60rem) {
   html:not(.sidebar-collapsed) .sidebar-toggle {
     left: calc(var(--vp-sidebar-width) - 40px);
@@ -531,9 +511,8 @@ body {
 /**
  * Component: Language switcher
  *
- * The default theme hides the nav-bar translations menu below 1280px and only
- * exposes it inside the mobile hamburger screen. Keep it visible at every
- * width so the language switcher is always available.
+ * The default theme hides the nav-bar translations menu below 1280px and only exposes it inside the mobile hamburger screen.
+ * Keep it visible at every width so the language switcher is always available.
  * -------------------------------------------------------------------------- */
 
 .VPNavBarTranslations {

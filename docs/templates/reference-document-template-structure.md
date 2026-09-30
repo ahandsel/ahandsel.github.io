@@ -2,7 +2,8 @@
 
 This document outlines the structure and template for the reference document.
 
-Reference documents are **technical descriptions** of the software and how to operate it. Reference document is **information-oriented**.
+Reference documents are **technical descriptions** of the software and how to operate it.
+Reference document is **information-oriented**.
 
 
 ## Changelog

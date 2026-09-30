@@ -1,6 +1,8 @@
 # Scripts
 
-Shell and Node.js scripts that support repository tooling. Most are also exposed as `pnpm` scripts in `package.json`. Run [index.sh][] to list the available `pnpm` scripts.
+Shell and Node.js scripts that support repository tooling.
+Most are also exposed as `pnpm` scripts in `package.json`.
+Run [index.sh][] to list the available `pnpm` scripts.
 
 
 ## Content tools

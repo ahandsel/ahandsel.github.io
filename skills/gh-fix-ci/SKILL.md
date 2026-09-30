@@ -67,7 +67,8 @@ Prereq: authenticate with the standard GitHub CLI once (for example, run `gh aut
 
 ### scripts/inspect-pr-checks.mjs
 
-Fetch failing PR checks, pull GitHub Actions logs, and extract a failure snippet. Exits non-zero when failures remain so it can be used in automation.
+Fetch failing PR checks, pull GitHub Actions logs, and extract a failure snippet.
+Exits non-zero when failures remain so it can be used in automation.
 
 Usage examples:
 

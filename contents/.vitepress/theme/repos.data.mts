@@ -1,18 +1,15 @@
 // VitePress build-time data loader.
 // https://vitepress.dev/guide/data-loading
 //
-// Fetches the public repositories for GITHUB_USER once, at build time, and bakes
-// the result into the static bundle. Unlike a client-side fetch, this means:
-//   - zero GitHub API calls from visitors' browsers (no rate-limit risk),
-//   - the data is server-rendered into the HTML (good for SEO and no flash of
-//     empty content), and
-//   - one request per build instead of one per page view.
+// Fetches the public repositories for GITHUB_USER once, at build time, and bakes the result into the static bundle.
+// Unlike a client-side fetch, this means:
+// - zero GitHub API calls from visitors' browsers (no rate-limit risk), - the data is server-rendered into the HTML (good for SEO and no flash of empty content), and - one request per build instead of one per page view.
 //
 // Import the typed `data` export from a component or page:
-//   import { data as repos } from './repos.data.mts';
+// import { data as repos } from './repos.data.mts';
 //
-// Set GITHUB_TOKEN in the environment to raise the API rate limit from 60 to
-// 5000 requests per hour. It is optional; the loader works without it.
+// Set GITHUB_TOKEN in the environment to raise the API rate limit from 60 to 5000 requests per hour.
+// It is optional; the loader works without it.
 
 import { defineLoader } from 'vitepress';
 
@@ -68,8 +65,7 @@ export default defineLoader({
     );
 
     if (!res.ok) {
-      // Do not fail the whole build over a transient API hiccup; render an empty
-      // grid instead and log enough to diagnose it in the build output.
+      // Do not fail the whole build over a transient API hiccup; render an empty grid instead and log enough to diagnose it in the build output.
       console.warn(
         `⚠️ repos.data: GitHub API returned ${res.status} ${res.statusText}; rendering no repo cards.`,
       );
