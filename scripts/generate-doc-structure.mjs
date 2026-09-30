@@ -16,6 +16,7 @@
 // * --check compares freshly generated content against the existing file and exits non-zero if they differ, without writing or touching git.
 //
 // Version history:
+// v2.1.1 (2026-09-30): Apply sentence-per-line formatting to comments.
 // v2.1.0 (2026-06-22): Added --check mode (verify the file is up to date without writing) and --help output.
 // v2.0.1 (2026-03-23): Enabled multiple folder scanning with section headings, added filtering of ignored files, and improved error handling for missing folders. Updated output formatting for cleaner Markdown presentation.
 
@@ -50,10 +51,9 @@ const repoRoot = resolve(__dirname, '..');
 // Folders to scan. Each entry can specify extra tree-extended args.
 const foldersToScan = [{ path: 'contents' }];
 
-// Extract literal folder/file names from .gitignore so tree-extended can
-// honor them via -ignore=. tree-extended's own -gitignore flag does not
-// expand globstar patterns like `**/.vitepress/dist/` when scanning a
-// subfolder, so we feed the names in directly. Wildcard patterns are skipped.
+// Extract literal folder/file names from .gitignore so tree-extended can honor them via -ignore=.
+// tree-extended's own -gitignore flag does not expand globstar patterns like `**/.vitepress/dist/` when scanning a subfolder, so we feed the names in directly.
+// Wildcard patterns are skipped.
 function namesFromGitignore() {
   const gitignorePath = resolve(repoRoot, '.gitignore');
   if (!existsSync(gitignorePath)) return [];
@@ -72,9 +72,8 @@ function namesFromGitignore() {
   return [...names];
 }
 
-// Entries to ignore in the generated doc structure (post-filter on output
-// lines). Seeded from .gitignore so the script honors gitignore even for
-// patterns tree-extended cannot match natively.
+// Entries to ignore in the generated doc structure (post-filter on output lines).
+// Seeded from .gitignore so the script honors gitignore even for patterns tree-extended cannot match natively.
 const filesToIgnore = new Set([
   'temp.md',
   '.DS_Store',
