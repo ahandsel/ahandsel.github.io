@@ -7,18 +7,17 @@ This guide defines the baseline English writing rules that apply across all cont
 **Scope:** Read this guide before writing or editing any English content. For help-documentation-specific rules, also read the [technical style guide](./technical-style-guide-english.md), which supplements and takes precedence over this guide.
 
 
-## Change log
+## Changelog
 
 * 2026-04-27 - Revamped the structure to separate UX/technical writing rules and general style rules into different documents
 
 
 ## Table of contents <!-- omit in toc -->
 
-* [Change log](#change-log)
+* [Changelog](#changelog)
 * [References](#references)
   * [Japanese content style guide](#japanese-content-style-guide)
   * [Third-party references](#third-party-references)
-    * [Product comparison list](#product-comparison-list)
 * [Language and grammar](#language-and-grammar)
   * [General rules](#general-rules)
   * [Active vs passive voices - default to active voice](#active-vs-passive-voices---default-to-active-voice)
@@ -118,33 +117,6 @@ If this guide does not provide explicit guidance, consult these third-party refe
 [ap-stylebook]: https://www.apstylebook.com/
 [ap-vs-chicago-lingoda]: https://blog.lingoda.com/en/ap-vs-chicago-style/
 [google-dev-style]: https://developers.google.com/style
-
-
-#### Product comparison list
-
-When comparing writing style or terminology, refer to the following products as they are our primary competitors.
-
-For English copies (conversational tone; friendly voice):
-
-| Product              | Description                                                        |
-| -------------------- | ------------------------------------------------------------------ |
-| [Slack][]            | Corporate messaging app that promotes integrations and workflows   |
-| [Google Workspace][] | Google's productivity suite (Admin Console, Workspace, Chat, etc.) |
-| [Airtable][]         | Cloud collaboration service that organizes data in a spreadsheet   |
-
-[Slack]: https://slack.com/
-[Google Workspace]: https://workspace.google.com/
-[Airtable]: https://airtable.com/
-
-For Japanese copies:
-
-| Product   | Description                                                           |
-| --------- | --------------------------------------------------------------------- |
-| [LINE][]  | Communication app for the general public that offers various services |
-| [freee][] | Cloud-based accounting software for small businesses.                 |
-
-[LINE]: https://line.me/
-[freee]: https://www.freee.co.jp/
 
 
 ## Language and grammar
@@ -363,7 +335,7 @@ If the list is a complete sentence, use a period at the end.
     * OK: `Required information: full name, email, password`, `The required information is as follows: full name, email, and password.`
     * NOT: `The required information is: full name, email, password`
 * Use for time and ratios.
-  * Example: `3:00 PM`, `1:2`
+  * Example: `15:00`, `1:2`
 
 
 ### Parentheses `( )`
@@ -528,9 +500,9 @@ Use the following three formats for date and time:
 
 | Format                                            | Template                                                                     | Example                      |
 | ------------------------------------------------- | ---------------------------------------------------------------------------- | ---------------------------- |
-| [Relative date and time](#relative-date-and-time) | `Today {12-hour time}`                                                       | `Today 2:18 PM`              |
+| [Relative date and time](#relative-date-and-time) | `Today {24-hour time}`                                                       | `Today 14:18`                |
 | [Date only](#date-only)                           | `{Day of week (3-letter)}, {Month (3-letter)} {Day}, {Year}`                 | `Tue, May 20, 2025`          |
-| [Date and time together](#date-and-time-together) | `{Day of week (3-letter)}, {Month (3-letter)} {Day}, {Year}, {12-hour time}` | `Tue, May 20, 2025, 2:18 PM` |
+| [Date and time together](#date-and-time-together) | `{Day of week (3-letter)}, {Month (3-letter)} {Day}, {Year}, {24-hour time}` | `Tue, May 20, 2025, 14:18`   |
 
 If none of the three formats are applicable, follow [Dates and times - Google developer documentation style guide][google-date-times].
 
@@ -564,30 +536,30 @@ Examples:
 
 #### Date and time together
 
-Template: {Day of week (3-letter)}, {Month (3-letter)} {Day}, {Year}, {12-hour time}
+Template: {Day of week (3-letter)}, {Month (3-letter)} {Day}, {Year}, {24-hour time}
 
 Examples:
 
-* Wed, Sep 27, 2019, 3:00 PM
-* Thu, May 28, 2023, 2:18 AM
+* Wed, Sep 27, 2019, 15:00
+* Thu, May 28, 2023, 02:18
 
 For details on the time format, refer to the [Time format](#time-format) section.
 
 
 ### Time format
 
-* Use the 12-hour clock unless a 24-hour time format is required.
-  * The 12-hour clock format is the standard used in the United States, our primary market.
-  * When the scope allows, use the 24-hour format for other regions.
+* Use the 24-hour time format. Do not use the 12-hour format or the AM and PM suffixes.
+  * Example: `15:45`
+* Write the hour with two digits, adding a leading zero before 10:00.
+  * Example: `02:18`
 * Use hyphens (-) in time ranges. Do not add spaces before or after the hyphens.
-  * Example: `9:00-10:00 AM`
-* Capitalize AM and PM, and leave one space between the suffix and the time.
-  * Example: `3:45 PM`
-* Remove the minutes from round hours (except in time ranges).
-  * Example: `3 PM`
+  * Example: `09:00-10:00`
+* Keep the minutes on round hours.
+  * Example: `15:00`
 
-<!-- * International (ISO): YYYY-MM-DD, at HH:MM (24-hour clock) -->
-<!--   * Example: 2019-09-27, at 15:00 -->
+* International (ISO): YYYY-MM-DD, at HH:MM (24-hour clock)
+  * Example: 2019-09-27, at 15:00
+
 
 ### Supplementary information: Implementation
 
@@ -608,6 +580,7 @@ console.log(
     day: 'numeric',
     hour: 'numeric',
     minute: 'numeric',
+    hourCycle: 'h23',
     timeZone: 'America/Los_Angeles',
   }).format(date),
 );

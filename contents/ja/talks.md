@@ -4,6 +4,9 @@ layout: home
 # Keep the home hero and feature grid, but force the default theme to treat
 # this as a non-home page so the configured sidebar still renders.
 isHome: false
+# Without this, the page title falls back to the site title and the site
+# titleTemplate renders "Genji Fujimori - Genji Fujimori".
+title: 登壇資料
 
 hero:
   name: 登壇資料
@@ -22,10 +25,4 @@ features:
   - title: Le Wagon×サイボウズワークショップ（英語）
     details: 'Le Wagon Tokyo コーディングブートキャンプとの共同開催によるキャリア講演。サイボウズのエンジニア 5 人が入社後最初の 1 か月を紹介。Global Developer Advocate と Developer Tools Engineer を含むエンジニアのキャリアと募集中の職種、「100 人 100 通り」の文化、ブートキャンプ卒業生向けの質疑応答を扱う。最終更新：2022 年 5 月 16 日 (月)'
     link: https://ahandsel.github.io/Talks/Slides_lewagon_cybozu/
-  - title: 段落のつなぎ方読書会（日本語）
-    details: '『論理が伝わる 世界標準の「書く技術」』第 5 章についての読書会資料。背景に沿って段落をつなぐ引継型と、分岐点で段落を展開する展開型を説明。1 つの文書で 2 つの型を混在させない理由を紹介。最終更新：2022 年 5 月 16 日 (月)'
-    link: https://ahandsel.github.io/Talks/Slides_Book_ConnectingParagraphs/
-  - title: システムコンサルティング部の技術スタック概要（英語・日本語）
-    details: 'サイボウズのシステムコンサルティング部で使う技術を紹介する英語・日本語のオンボーディング資料。OS、ネットワーク、データベース、シェルスクリプト、正規表現、認証、Web サーバー、クラウドコンピューティング、HTML、CSS、JavaScript、API、Git、GitHub を扱う。パートナーや外部開発者に技術概念を説明する新メンバー向け。最終更新：2022 年 5 月 16 日 (月)'
-    link: https://ahandsel.github.io/Talks/Slides_SC_Tech_Overview/
 ---

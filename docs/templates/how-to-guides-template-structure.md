@@ -3,14 +3,14 @@
 This document outlines how the "how-to guide" help documentation should be structured, along with a template to follow.
 
 
-## Change log
+## Changelog
 
 * 2026-02-24 - Polished JA and EN templates to sync with each other.
 
 
 ## Table of contents <!-- omit in toc -->
 
-* [Change log](#change-log)
+* [Changelog](#changelog)
 * [Structure for the how-to guide](#structure-for-the-how-to-guide)
 * [English template for the how-to guide](#english-template-for-the-how-to-guide)
 * [Japanese document writing style guide](#japanese-document-writing-style-guide)
@@ -25,7 +25,7 @@ This document outlines how the "how-to guide" help documentation should be struc
 | Overview                 | `概要`                        | H2            | Yes                              | 3 to 4 bullets introducing the guide; clearly state the task; include goal and target audience.        |
 | Table of contents        | `目次`                        | H2            | Yes                              | List following H2 headings only                                                                        |
 | Important notice         | `重要なお知らせ` / `注意事項` | H2            | Optional                         | For warnings or crucial information; keep to one to two sentences with only critical restrictions.     |
-| Change log               | `変更履歴`                    | H2            | Optional                         | Use `Date - Description of changes made to the product or document.`                                   |
+| Changelog                | `変更履歴`                    | H2            | Optional                         | Use `Date - Description of changes made to the product or document.`                                   |
 | Preparations             | `事前準備`                    | H2            | Optional                         | List what readers need to do before continuing with the steps.                                         |
 | Steps to complete [task] | `[タスク]を完了する手順`      | H2            | Yes                              | Main procedure section.                                                                                |
 | Step 1                   | `ステップ1`                   | H3            | Yes (under steps)                | Add a brief step summary and include `SubStep 1`.                                                      |
@@ -44,7 +44,7 @@ This document outlines how the "how-to guide" help documentation should be struc
 ```md
 # Title - How-to guide template
 
-## {Internal} Change log <!-- omit in toc -->
+## {Internal} Changelog <!-- omit in toc -->
 
 * Date - Description of changes made to the document.
 
@@ -61,7 +61,7 @@ This document outlines how the "how-to guide" help documentation should be struc
 
 * [Overview](#overview)
 * [Important notice (optional)](#important-notice-optional)
-* [Change log (optional)](#change-log-optional)
+* [Changelog (optional)](#changelog-optional)
 * [Preparations (optional)](#preparations-optional)
 * [Steps to complete \[task\]](#steps-to-complete-task)
 * [Additional information](#additional-information)
@@ -94,7 +94,7 @@ This document outlines how the "how-to guide" help documentation should be struc
 > [!CAUTION] Caution: Warns readers about possible negative outcomes, such as data loss.
 > Example: "This action overwrites all user data and cannot be undone."
 
-## Change log (optional)
+## Changelog (optional)
 
 * Date - Description of changes made to the product or document.
 

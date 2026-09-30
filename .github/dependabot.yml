@@ -8,3 +8,20 @@ updates:
       - 'dependencies'
     commit-message:
       prefix: 'chore(deps)'
+    # VitePress stays on the dedicated Monday cron in
+    # .github/workflows/vitepress-auto-update.yml, which bumps to @next.
+    # Ignoring it here avoids duplicate bump pull requests.
+    ignore:
+      - dependency-name: 'vitepress'
+
+  - package-ecosystem: 'github-actions'
+    directory: '/'
+    schedule:
+      interval: 'monthly'
+    cooldown:
+      default-days: 30
+      include:
+        - '*'
+    groups:
+      actions-dependencies:
+        patterns: ['*']

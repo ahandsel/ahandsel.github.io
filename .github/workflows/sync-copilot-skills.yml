@@ -1,0 +1,70 @@
+name: Sync Copilot skill copies
+
+# GitHub Copilot does not support symlinks.
+# Because of this, .github/skills/ contains real copies of the canonical skills/ folders.
+# This workflow keeps those copies in sync.
+# When a push to main changes skills/, it updates matching skills under .github/skills/.
+# If the copies are different, it opens a pull request.
+# It never pushes changes directly to main.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'skills/**'
+  workflow_dispatch: {} # Allow manual execution from the GitHub Actions tab
+
+permissions: {} # Default permission set as none; the job grants only what it needs
+
+# One run at a time; a newer push cancels the stale run and re-syncs everything.
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
+jobs:
+  sync-copilot-skills:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write # Required to push the sync branch
+      pull-requests: write # Required to open the pull request
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # actions/checkout@v5.0.0, pinned
+
+      - name: Copy canonical skills over their .github/skills counterparts
+        run: |
+          for copy in .github/skills/*/; do
+            name="$(basename "$copy")"
+            if [ -d "skills/$name" ]; then
+              rsync --archive --delete "skills/$name/" "$copy"
+              echo "✅ Synced skills/$name to $copy"
+            else
+              echo "❌ skills/$name no longer exists. Delete .github/skills/$name or restore the skill."
+              exit 1
+            fi
+          done
+
+      - name: Create pull request
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # peter-evans/create-pull-request@v8.1.1, pinned
+        with:
+          branch: sync/copilot-skills
+          delete-branch: true
+          add-paths: |
+            .github/skills
+          title: 'chore: sync Copilot skill copies from skills/'
+          commit-message: 'chore: sync Copilot skill copies from skills/'
+          body: |
+            ## Summary
+            * Refreshes each `.github/skills/<name>` copy from the canonical `skills/<name>` folder.
+
+            ## Before merge
+            This pull request is opened with `GITHUB_TOKEN`, so GitHub does not start `pr-build-check` or other workflows on it.
+            Run the checks yourself before merging:
+
+            * [ ] `pnpm check` passes locally
+            * [ ] Or re-trigger CI with a human push (for example an empty commit) or by closing and reopening this pull request
+
+            ## Test plan
+            * [ ] Diff under `.github/skills/` matches the intended skill updates
+            * [ ] No files outside `.github/skills/` are in the diff

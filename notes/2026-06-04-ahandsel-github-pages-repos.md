@@ -56,4 +56,4 @@ Generated on 2026-06-04. Sorted alphabetically by repo name (case-insensitive).
 [Talks]: https://github.com/ahandsel/Talks
 [tokyo-geek]: https://github.com/ahandsel/tokyo-geek
 [tokyo-hiker]: https://github.com/ahandsel/tokyo-hiker
-[useful-ai-prompts]: https://github.com/ahandsel/useful-ai-prompts
+[useful-ai-prompts]: https://ahandsel.github.io/useful-ai-prompts/

@@ -5,14 +5,14 @@ This document outlines the structure and template for the reference document.
 Reference documents are **technical descriptions** of the software and how to operate it. Reference document is **information-oriented**.
 
 
-## Change log
+## Changelog
 
-* 2026-02-18 - Made the Change log section optional.
+* 2026-02-18 - Made the Changelog section optional.
 
 
 ## Table of contents <!-- omit in toc -->
 
-* [Change log](#change-log)
+* [Changelog](#changelog)
 * [Structure for the reference document](#structure-for-the-reference-document)
 * [English template for the reference document](#english-template-for-the-reference-document)
 * [Japanese template for the reference document](#japanese-template-for-the-reference-document)
@@ -21,7 +21,7 @@ Reference documents are **technical descriptions** of the software and how to op
 ## Structure for the reference document
 
 * Title (h1)
-* {Internal} Change log (h2)
+* {Internal} Changelog (h2)
   * Date - Description of changes made to the document.
 * Overview (h2)
   * 3 to 4 bullet points introducing and summarizing the document.
@@ -30,11 +30,11 @@ Reference documents are **technical descriptions** of the software and how to op
   * Target audience: Specify who should read the document.
 * Table of contents (h2)
   * Lists h2 and h3 headings that follow.
-  * Do not include the "{Internal} Change log" or "Table of contents" sections.
+  * Do not include the "{Internal} Changelog" or "Table of contents" sections.
 * Important notice (h2) (optional)
   * For warnings or crucial information.
   * Maximum of one to two sentences; include only critical restrictions.
-* Change log (h2) (optional)
+* Changelog (h2) (optional)
   * Date - Description of changes made to the product or document.
 * Preparations (h2) (optional)
   * Instructions readers must follow before acting on the information (e.g., API token generation).
@@ -69,7 +69,7 @@ Reference documents are **technical descriptions** of the software and how to op
 # Title - Reference Document Template
 
 
-## {Internal} Change log <!-- omit in toc -->
+## {Internal} Changelog <!-- omit in toc -->
 
 * Date - Description of changes made to the document.
 
@@ -86,7 +86,7 @@ Reference documents are **technical descriptions** of the software and how to op
 
 ## Table of contents <!-- omit in toc -->
 
-* [Change log](#change-log)
+* [Changelog](#changelog)
 * [Structure for the reference document](#structure-for-the-reference-document)
 * [English template for the reference document](#english-template-for-the-reference-document)
 * [Japanese template for the reference document](#japanese-template-for-the-reference-document)
@@ -117,7 +117,7 @@ Reference documents are **technical descriptions** of the software and how to op
 > Example: "This action overwrites all user data and cannot be undone."
 
 
-## Change log (optional)
+## Changelog (optional)
 
 * Date - Description of changes made to the product or document.
 
@@ -214,13 +214,13 @@ Here are some frequently asked questions about **[relevant topics]**:
 
 ## 目次 <!-- omit in toc -->
 
-* [Change log](#change-log)
+* [Changelog](#changelog)
 * [Structure for the reference document](#structure-for-the-reference-document)
 * [English template for the reference document](#english-template-for-the-reference-document)
 * [Japanese template for the reference document](#japanese-template-for-the-reference-document)
 * [Overview](#overview)
 * [Important notice (optional)](#important-notice-optional)
-* [Change log (optional)](#change-log-optional)
+* [Changelog (optional)](#changelog-optional)
 * [Preparations (optional)](#preparations-optional)
 * [Main topic](#main-topic)
 * [Additional information](#additional-information)

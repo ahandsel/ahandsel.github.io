@@ -7,14 +7,14 @@ This guide defines the baseline Japanese writing rules that apply across all con
 **Scope:** Read this guide before writing or editing any Japanese content. For help-documentation-specific rules, also read the [technical style guide](./technical-style-guide-japanese.md), which supplements and takes precedence over this guide.
 
 
-## 変更履歴 / Change log
+## 変更履歴 / Changelog
 
 * 2026-04-13 - Word list updated
 
 
 ## 概要 / Table of contents <!-- omit in toc -->
 
-* [変更履歴 / Change log](#変更履歴--change-log)
+* [変更履歴 / Changelog](#変更履歴--changelog)
 * [参考リンク / References](#参考リンク--references)
   * [英語用のコンテンツスタイルガイド / English style guide](#英語用のコンテンツスタイルガイド--english-style-guide)
   * [参考にしているガイドライン / Third-party references](#参考にしているガイドライン--third-party-references)

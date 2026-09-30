@@ -3,6 +3,7 @@
   "attribution": {
     "commit": ""
   },
+  "autoMemoryDirectory": "~/github/ahandsel.github.io/memory",
   "includeGitInstructions": true,
   "permissions": {
     "allow": [
@@ -29,26 +30,93 @@
       "Bash(git stash:*)",
       "Bash(git status)",
       "Bash(grep -v:*)",
+      "Bash(node scripts/check-en-ja-parity.mjs:*)",
+      "Bash(node scripts/generate-doc-structure.mjs:*)",
+      "Bash(node skills/file-folder-name-linter/scripts/lint-names.mjs:*)",
+      "Bash(node skills/gh-address-comments/scripts/fetch-pr-comments.mjs:*)",
+      "Bash(node skills/gh-fix-ci/scripts/inspect-pr-checks.mjs:*)",
+      "Bash(node skills/skill-allowlist-syncer/scripts/check-skill-allowlist.mjs:*)",
+      "Bash(node skills/vitepress-include-lint/scripts/check-vitepress-includes.mjs:*)",
       "Bash(nodenv version:*)",
       "Bash(nodenv versions:*)",
       "Bash(pnpm --version)",
+      "Bash(pnpm check-en-ja-parity:*)",
+      "Bash(pnpm check:*)",
       "Bash(pnpm config:*)",
       "Bash(pnpm exec:*)",
+      "Bash(pnpm index:*)",
       "Bash(pnpm install:*)",
+      "Bash(pnpm license:*)",
+      "Bash(pnpm lint-code:*)",
+      "Bash(pnpm lint-contents:*)",
+      "Bash(pnpm lint-md:*)",
+      "Bash(pnpm lint-naming:*)",
       "Bash(pnpm lint:*)",
       "Bash(pnpm prettier:*)",
       "Bash(pnpm run:*)",
+      "Bash(pnpm test-tree:*)",
       "Bash(pnpm test:*)",
-      "Bash(pnpm test-names:*)",
-      "Bash(pnpm tree:*)"
+      "Bash(pnpm tree:*)",
+      "Bash(pnpm typecheck:*)",
+      "Bash(pnpm vitepress-build:*)",
+      "Bash(zsh scripts/index.sh:*)",
+      "Read(./**/.env.repo-audit)",
+      "Skill(ai-commit)",
+      "Skill(code-review)",
+      "Skill(docs-sync-en-ja)",
+      "Skill(file-folder-name-linter)",
+      "Skill(general-en-polisher)",
+      "Skill(general-ja-polisher)",
+      "Skill(gh-address-comments)",
+      "Skill(gh-cli)",
+      "Skill(gh-fix-ci)",
+      "Skill(gh-pr-generator)",
+      "Skill(gh-pr-reporter)",
+      "Skill(gh-sync-with-main)",
+      "Skill(ja-readability-editor)",
+      "Skill(ja-review-text)",
+      "Skill(link-polisher)",
+      "Skill(playwright)",
+      "Skill(pr-auditor)",
+      "Skill(readability-editor)",
+      "Skill(readme-maintainer)",
+      "Skill(script-auditor)",
+      "Skill(security-best-practices)",
+      "Skill(security-threat-model)",
+      "Skill(skill-allowlist-syncer)",
+      "Skill(vitepress-include-lint)",
+      "WebFetch(domain:ahandsel.github.io)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:vitepress.dev)"
     ],
     "ask": [
+      "Bash(bash skills/playwright/scripts/playwright-cli.sh:*)",
+      "Bash(curl:*)",
       "Bash(git push --force *)",
       "Bash(git push --force-with-lease *)",
       "Bash(git push -f *)",
+      "Bash(git push:*)",
+      "Bash(git push)",
+      "Bash(node --eval:*)",
+      "Bash(node -e:*)",
+      "Bash(node scripts/trim-png.mjs:*)",
+      "Bash(npx:*)",
+      "Bash(pnpm clean:*)",
+      "Bash(pnpm cleanup:*)",
+      "Bash(pnpm dlx:*)",
+      "Bash(skills/playwright/scripts/playwright-cli.sh:*)",
+      "Bash(wget:*)",
+      "Bash(zsh ./scripts/cleanup-temp-files.sh:*)",
+      "Bash(zsh scripts/cleanup-temp-files.sh:*)",
+      "WebSearch"
+    ],
+    "deny": [
       "Bash(rm -rf /*)",
       "Bash(rm -rf ~)",
-      "Bash(rm -rf ~/*)"
+      "Bash(rm -rf ~/*)",
+      "Read(.env)",
+      "Read(.env.local)"
     ]
   },
   "hooks": {
@@ -63,5 +131,8 @@
         ]
       }
     ]
+  },
+  "skills": {
+    "directory": "skills"
   }
 }

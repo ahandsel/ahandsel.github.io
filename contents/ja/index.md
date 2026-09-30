@@ -1,6 +1,9 @@
 ---
 # https://vitepress.dev/reference/default-theme-home-page
 layout: home
+# The page title falls back to the site title, so disable the site titleTemplate
+# here. Otherwise the tab reads "Genji Fujimori - Genji Fujimori".
+titleTemplate: false
 
 hero:
   name: 藤森 源司
@@ -20,7 +23,7 @@ features:
   - icon: 🗼
     title: Tokyo geek
     details: 外国人目線でつづる、日本の暮らしや文化についての気づきメモ。
-    link: https://ahandsel.github.io/tokyo-geek/
+    link: https://ahandsel.github.io/tokyo-geek/ja/
   - icon: 🥾
     title: Tokyo hiker
     details: 東京近郊で歩いたハイキングコースとトレイルの記録。
@@ -28,7 +31,7 @@ features:
   - icon: 🤖
     title: Useful AI prompts
     details: ChatGPT などで日々使っている AI プロンプト集。
-    link: https://github.com/ahandsel/useful-ai-prompts
+    link: https://ahandsel.github.io/useful-ai-prompts/
   - icon: ✍️
     title: Copy in the wild
     details: UX ライティングやメール文面の参考に集めた、実際のコピー例。

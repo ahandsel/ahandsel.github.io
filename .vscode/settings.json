@@ -36,6 +36,7 @@
   "markdownlint.run": "onSave",
   "mdx.validate.validateMarkdownFileLinkFragments": "hint",
   "cSpell.words": [
+    "kamikochi",
     "Qiita"
   ]
 }

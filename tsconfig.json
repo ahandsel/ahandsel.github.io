@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig.json",
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "types": ["node"],
+    "strict": true,
+    "noEmit": true,
+    "allowImportingTsExtensions": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true
+  },
+  "include": [
+    "contents/.vitepress/**/*.ts",
+    "contents/.vitepress/**/*.mts",
+    "contents/.vitepress/**/*.vue"
+  ],
+  "exclude": ["contents/.vitepress/cache", "contents/.vitepress/dist"]
+}

@@ -1,11 +1,15 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { defineConfig, type SiteConfig } from 'vitepress';
+import llmstxt, { copyOrDownloadAsMarkdownButtons } from 'vitepress-plugin-llms';
+
+import { LLM_IGNORED_PATTERNS } from './llms-pages';
 
 // https://vitepress.dev/reference/site-config
 // https://vitepress.dev/guide/i18n
 export default defineConfig({
   title: 'Genji Fujimori',
+  titleTemplate: ':title - Genji Fujimori',
   description: "Genji Fujimori's portfolio",
 
   // Browser favicon and iOS home screen icon. Served from contents/public/.
@@ -13,6 +17,49 @@ export default defineConfig({
     ['link', { rel: 'icon', href: '/favicon.ico' }],
     ['link', { rel: 'apple-touch-icon', href: '/cat-icon-background.png' }],
   ],
+
+  // Folder README.md files are internal documentation, not published pages.
+  // Exclude them from the build so they are not routed or dead-link checked.
+  srcExclude: ['**/README.md'],
+
+  // Show a per-page "last updated" timestamp taken from git history.
+  lastUpdated: true,
+
+  // Generate llms.txt, llms-full.txt, and a raw .md twin for every English
+  // content page so LLMs can read the site without scraping HTML
+  // (https://llmstxt.org/). The twins also back the per-page copy and
+  // download buttons registered in theme/index.ts.
+  // The skipped pages live in llms-pages.ts, which the theme reads as well,
+  // so the plugin output and the button visibility cannot disagree.
+  vite: {
+    // The theme imports the plugin's buttons component through this alias
+    // instead of its real path, so vue-tsc type-checks the ambient
+    // declaration in env.d.ts rather than the plugin's own .vue source,
+    // which does not pass this repository's type check.
+    resolve: {
+      alias: {
+        '@llms-copy-buttons':
+          'vitepress-plugin-llms/vitepress-components/CopyOrDownloadAsMarkdownButtons.vue',
+      },
+    },
+    plugins: [
+      llmstxt({
+        domain: 'https://ahandsel.github.io',
+        title: 'Genji Fujimori',
+        description: "Genji Fujimori's portfolio",
+        ignoreFiles: LLM_IGNORED_PATTERNS,
+      }),
+    ],
+  },
+
+  // Insert the copy and download-as-Markdown buttons after the H1 of every
+  // page. The theme registers a gated component under this name, so pages
+  // without a generated .md twin render no buttons.
+  markdown: {
+    config(md) {
+      md.use(copyOrDownloadAsMarkdownButtons);
+    },
+  },
 
   // English content lives under /en/ and Japanese under /ja/. The site root (/)
   // redirects to /en/ (see contents/index.md). English stays the default
@@ -70,6 +117,10 @@ export default defineConfig({
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     socialLinks: [{ icon: 'github', link: 'https://github.com/ahandsel' }],
+
+    // Client-side full-text search over the built pages. No service or index
+    // hosting is required; minisearch runs in the browser.
+    search: { provider: 'local' },
   },
 
   // English now lives under /en/. Generate root-level redirect stubs at build

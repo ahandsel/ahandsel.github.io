@@ -23,9 +23,15 @@ module.exports = {
     allowPackages: [
       // argparse v2+ is distributed under Python-2.0, which requires attention for usage.
       'argparse@2.0.1',
+      // argparse v3 declares the PSF-2.0 license.
+      'argparse@3.0.2',
     ],
   },
   overrideLicense: (dep) => {
+    // The bundled dist/package.json declares MIT; the root package metadata omits it.
+    if (isMatchPackage(dep, '@tombi-toml/wasm-lib@1.5.5')) {
+      return 'MIT';
+    }
     // khroma is licensed under the MIT license.
     // https://github.com/fabiospampinato/khroma
     if (isMatchPackage(dep, 'khroma@2.1.0')) {
