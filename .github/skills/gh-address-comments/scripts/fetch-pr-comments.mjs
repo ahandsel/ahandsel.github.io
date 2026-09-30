@@ -18,6 +18,7 @@
 // * Exits 0 on success, 1 when the fetch fails (not authenticated, no pull request for the branch, GraphQL error), and 2 on an unknown option.
 //
 // Version history:
+// * v1.1 - 2026-09-30 - Paginate the comments inside each review thread, which were capped at the first 100, so a long thread is no longer truncated.
 // * v1.0 - 2026-08-28 - Initial release. Ports fetch_comments.py to a Node.js ES module and fixes two defects in the original: the pagination loop re-appended the first page of any connection that had already finished, duplicating those comments, and the repository was resolved from the head repository, which is the fork rather than the pull request's own repository on a cross-repository pull request.
 
 import { execFileSync } from 'node:child_process';
@@ -77,6 +78,7 @@ const QUERY = `query(
           originalStartLine
           resolvedBy { login }
           comments(first: 100) {
+            pageInfo { hasNextPage endCursor }
             nodes {
               id
               body
@@ -85,6 +87,26 @@ const QUERY = `query(
               author { login }
             }
           }
+        }
+      }
+    }
+  }
+}
+`;
+
+// Fetches the remaining comments of one review thread, for a thread that holds
+// more than the first page returned by the main query.
+const THREAD_COMMENTS_QUERY = `query($threadId: ID!, $cursor: String) {
+  node(id: $threadId) {
+    ... on PullRequestReviewThread {
+      comments(first: 100, after: $cursor) {
+        pageInfo { hasNextPage endCursor }
+        nodes {
+          id
+          body
+          createdAt
+          updatedAt
+          author { login }
         }
       }
     }
@@ -210,6 +232,47 @@ function graphql({
   return runJson(args, QUERY);
 }
 
+function fetchRemainingThreadComments(thread) {
+  let info = thread.comments?.pageInfo;
+  while (info?.hasNextPage) {
+    let payload;
+    try {
+      payload = runJson(
+        [
+          'api',
+          'graphql',
+          '-F',
+          'query=@-',
+          '-F',
+          `threadId=${thread.id}`,
+          '-F',
+          `cursor=${info.endCursor}`,
+        ],
+        THREAD_COMMENTS_QUERY,
+      );
+    } catch (error) {
+      fail(1, error.message);
+    }
+
+    if (Array.isArray(payload.errors) && payload.errors.length > 0) {
+      fail(
+        1,
+        `GitHub GraphQL errors:\n${JSON.stringify(payload.errors, null, 2)}`,
+      );
+    }
+
+    const page = payload?.data?.node?.comments;
+    if (!page) {
+      fail(1, `Review thread ${thread.id} was not found.`);
+    }
+    thread.comments.nodes.push(...(page.nodes ?? []));
+    info = page.pageInfo;
+  }
+
+  // The cursor is only needed while paging, so the output keeps the same shape as before.
+  if (thread.comments) delete thread.comments.pageInfo;
+}
+
 function fetchAll(ref) {
   const conversationComments = [];
   const reviews = [];
@@ -291,6 +354,10 @@ function fetchAll(ref) {
     if (commentsDone && reviewsDone && threadsDone) {
       break;
     }
+  }
+
+  for (const thread of reviewThreads) {
+    fetchRemainingThreadComments(thread);
   }
 
   return {
