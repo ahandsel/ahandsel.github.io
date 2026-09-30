@@ -22,7 +22,8 @@ Preserve meaning, technical detail, and product terminology.
    * Scannability barriers (dense blocks, weak headings, poor list structure).
    * Readability barriers (jargon, long clauses, ambiguous wording).
    * Plain-language gaps (unnecessary complexity, redundancy).
-3. Edit only where the change is meaningful. Do not rewrite for cosmetic preference alone.
+3. Edit only where the change is meaningful.
+   Do not rewrite for cosmetic preference alone.
 4. Keep critical technical details, including defaults, feature scope, warnings, and admin options.
 5. Keep button labels, menu names, and UI strings exactly as written in source docs.
 6. Keep factual intent of each action verb (for example, do not replace a specific action with a different one).
@@ -32,7 +33,8 @@ Preserve meaning, technical detail, and product terminology.
 
 ## Editing rules
 
-1. Use concise, everyday language. Remove or explain jargon that does not improve understanding.
+1. Use concise, everyday language.
+   Remove or explain jargon that does not improve understanding.
 2. Prefer shorter phrasing when clarity is equal.
 3. Use active voice, present tense, and direct second-person language (`you`, `your`) when appropriate.
 4. Replace `you can` with a direct verb when it introduces an instruction rather than permission.

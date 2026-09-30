@@ -11,6 +11,7 @@
 // * Markdown report on stdout by default; pass `--json` to emit a JSON object with `pr`, `reviews`, `reviewComments`, and `issueComments` fields instead.
 // * Exit codes: 0 success, 1 fetch failure (auth, network, PR not found), 2 invalid arguments.
 // Version history:
+// * v1.1 - 2026-09-30 - Apply sentence-per-line formatting to comments and help text.
 // * v1.0 - 2026-06-04 - Initial release.
 
 import { execFileSync } from 'node:child_process';
@@ -18,8 +19,7 @@ import { execFileSync } from 'node:child_process';
 function printUsage() {
   console.log(`Usage: node get-pr-comments.mjs <pr-ref> [options]
 
-Fetch all comments from a GitHub PR (reviews, inline review comments, and issue
-comments) and emit a consolidated report.
+Fetch all comments from a GitHub PR (reviews, inline review comments, and issue comments) and emit a consolidated report.
 
 <pr-ref>
   A PR identifier in any of these forms:
@@ -30,8 +30,7 @@ comments) and emit a consolidated report.
   When only a number is given, the script reads the repo from "gh repo view".
 
 Options:
-  --repo <owner/repo>  Override the repo (useful when <pr-ref> is a bare number
-                       and the current directory is not a clone of the target repo).
+  --repo <owner/repo>  Override the repo (useful when <pr-ref> is a bare number and the current directory is not a clone of the target repo).
   --json               Print raw data as JSON instead of a Markdown report.
   --help, -h           Show this message.
 
@@ -130,8 +129,8 @@ function resolveRepo(prRef, repoOverride) {
 }
 
 function ghApiPaginatedArray(path) {
-  // `gh api --paginate` concatenates JSON arrays per page. Try to parse as a single JSON value
-  // first; if multiple pages were concatenated, splice "][" boundaries with commas.
+  // `gh api --paginate` concatenates JSON arrays per page.
+  // Try to parse as a single JSON value first; if multiple pages were concatenated, splice "][" boundaries with commas.
   const url = path.includes('?')
     ? `${path}&per_page=100`
     : `${path}?per_page=100`;

@@ -117,7 +117,10 @@ Example skeleton (illustrative; adjust to your project):
 Key baseline config targets:
 
 * `SECRET_KEY` set and not committed
-* `SESSION_COOKIE_SECURE=True` (when HTTPS) IMPORTANT NOTE: Only set `Secure` in production environment when TLS is configured. When running in a local dev environment over HTTP, do not set `Secure` property on cookies. You should do this conditionally based on if the app is running in production mode. You should also include a property like `SESSION_COOKIE_SECURE` which can be used to disable `Secure` cookies when testing over HTTP.
+* `SESSION_COOKIE_SECURE=True` (when HTTPS) IMPORTANT NOTE: Only set `Secure` in production environment when TLS is configured.
+  When running in a local dev environment over HTTP, do not set `Secure` property on cookies.
+  You should do this conditionally based on if the app is running in production mode.
+  You should also include a property like `SESSION_COOKIE_SECURE` which can be used to disable `Secure` cookies when testing over HTTP.
 * `SESSION_COOKIE_HTTPONLY=True`
 * `SESSION_COOKIE_SAMESITE='Lax'` (or `'Strict'` if compatible)
 * `TRUSTED_HOSTS` set in production
@@ -157,7 +160,9 @@ Fix:
 
 Note:
 
-* These are often used in dev mode or local testing. This is allowed. Only flag if it is clear that it is being used as the production entrypoint
+* These are often used in dev mode or local testing.
+  This is allowed.
+  Only flag if it is clear that it is being used as the production entrypoint
 
 ---
 
@@ -189,7 +194,9 @@ Fix:
 
 Note:
 
-* These are often used in dev mode or local testing. This is allowed. Only flag if it is clear that it is being used as the production entrypoint
+* These are often used in dev mode or local testing.
+  This is allowed.
+  Only flag if it is clear that it is being used as the production entrypoint
 
 ---
 
@@ -202,7 +209,9 @@ Required:
 
 * MUST set a strong random `SECRET_KEY` in production.
 * MUST keep `SECRET_KEY` out of source control and out of logs.
-* MAY rotate keys periodically; MAY use `SECRET_KEY_FALLBACKS` to support rotation without instantly invalidating existing sessions, then remove old keys after the rotation window. This likely is not needed for smaller applications but is good practice for larger applications. As this may complicate deployment, suggest that it be implemented rather than implementing it by default.
+* MAY rotate keys periodically; MAY use `SECRET_KEY_FALLBACKS` to support rotation without instantly invalidating existing sessions, then remove old keys after the rotation window.
+  This likely is not needed for smaller applications but is good practice for larger applications.
+  As this may complicate deployment, suggest that it be implemented rather than implementing it by default.
 
 Insecure patterns:
 
@@ -237,7 +246,11 @@ Severity: Medium
 
 Required (production, HTTPS):
 
-* MUST set `SESSION_COOKIE_SECURE=True` (cookies only over HTTPS). NOTE: Only set `Secure` in production environment when TLS is configured. When running in a local dev environment over HTTP, do not set `Secure` property on cookies. You should do this conditionally based on if the app is running in production mode. You should also include a property like `SESSION_COOKIE_SECURE` which can be used to disable `Secure` cookies when testing over HTTP.
+* MUST set `SESSION_COOKIE_SECURE=True` (cookies only over HTTPS).
+  NOTE: Only set `Secure` in production environment when TLS is configured.
+  When running in a local dev environment over HTTP, do not set `Secure` property on cookies.
+  You should do this conditionally based on if the app is running in production mode.
+  You should also include a property like `SESSION_COOKIE_SECURE` which can be used to disable `Secure` cookies when testing over HTTP.
 * MUST ensure `SESSION_COOKIE_HTTPONLY=True` (protect from JS access).
 * SHOULD set `SESSION_COOKIE_SAMESITE='Lax'` (recommended) or `'Strict'` if compatible with UX.
 * SHOULD keep `SESSION_COOKIE_DOMAIN=None` unless you explicitly need subdomain-wide cookies.
@@ -274,7 +287,8 @@ Required:
 * SHOULD set a bounded session lifetime appropriate to the app.
 * SHOULD set `session.permanent = True` only when you intend persistent sessions, and set `PERMANENT_SESSION_LIFETIME` to a justified value.
 * SHOULD clear the session on login and privilege changes to reduce session fixation risk.
-* MUST NOT store sensitive secrets in the default Flask session cookie. The default session is signed, not encrypted.
+* MUST NOT store sensitive secrets in the default Flask session cookie.
+  The default session is signed, not encrypted.
 
 Insecure patterns:
 
@@ -319,13 +333,15 @@ Insecure patterns:
 Detection hints:
 
 * Enumerate routes with methods other than GET and identify auth mechanism.
-* Look for CSRF integrations (e.g., Flask-WTF, global CSRF middleware). If absent, treat as suspicious.
+* Look for CSRF integrations (e.g., Flask-WTF, global CSRF middleware).
+  If absent, treat as suspicious.
 * Check JSON API endpoints too, not only HTML forms.
 
 Fix:
 
 * Add CSRF protection to all state-changing requests.
-* If the app is a pure API and uses Authorization headers (bearer tokens) rather than cookies, document that choice and ensure cookies aren't used for auth. If cookies are not used for auth, there is no CSRF risk.
+* If the app is a pure API and uses Authorization headers (bearer tokens) rather than cookies, document that choice and ensure cookies aren't used for auth.
+  If cookies are not used for auth, there is no CSRF risk.
 
 Notes:
 
@@ -345,7 +361,8 @@ Required:
   * Avoid `Markup(...)` on user data.
   * Avoid Jinja `|safe` on user-controlled content.
 * MUST quote HTML attributes containing Jinja expressions (`value="{{ x }}"` not `value={{ x }}`).
-* MUST NOT serve uploaded HTML as active HTML; serve as download (`Content-Disposition: attachment`) or transform to a safe format. Note: This is only relevant if it is possible to upload document content such as html, js, css, etc. If it purely is image files, there is no concern.
+* MUST NOT serve uploaded HTML as active HTML; serve as download (`Content-Disposition: attachment`) or transform to a safe format.
+  Note: This is only relevant if it is possible to upload document content such as html, js, css, etc. If it purely is image files, there is no concern.
 * SHOULD deploy a Content Security Policy (CSP) to mitigate XSS classes (including `javascript:` in `href`).
 
 Insecure patterns:
@@ -359,7 +376,8 @@ Detection hints:
 
 * Search for `Markup(` and investigate origin of the data.
 * Search template files for `|safe`, `|tojson` misuse, and unquoted attributes.
-* Review file-serving routes that might return user uploads without `as_attachment=True`. Note: This is only relevant if it is possible to upload document content such as html, js, css, etc. If it purely is image files, there is no concern.
+* Review file-serving routes that might return user uploads without `as_attachment=True`.
+  Note: This is only relevant if it is possible to upload document content such as html, js, css, etc. If it purely is image files, there is no concern.
 
 Fix:
 
@@ -411,11 +429,13 @@ Required (typical web app):
 * SHOULD set:
   * CSP (`Content-Security-Policy`)
   * `X-Content-Type-Options: nosniff`
-  * Clickjacking protection (`X-Frame-Options: SAMEORIGIN` and/or CSP `frame-ancestors`) (there may be cases where the user wants to iframe their site elsewhere. If that is the case, work with them to safely allow it)
+  * Clickjacking protection (`X-Frame-Options: SAMEORIGIN` and/or CSP `frame-ancestors`) (there may be cases where the user wants to iframe their site elsewhere.
+    If that is the case, work with them to safely allow it)
 * SHOULD consider additional hardening headers depending on app (Referrer-Policy, Permissions-Policy).
 * MUST ensure cookies are set with secure attributes (see FLASK-SESS-001).
 
-NOTE: Security headers may be set via a proxy or other cloud provider. Check to see if there is evidence of that.
+NOTE: Security headers may be set via a proxy or other cloud provider.
+Check to see if there is evidence of that.
 
 Insecure patterns:
 
@@ -626,7 +646,8 @@ Required:
   * MUST NOT use `shell=True` with attacker-influenced strings
   * SHOULD use strict allowlists for any variable component
 * If possible, use pure python or a python library rather than using a subprocess or system command
-* Do not assume that arguments to commands will be inherently safe even in `shell=False`. Commands may incorrectly process these arguments as command line flags or other trusted values.
+* Do not assume that arguments to commands will be inherently safe even in `shell=False`.
+  Commands may incorrectly process these arguments as command line flags or other trusted values.
 
 Insecure patterns:
 
@@ -642,7 +663,8 @@ Detection hints:
 Fix:
 
 * Use library APIs instead of shell commands.
-* If unavoidable, hard-code the command and allowlist validated parameters. If supported by the subcommand, try to keep user values after `--` to prevent them being processed as command line flags.
+* If unavoidable, hard-code the command and allowlist validated parameters.
+  If supported by the subcommand, try to keep user values after `--` to prevent them being processed as command line flags.
 
 ---
 
@@ -651,7 +673,8 @@ Fix:
 
 Severity: Medium
 
-* Note: For small stand alone projects this is less important. It is most important when deploying into an LAN or with other services listening on the same server.
+* Note: For small stand alone projects this is less important.
+  It is most important when deploying into an LAN or with other services listening on the same server.
 
 Required:
 
