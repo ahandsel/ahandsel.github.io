@@ -20,6 +20,7 @@
 // * Because 1 covers both outcomes, read the report rather than the exit code to tell a found failure from a broken run.
 //
 // Version history:
+// * v1.2 - 2026-09-30 - Apply sentence-per-line formatting to comments.
 // * v1.1 - 2026-09-30 - Recognize only the GitHub Actions `/actions/runs/<id>` path, so an external CI url that happens to contain `/runs/<id>` is reported as `external`. Read the job-specific log with `gh run view --job` whenever the details url names a job, so each check shows its own failure rather than the last failure in the whole run, and drop the REST job-log fallback, which `gh api` rejected for logs holding terminal escape sequences.
 // * v1.0 - 2026-08-28 - Initial release. Ports inspect_pr_checks.py to a Node.js ES module, keeping its output shape, field fallbacks, and exit codes, and adding status emojis.
 
@@ -81,8 +82,7 @@ Exit codes:
   1  Failing checks were analyzed and reported, or the inspection could not run.
   2  The arguments were invalid.
 
-Note that 1 covers both a successful analysis of failing checks and a failure to
-run at all, so read the report rather than the exit code to tell them apart.
+Note that 1 covers both a successful analysis of failing checks and a failure to run at all, so read the report rather than the exit code to tell them apart.
 `;
 
 // Mirrors the original's GhResult: a non-zero exit is data to inspect, not an exception.
@@ -212,8 +212,7 @@ function resolvePr(prValue, repoRoot) {
   return String(data.number);
 }
 
-// gh has changed the field names of `pr checks` across versions, so on a field
-// error the available-field list in the message drives a second attempt.
+// gh has changed the field names of `pr checks` across versions, so on a field error the available-field list in the message drives a second attempt.
 function fetchChecks(prValue, repoRoot) {
   const primaryFields = [
     'name',
@@ -287,9 +286,8 @@ function normalizeField(value) {
   return String(value).trim().toLowerCase();
 }
 
-// gh reports an unsupported --json field by listing the supported ones after an
-// "Available fields:" line, one per line. Every non-empty line after that marker
-// is taken as a field name, matching the original tool.
+// gh reports an unsupported --json field by listing the supported ones after an "Available fields:" line, one per line.
+// Every non-empty line after that marker is taken as a field name, matching the original tool.
 function parseAvailableFields(message) {
   if (!message.includes('Available fields:')) {
     return [];
@@ -319,8 +317,8 @@ function isFailing(check) {
   return FAILURE_BUCKETS.has(normalizeField(check.bucket));
 }
 
-// Only the GitHub Actions path counts. A bare `/runs/<id>` also appears in
-// external CI urls, and on GitHub it names a check run rather than a workflow run.
+// Only the GitHub Actions path counts.
+// A bare `/runs/<id>` also appears in external CI urls, and on GitHub it names a check run rather than a workflow run.
 function extractRunId(url) {
   if (!url) return null;
   return /\/actions\/runs\/(\d+)/.exec(url)?.[1] ?? null;
@@ -374,9 +372,8 @@ function fetchRunLog(runId, repoRoot) {
   return { log: result.stdout, error: '' };
 }
 
-// `gh run view --job` returns only that job's log. The REST logs endpoint is
-// avoided because `gh api` refuses to print a log that holds terminal escape
-// sequences, which most Actions logs do.
+// `gh run view --job` returns only that job's log.
+// The REST logs endpoint is avoided because `gh api` refuses to print a log that holds terminal escape sequences, which most Actions logs do.
 function fetchJobLog(jobId, repoRoot) {
   const result = runGh(['run', 'view', '--job', jobId, '--log'], repoRoot);
   if (result.returncode !== 0) {
@@ -386,9 +383,9 @@ function fetchJobLog(jobId, repoRoot) {
   return { log: result.stdout, error: '' };
 }
 
-// A check that names a job reads that job's log first. The run log mixes every
-// job in the run, so with several failed jobs the last failure marker could belong
-// to a different check. The run log is the fallback when the job log cannot be read.
+// A check that names a job reads that job's log first.
+// The run log mixes every job in the run, so with several failed jobs the last failure marker could belong to a different check.
+// The run log is the fallback when the job log cannot be read.
 function fetchCheckLog(runId, jobId, repoRoot) {
   if (jobId) {
     const job = fetchJobLog(jobId, repoRoot);
@@ -412,8 +409,7 @@ function fetchCheckLog(runId, jobId, repoRoot) {
   return { log: '', error, status: 'error' };
 }
 
-// Python's str.splitlines() drops a single trailing newline rather than yielding
-// a trailing empty element, which a plain split on newline would produce.
+// Python's str.splitlines() drops a single trailing newline rather than yielding a trailing empty element, which a plain split on newline would produce.
 function splitLines(text) {
   const lines = String(text).split(/\r\n|\n|\r/);
   if (lines.length > 0 && lines[lines.length - 1] === '') {
