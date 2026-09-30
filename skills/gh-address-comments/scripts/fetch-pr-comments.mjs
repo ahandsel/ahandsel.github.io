@@ -18,6 +18,7 @@
 // * Exits 0 on success, 1 when the fetch fails (not authenticated, no pull request for the branch, GraphQL error), and 2 on an unknown option.
 //
 // Version history:
+// * v1.3 - 2026-09-30 - Restore indentation on comments inside fetchAll after the sentence-per-line pass.
 // * v1.2 - 2026-09-30 - Apply sentence-per-line formatting to comments.
 // * v1.1 - 2026-09-30 - Paginate the comments inside each review thread, which were capped at the first 100, so a long thread is no longer truncated.
 // * v1.0 - 2026-08-28 - Initial release. Ports fetch_comments.py to a Node.js ES module and fixes two defects in the original: the pagination loop re-appended the first page of any connection that had already finished, duplicating those comments, and the repository was resolved from the head repository, which is the fork rather than the pull request's own repository on a cross-repository pull request.
@@ -279,8 +280,8 @@ function fetchAll(ref) {
   let reviewsCursor = null;
   let threadsCursor = null;
 
-// A connection that has run out of pages is marked done.
-// The query always returns its first page when its cursor is null, so without these flags the finished connections would be appended again on every later round.
+  // A connection that has run out of pages is marked done.
+  // The query always returns its first page when its cursor is null, so without these flags the finished connections would be appended again on every later round.
   let commentsDone = false;
   let reviewsDone = false;
   let threadsDone = false;
