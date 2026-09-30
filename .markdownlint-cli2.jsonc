@@ -75,6 +75,9 @@
   // Vendored content from upstream plugins/repos - keep pristine for re-sync.
   // Covers both the canonical copy under skills/ and the auto-mirrored copy under .claude/skills/.
   "ignores": [
+    // Copilot mirrors under .github/skills/. Relative links in those copies are
+    // written for the skills/ depth, so lint the canonical tree only.
+    ".github/skills/**",
     // All figma-* skills are vendored from the official Figma plugin.
     "**/skills/figma-*/**",
     // Vendored third-party skills imported with their upstream LICENSE files.
