@@ -335,7 +335,7 @@ If the list is a complete sentence, use a period at the end.
     * OK: `Required information: full name, email, password`, `The required information is as follows: full name, email, and password.`
     * NOT: `The required information is: full name, email, password`
 * Use for time and ratios.
-  * Example: `3:00 PM`, `1:2`
+  * Example: `15:00`, `1:2`
 
 
 ### Parentheses `( )`
@@ -500,9 +500,9 @@ Use the following three formats for date and time:
 
 | Format                                            | Template                                                                     | Example                      |
 | ------------------------------------------------- | ---------------------------------------------------------------------------- | ---------------------------- |
-| [Relative date and time](#relative-date-and-time) | `Today {12-hour time}`                                                       | `Today 2:18 PM`              |
+| [Relative date and time](#relative-date-and-time) | `Today {24-hour time}`                                                       | `Today 14:18`                |
 | [Date only](#date-only)                           | `{Day of week (3-letter)}, {Month (3-letter)} {Day}, {Year}`                 | `Tue, May 20, 2025`          |
-| [Date and time together](#date-and-time-together) | `{Day of week (3-letter)}, {Month (3-letter)} {Day}, {Year}, {12-hour time}` | `Tue, May 20, 2025, 2:18 PM` |
+| [Date and time together](#date-and-time-together) | `{Day of week (3-letter)}, {Month (3-letter)} {Day}, {Year}, {24-hour time}` | `Tue, May 20, 2025, 14:18`   |
 
 If none of the three formats are applicable, follow [Dates and times - Google developer documentation style guide][google-date-times].
 
@@ -536,26 +536,26 @@ Examples:
 
 #### Date and time together
 
-Template: {Day of week (3-letter)}, {Month (3-letter)} {Day}, {Year}, {12-hour time}
+Template: {Day of week (3-letter)}, {Month (3-letter)} {Day}, {Year}, {24-hour time}
 
 Examples:
 
-* Wed, Sep 27, 2019, 3:00 PM
-* Thu, May 28, 2023, 2:18 AM
+* Wed, Sep 27, 2019, 15:00
+* Thu, May 28, 2023, 02:18
 
 For details on the time format, refer to the [Time format](#time-format) section.
 
 
 ### Time format
 
-* Use 24-hour time format.
-  * When the scope allows, use the 24-hour format for other regions.
+* Use the 24-hour time format. Do not use the 12-hour format or the AM and PM suffixes.
+  * Example: `15:45`
+* Write the hour with two digits, adding a leading zero before 10:00.
+  * Example: `02:18`
 * Use hyphens (-) in time ranges. Do not add spaces before or after the hyphens.
-  * Example: `9:00-10:00 AM`
-* Capitalize AM and PM, and leave one space between the suffix and the time.
-  * Example: `3:45 PM`
-* Remove the minutes from round hours (except in time ranges).
-  * Example: `3 PM`
+  * Example: `09:00-10:00`
+* Keep the minutes on round hours.
+  * Example: `15:00`
 
 * International (ISO): YYYY-MM-DD, at HH:MM (24-hour clock)
   * Example: 2019-09-27, at 15:00
@@ -580,6 +580,7 @@ console.log(
     day: 'numeric',
     hour: 'numeric',
     minute: 'numeric',
+    hourCycle: 'h23',
     timeZone: 'America/Los_Angeles',
   }).format(date),
 );
