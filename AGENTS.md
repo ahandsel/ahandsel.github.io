@@ -96,7 +96,7 @@ Prioritize local skills in `skills/` over external or global skills.
 
 Skill maintenance:
 
-* When adding, renaming, or removing a repo skill, update `skills/README.md` and reconcile the skill allowlist in `.claude/settings.json` with `node skills/skill-allowlist-syncer/scripts/check-skill-allowlist.mjs`.
+* When adding, renaming, or removing a repo skill, update `skills/README.md`, seed or remove the matching `.github/skills/<skill-name>` copy in the same change, and reconcile the skill allowlist in `.claude/settings.json` with `node skills/skill-allowlist-syncer/scripts/check-skill-allowlist.mjs`.
 * Run the allowlist script in check mode first. If it reports `result:drift`, rerun with `--write` only after confirming that the shared `.claude/settings.json` should change.
 * If `skills/README.md` and the `skills/` folder disagree, treat the `skills/<skill-name>/SKILL.md` files as canonical and fix the index drift.
 
@@ -183,7 +183,7 @@ GitHub Copilot reads its own instruction files, which restate for Copilot what t
 
 * [.github/copilot-instructions.md](.github/copilot-instructions.md) is the repository-wide set that GitHub loads for Copilot code review and for authoring.
 * `.github/instructions/*.instructions.md` carry the path-scoped detail, and GitHub applies one on top of the repository-wide file when a changed file matches its `applyTo` glob.
-* `.github/skills/<skill-name>` holds a real copy of the matching `skills/<skill-name>` folder because GitHub Copilot does not support symlinks. The folder under `skills/` stays canonical: edit the skill there only, and let `.github/workflows/sync-copilot-skills.yml` open a pull request that refreshes the copy after the push to `main`.
+* `.github/skills/<skill-name>` holds a real copy of the matching `skills/<skill-name>` folder because GitHub Copilot does not support symlinks. Every skill under `skills/` must have a seeded counterpart under `.github/skills/`; when you add a skill, add that copy in the same change. The folder under `skills/` stays canonical: edit the skill there only, and let `.github/workflows/sync-copilot-skills.yml` open a pull request that refreshes existing counterparts after the push to `main`. The sync workflow cannot create a missing counterpart on its own.
 * This file stays the primary instruction source. Keep a rule here and let the Copilot files point at it, rather than moving a rule into `.github/`.
 * When you add, rename, or remove a scoped file, update the instruction-file list in `.github/copilot-instructions.md`.
 
@@ -302,7 +302,7 @@ Keep scripts in `package.json` sorted alphabetically.
 * `.github/workflows/deploy.yml` builds the site with `pnpm vitepress-build` and deploys `contents/.vitepress/dist` to GitHub Pages on every push to `main` that is not limited to `.github/skills/`, and on manual dispatch. It passes `GITHUB_TOKEN` to raise the API rate limit for the Projects page data loader.
 * `.github/workflows/pr-build-check.yml` runs the read-only gate on pull requests: naming rules, the contents tree snapshot, en/ja parity, the script tests, the typecheck, the license check, and a production build. It posts the results as a sticky comment on the pull request.
 * `.github/workflows/pr-lint-autofix.yml` runs `pnpm lint` and `pnpm tree` on pull requests and commits the fixes back to the branch. It is skipped for pull requests from forks.
-* `.github/workflows/sync-copilot-skills.yml` runs on every push to `main` that touches `skills/` and opens a pull request that copies each skill with a counterpart under `.github/skills/` over that counterpart, because GitHub Copilot does not support symlinks.
-* `.github/workflows/vitepress-auto-update.yml` runs `pnpm vitepress-update` every Monday (and on manual dispatch) and opens a pull request when VitePress has a newer `@next` release.
+* `.github/workflows/sync-copilot-skills.yml` runs on every push to `main` that touches `skills/` and opens a pull request that copies each skill with a counterpart under `.github/skills/` over that counterpart, because GitHub Copilot does not support symlinks. The pull request is opened with `GITHUB_TOKEN`, so GitHub does not start `pr-build-check` on it; run `pnpm check` locally (or otherwise re-trigger CI) before merging.
+* `.github/workflows/vitepress-auto-update.yml` runs `pnpm vitepress-update` every Monday (and on manual dispatch) and opens a pull request when VitePress has a newer `@next` release. That pull request is also opened with `GITHUB_TOKEN`, so the same manual check applies before merge.
 * Dependabot (`.github/dependabot.yml`) opens weekly pull requests for npm dependencies other than VitePress, and monthly grouped pull requests for GitHub Actions. VitePress stays on the dedicated auto-update workflow so Dependabot does not open a second bump PR.
 * Pull request CI covers the same ground as `pnpm check` except formatting is fixed by the autofix workflow rather than gated. Still run `pnpm check` locally before you push.

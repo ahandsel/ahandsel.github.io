@@ -106,8 +106,8 @@ These come from the "Web research" section of `AGENTS.md`, which stays authorita
 * `.github/workflows/pr-build-check.yml` runs the read-only gate on pull requests: naming rules, the contents tree snapshot, en/ja parity, the script tests, the typecheck, the license check, and a production build.
 * `.github/workflows/pr-lint-autofix.yml` runs `pnpm lint` and `pnpm tree` on non-fork pull requests and commits the fixes back to the branch.
 * `.github/workflows/deploy.yml` runs `pnpm vitepress-build` and deploys to GitHub Pages on every push to `main` that is not limited to `.github/skills/`.
-* `.github/workflows/sync-copilot-skills.yml` opens a pull request that copies each skill with a counterpart under `.github/skills/` over that counterpart on every push to `main` that touches `skills/`.
-* `.github/workflows/vitepress-auto-update.yml` runs `pnpm vitepress-update` every Monday (and on manual dispatch) and opens a pull request when VitePress has a newer `@next` release.
+* `.github/workflows/sync-copilot-skills.yml` opens a pull request that copies each skill with a counterpart under `.github/skills/` over that counterpart on every push to `main` that touches `skills/`. Every skill under `skills/` must already have a seeded counterpart; the sync workflow cannot create a missing copy. That pull request is opened with `GITHUB_TOKEN`, so GitHub does not start `pr-build-check` on it; run `pnpm check` locally (or otherwise re-trigger CI) before merging.
+* `.github/workflows/vitepress-auto-update.yml` runs `pnpm vitepress-update` every Monday (and on manual dispatch) and opens a pull request when VitePress has a newer `@next` release. That pull request is also opened with `GITHUB_TOKEN`, so the same manual check applies before merge.
 * Dependabot opens weekly pull requests for npm dependencies other than VitePress, and monthly grouped pull requests for GitHub Actions, per `.github/dependabot.yml`. VitePress stays on the dedicated auto-update workflow.
 * `pnpm check` runs the same gate locally, plus the formatting pass; run it before every push.
 
