@@ -18,6 +18,7 @@
 // * Exits 0 on success, 1 when the fetch fails (not authenticated, no pull request for the branch, GraphQL error), and 2 on an unknown option.
 //
 // Version history:
+// * v1.2 - 2026-09-30 - Apply sentence-per-line formatting to comments.
 // * v1.1 - 2026-09-30 - Paginate the comments inside each review thread, which were capped at the first 100, so a long thread is no longer truncated.
 // * v1.0 - 2026-08-28 - Initial release. Ports fetch_comments.py to a Node.js ES module and fixes two defects in the original: the pagination loop re-appended the first page of any connection that had already finished, duplicating those comments, and the repository was resolved from the head repository, which is the fork rather than the pull request's own repository on a cross-repository pull request.
 
@@ -94,8 +95,7 @@ const QUERY = `query(
 }
 `;
 
-// Fetches the remaining comments of one review thread, for a thread that holds
-// more than the first page returned by the main query.
+// Fetches the remaining comments of one review thread, for a thread that holds more than the first page returned by the main query.
 const THREAD_COMMENTS_QUERY = `query($threadId: ID!, $cursor: String) {
   node(id: $threadId) {
     ... on PullRequestReviewThread {
@@ -123,11 +123,9 @@ Emits a JSON object on stdout with these keys:
   pull_request           Number, url, title, state, owner, and repo.
   conversation_comments  Top-level comments on the pull request.
   reviews                Review submissions, with state and body.
-  review_threads         Inline threads, each with isResolved, isOutdated,
-                         path, line, resolvedBy, and its comments.
+  review_threads         Inline threads, each with isResolved, isOutdated, path, line, resolvedBy, and its comments.
 
-Requires the GitHub CLI, authenticated with 'gh auth login', and a pull request
-associated with the current branch.
+Requires the GitHub CLI, authenticated with 'gh auth login', and a pull request associated with the current branch.
 
 Exit codes:
   0  The JSON was written.
@@ -177,9 +175,8 @@ function ensureGhAuthenticated() {
 }
 
 // Resolves the pull request's own repository, which is the base repository.
-// The pull request number belongs to the base repository, not to the head
-// repository, so a fork's owner and name would look up the wrong repository (or
-// none at all) on a cross-repository pull request. The url always names the base.
+// The pull request number belongs to the base repository, not to the head repository, so a fork's owner and name would look up the wrong repository (or none at all) on a cross-repository pull request.
+// The url always names the base.
 function resolveCurrentPrRef() {
   let pr;
   try {
@@ -282,9 +279,8 @@ function fetchAll(ref) {
   let reviewsCursor = null;
   let threadsCursor = null;
 
-  // A connection that has run out of pages is marked done. The query always
-  // returns its first page when its cursor is null, so without these flags the
-  // finished connections would be appended again on every later round.
+// A connection that has run out of pages is marked done.
+// The query always returns its first page when its cursor is null, so without these flags the finished connections would be appended again on every later round.
   let commentsDone = false;
   let reviewsDone = false;
   let threadsDone = false;
