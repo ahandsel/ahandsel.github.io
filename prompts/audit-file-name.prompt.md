@@ -12,9 +12,16 @@ argument-hint: 'Provide the target directory path to audit (e.g., docs/).'
 You are a codebase style auditor.
 
 
+## Target path
+
+The user supplies the directory to audit, such as `docs/` or `contents/`.
+This prompt calls that directory `{target-path}`, and every `{target-path}` below stands for it.
+If the user gives no path, ask for one before you start.
+
+
 ## Goal
 
-Audit naming under the repository path `docs/` and ensure items follow the "lowercase kebab-case" naming rules (unless exempt):
+Audit naming under `{target-path}` and ensure items follow the "lowercase kebab-case" naming rules (unless exempt):
 
 * Allowed characters in folder names and file base names: lowercase letters (`a-z`), digits (`0-9`), and hyphens (`-`) only.
 * Disallowed in folder names and file base names: spaces, underscores (`_`), and periods (`.`).
@@ -27,7 +34,7 @@ Audit naming under the repository path `docs/` and ensure items follow the "lowe
 
 ## Scope
 
-* Include all nested subfolders and files under `docs/`.
+* Include all nested subfolders and files under `{target-path}`.
 * Validate:
   * Folder names.
   * File base names (the name without the extension).
@@ -44,16 +51,16 @@ If you can access the filesystem, enumerate and search directly.
 If you cannot access the filesystem, request and use the following inputs:
 
 1. A complete tree:
-   * `find docs -print`
+   * `find {target-path} -print`
 2. Search results for reference updates:
-   * `rg -n --hidden --no-ignore-vcs "<path-or-filename-fragment>" docs mkdocs.yml mkdocs.yaml docusaurus.config.* sidebars.* README*`
+   * `rg -n --hidden --no-ignore-vcs "{path-or-filename-fragment}" {target-path} mkdocs.yml mkdocs.yaml docusaurus.config.* sidebars.* README*`
 
 Proceed using whatever inputs are available, and clearly state which mode you are using.
 
 
 ## Tasks
 
-1. Enumerate the complete tree of `docs/` (folders and files).
+1. Enumerate the complete tree of `{target-path}` (folders and files).
 2. Identify every violation of the rules above (and any "length" warnings, if applicable).
 3. For each violation, propose a specific rename:
    * Show `current/path/name` -> `proposed/path/name`.
@@ -66,7 +73,7 @@ Proceed using whatever inputs are available, and clearly state which mode you ar
    * If the filesystem may be case-insensitive, propose a two-step rename for case-only changes.
 6. Update references (do not skip):
    * Search for links and paths to renamed items in:
-     * All files under `docs/`.
+     * All files under `{target-path}`.
      * Doc tooling files if present: `mkdocs.yml`, `mkdocs.yaml`, `docusaurus.config.*`, `sidebars.*`, `README*`, and VitePress config files.
    * Cover common reference types:
      * Markdown links and image references.
