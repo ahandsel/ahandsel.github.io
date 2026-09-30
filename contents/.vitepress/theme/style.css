@@ -414,11 +414,15 @@ body {
  * also sizes the nav bar title from that variable, so the site title would
  * shrink to nothing. Override the offsets one by one instead.
  *
- * This only applies at >= 960px. Below that, the default theme already swaps
+ * Breakpoints use the same `rem` values as the default theme (`60rem` /
+ * `90rem`), not raw pixel widths, so a non-default root font-size cannot
+ * desync the toggle from desktop sidebar mode.
+ *
+ * This only applies at >= 60rem. Below that, the default theme already swaps
  * the sidebar for the mobile hamburger menu, so the toggle is hidden.
  * -------------------------------------------------------------------------- */
 
-@media (min-width: 960px) {
+@media (min-width: 60rem) {
   html.sidebar-collapsed .VPSidebar {
     opacity: 0;
     visibility: hidden;
@@ -428,6 +432,13 @@ body {
   html.sidebar-collapsed .VPContent.has-sidebar,
   html.sidebar-collapsed .VPLocalNav.has-sidebar {
     padding-left: 0;
+  }
+
+  /* Drop the nav column offset so `VPNavBar::before` still paints under the
+     title. Leaving `--vp-nav-col-offset` at the sidebar width would leave a
+     transparent gap once the sidebar curtain is hidden. */
+  html.sidebar-collapsed .VPNavBar.has-sidebar {
+    --vp-nav-col-offset: 0;
   }
 
   /* The nav bar keeps its title column, but the bottom rule runs full width
@@ -441,7 +452,7 @@ body {
   }
 }
 
-@media (min-width: 1440px) {
+@media (min-width: 90rem) {
   html.sidebar-collapsed .VPContent.has-sidebar {
     padding-left: calc((100% - var(--vp-layout-max-width)) / 2);
   }
@@ -486,22 +497,22 @@ body {
 }
 
 /* Hide the toggle on small screens, where the hamburger menu takes over. */
-@media (max-width: 959px) {
+@media (width < 60rem) {
   .sidebar-toggle {
     display: none;
   }
 }
 
-/* When the sidebar is open, park the button near its right edge. From 1440px
+/* When the sidebar is open, park the button near its right edge. From 90rem
    the sidebar grows to fill the gutter beside the centered layout, so match
    the width formula in the default theme's VPSidebar.vue. */
-@media (min-width: 960px) {
+@media (min-width: 60rem) {
   html:not(.sidebar-collapsed) .sidebar-toggle {
     left: calc(var(--vp-sidebar-width) - 40px);
   }
 }
 
-@media (min-width: 1440px) {
+@media (min-width: 90rem) {
   html:not(.sidebar-collapsed) .sidebar-toggle {
     left: calc(
       (100% - (var(--vp-layout-max-width) - 4rem)) / 2 +

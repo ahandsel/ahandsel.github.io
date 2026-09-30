@@ -1,7 +1,15 @@
 <script setup lang="ts">
 import { useData } from 'vitepress';
 import DefaultTheme, { useLayout } from 'vitepress/theme';
-import { computed, nextTick, onMounted, provide, ref, watch } from 'vue';
+import {
+  computed,
+  nextTick,
+  onMounted,
+  onUnmounted,
+  provide,
+  ref,
+  watch,
+} from 'vue';
 
 const { isDark, lang } = useData();
 
@@ -34,6 +42,17 @@ const toggleLabel = computed(() => {
   return ja ? 'サイドバーを隠す' : 'Hide sidebar';
 });
 
+// LocalNav's Menu button (visible below 80rem) opens the VitePress sidebar.
+// Collapse CSS beats `.VPSidebar.open`, so a Menu click while collapsed would
+// otherwise be a no-op. Clear collapse in the capture phase before VitePress
+// handles the click, so Menu expands the sidebar again.
+function onLocalNavMenuClick(event: Event) {
+  const target = event.target;
+  if (!(target instanceof Element)) return;
+  if (!target.closest('.VPLocalNav .menu')) return;
+  if (collapsed.value) collapsed.value = false;
+}
+
 onMounted(() => {
   collapsed.value = document.documentElement.classList.contains(CLASS_NAME);
 
@@ -45,6 +64,12 @@ onMounted(() => {
       localStorage.setItem(STORAGE_KEY, String(value));
     } catch {}
   });
+
+  document.addEventListener('click', onLocalNavMenuClick, true);
+});
+
+onUnmounted(() => {
+  document.removeEventListener('click', onLocalNavMenuClick, true);
 });
 
 // Only animate when the browser supports the View Transitions API and the
