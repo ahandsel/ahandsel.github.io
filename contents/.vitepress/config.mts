@@ -12,10 +12,18 @@ export default defineConfig({
   titleTemplate: ':title - Genji Fujimori',
   description: "Genji Fujimori's portfolio",
 
-  // Browser favicon and iOS home screen icon. Served from contents/public/.
+  // Browser favicon and iOS home screen icon.
+  // Served from contents/public/.
   head: [
     ['link', { rel: 'icon', href: '/favicon.ico' }],
     ['link', { rel: 'apple-touch-icon', href: '/cat-icon-background.png' }],
+    // Apply the stored sidebar-collapse choice before the first paint, so the sidebar does not flash open on a full page load.
+    // Layout.vue reads this class on mount and owns it from then on.
+    [
+      'script',
+      {},
+      "try{if(localStorage.getItem('sidebar-collapsed')==='true')document.documentElement.classList.add('sidebar-collapsed')}catch{}",
+    ],
   ],
 
   // Folder README.md files are internal documentation, not published pages.
@@ -25,17 +33,10 @@ export default defineConfig({
   // Show a per-page "last updated" timestamp taken from git history.
   lastUpdated: true,
 
-  // Generate llms.txt, llms-full.txt, and a raw .md twin for every English
-  // content page so LLMs can read the site without scraping HTML
-  // (https://llmstxt.org/). The twins also back the per-page copy and
-  // download buttons registered in theme/index.ts.
-  // The skipped pages live in llms-pages.ts, which the theme reads as well,
-  // so the plugin output and the button visibility cannot disagree.
+  // Generate llms.txt, llms-full.txt, and a raw .md twin for every English content page so LLMs can read the site without scraping HTML (https://llmstxt.org/). The twins also back the per-page copy and download buttons registered in theme/index.ts.
+  // The skipped pages live in llms-pages.ts, which the theme reads as well, so the plugin output and the button visibility cannot disagree.
   vite: {
-    // The theme imports the plugin's buttons component through this alias
-    // instead of its real path, so vue-tsc type-checks the ambient
-    // declaration in env.d.ts rather than the plugin's own .vue source,
-    // which does not pass this repository's type check.
+    // The theme imports the plugin's buttons component through this alias instead of its real path, so vue-tsc type-checks the ambient declaration in env.d.ts rather than the plugin's own .vue source, which does not pass this repository's type check.
     resolve: {
       alias: {
         '@llms-copy-buttons':
@@ -52,19 +53,17 @@ export default defineConfig({
     ],
   },
 
-  // Insert the copy and download-as-Markdown buttons after the H1 of every
-  // page. The theme registers a gated component under this name, so pages
-  // without a generated .md twin render no buttons.
+  // Insert the copy and download-as-Markdown buttons after the H1 of every page.
+  // The theme registers a gated component under this name, so pages without a generated .md twin render no buttons.
   markdown: {
     config(md) {
       md.use(copyOrDownloadAsMarkdownButtons);
     },
   },
 
-  // English content lives under /en/ and Japanese under /ja/. The site root (/)
-  // redirects to /en/ (see contents/index.md). English stays the default
-  // (root) locale - its pages simply sit in the en/ folder - so `link` points
-  // at /en/ and there is no phantom locale in the language switcher.
+  // English content lives under /en/ and Japanese under /ja/.
+  // The site root (/) redirects to /en/ (see contents/index.md).
+  // English stays the default (root) locale - its pages simply sit in the en/ folder - so `link` points at /en/ and there is no phantom locale in the language switcher.
   locales: {
     root: {
       label: 'English',
@@ -118,15 +117,14 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     socialLinks: [{ icon: 'github', link: 'https://github.com/ahandsel' }],
 
-    // Client-side full-text search over the built pages. No service or index
-    // hosting is required; minisearch runs in the browser.
+    // Client-side full-text search over the built pages.
+    // No service or index hosting is required; minisearch runs in the browser.
     search: { provider: 'local' },
   },
 
-  // English now lives under /en/. Generate root-level redirect stubs at build
-  // time so any legacy or hand-typed /foo link resolves to the canonical
-  // /en/foo. The site root (/) is handled separately by contents/index.md, so
-  // the en/index.html page is skipped here.
+  // English now lives under /en/.
+  // Generate root-level redirect stubs at build time so any legacy or hand-typed /foo link resolves to the canonical /en/foo.
+  // The site root (/) is handled separately by contents/index.md, so the en/index.html page is skipped here.
   // Skipped by `vitepress dev` (buildEnd only fires on production builds).
   async buildEnd(siteConfig: SiteConfig) {
     const distDir = siteConfig.outDir;

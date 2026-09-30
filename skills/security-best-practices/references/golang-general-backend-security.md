@@ -146,7 +146,8 @@ Each rule contains: required practice, insecure patterns, detection hints, and r
 
 Severity: Medium
 
-NOTE: Upgrading dependencies and the core Go version can break projects in unexpected ways. Focus on only security-critical dependencies and if noticed, let the user know rather than upgrading automatically.
+NOTE: Upgrading dependencies and the core Go version can break projects in unexpected ways.
+Focus on only security-critical dependencies and if noticed, let the user know rather than upgrading automatically.
 
 Required:
 
@@ -319,7 +320,9 @@ Notes:
 
 Severity: High
 
-NOTE: This only applies to production configurations. These endpoints are often used for debug or dev endpoints. If found, confirm that it would be reachable from the actual production deployment.
+NOTE: This only applies to production configurations.
+These endpoints are often used for debug or dev endpoints.
+If found, confirm that it would be reachable from the actual production deployment.
 
 Required:
 
@@ -389,7 +392,9 @@ Severity: Medium
 Required (typical web app serving browsers):
 
 * SHOULD set:
-  * `Content-Security-Policy` (CSP) appropriate to the app. NOTE: It is most important to set the CSP's script-src. All other directives are not as important and can generally be excluded for the ease of development.
+  * `Content-Security-Policy` (CSP) appropriate to the app.
+    NOTE: It is most important to set the CSP's script-src.
+    All other directives are not as important and can generally be excluded for the ease of development.
   * `X-Content-Type-Options: nosniff`
   * Clickjacking protection (`X-Frame-Options` and/or CSP `frame-ancestors`)
   * `Referrer-Policy` and `Permissions-Policy` where appropriate
@@ -423,7 +428,11 @@ Severity: Medium
 
 Required (production, HTTPS):
 
-* MUST set `Secure` on cookies that carry auth/session state. IMPORTANT NOTE: Only set `Secure` in production environment when TLS is configured. When running in a local dev environment over HTTP, do not set `Secure` property on cookies. You should do this conditionally based on if the app is running in production mode. You should also include a property like `SESSION_COOKIE_SECURE` which can be used to disable `Secure` cookies when testing over HTTP.
+* MUST set `Secure` on cookies that carry auth/session state.
+  IMPORTANT NOTE: Only set `Secure` in production environment when TLS is configured.
+  When running in a local dev environment over HTTP, do not set `Secure` property on cookies.
+  You should do this conditionally based on if the app is running in production mode.
+  You should also include a property like `SESSION_COOKIE_SECURE` which can be used to disable `Secure` cookies when testing over HTTP.
 * MUST set `HttpOnly` on auth/session cookies.
 * SHOULD set `SameSite=Lax` by default (or `Strict` if compatible), and only use `None` when necessary (and only with `Secure`).
 * SHOULD set bounded lifetimes (`Max-Age`/`Expires`) appropriate to the app.
@@ -702,7 +711,8 @@ Notes:
 
 Severity: Medium (High in cloud/LAN environments)
 
-* Note: For small stand alone projects this is less important. It is most important when deploying into an LAN or with other services listening on the same server.
+* Note: For small stand alone projects this is less important.
+  It is most important when deploying into an LAN or with other services listening on the same server.
 
 Required:
 

@@ -13,9 +13,12 @@ Use [`gh-cli`](../gh-cli/SKILL.md) for general `gh` command reference, [`gh-addr
 
 ## Prerequisites
 
-* `gh` is installed and authenticated. Verify with `gh auth status`, and ask the user to run `gh auth login` if it fails.
-* The current branch is not the default branch. If it is, stop and ask the user to create a feature branch first.
-* Every change the pull request should contain is committed. Uncommitted work is invisible to the diff, so offer `ai-commit` if the tree is dirty.
+* `gh` is installed and authenticated.
+  Verify with `gh auth status`, and ask the user to run `gh auth login` if it fails.
+* The current branch is not the default branch.
+  If it is, stop and ask the user to create a feature branch first.
+* Every change the pull request should contain is committed.
+  Uncommitted work is invisible to the diff, so offer `ai-commit` if the tree is dirty.
 
 
 ## Workflow flags
@@ -23,24 +26,46 @@ Use [`gh-cli`](../gh-cli/SKILL.md) for general `gh` command reference, [`gh-addr
 
 ### Default workflow (no flags)
 
-1. **Verify the environment.** Run `gh auth status`, `git branch --show-current`, and `git status --porcelain`. Stop on a failed check rather than guessing.
-2. **Push the branch if needed.** Compare the branch with its upstream using `git rev-list --left-right --count @{u}...HEAD`. If the branch has no upstream or is ahead, tell the user what will be pushed and ask before running `git push`.
-3. **Gather branch context.** Determine the merge base with `git merge-base main HEAD`, then collect the commit list with `git log --oneline <base>..HEAD` and the changed files with `git diff --name-status <base>..HEAD`.
-4. **Classify the pull request.** Decide whether it is a content change under `contents/`, a tooling or script change, a configuration change, or a mix. The classification selects which conditional sections apply.
-5. **Run the pre-flight checks.** See the "Pre-flight checks" section. Report failures to the user and fix them before drafting.
-6. **Confirm scope and collect notes.** Show the commits, the changed files, and the derived page URLs. In the same prompt, ask for the pull request title, any open questions, and anything the diff cannot reveal, such as the reason a section is out of scope. Wait for the response.
-7. **Draft the body.** Follow the "Pull request body structure" section. Include a conditional section only when the branch supplies evidence for it.
-8. **Confirm the draft.** Show the full title and body. Revise on request, and confirm again before opening.
-9. **Open the pull request.** Write the body to a temporary file and run `gh pr create --title "<title>" --body-file <file> --base main`. Never pass a long body through `--body` on the command line.
-10. **Report the result.** Give the user the pull request URL, and note that `.github/workflows/pr-build-check.yml` will post its results as a sticky comment on the pull request.
+1. **Verify the environment.**
+   Run `gh auth status`, `git branch --show-current`, and `git status --porcelain`.
+   Stop on a failed check rather than guessing.
+2. **Push the branch if needed.**
+   Compare the branch with its upstream using `git rev-list --left-right --count @{u}...HEAD`.
+   If the branch has no upstream or is ahead, tell the user what will be pushed and ask before running `git push`.
+3. **Gather branch context.**
+   Determine the merge base with `git merge-base main HEAD`, then collect the commit list with `git log --oneline <base>..HEAD` and the changed files with `git diff --name-status <base>..HEAD`.
+4. **Classify the pull request.**
+   Decide whether it is a content change under `contents/`, a tooling or script change, a configuration change, or a mix.
+   The classification selects which conditional sections apply.
+5. **Run the pre-flight checks.**
+   See the "Pre-flight checks" section.
+   Report failures to the user and fix them before drafting.
+6. **Confirm scope and collect notes.**
+   Show the commits, the changed files, and the derived page URLs.
+   In the same prompt, ask for the pull request title, any open questions, and anything the diff cannot reveal, such as the reason a section is out of scope.
+   Wait for the response.
+7. **Draft the body.**
+   Follow the "Pull request body structure" section.
+   Include a conditional section only when the branch supplies evidence for it.
+8. **Confirm the draft.**
+   Show the full title and body.
+   Revise on request, and confirm again before opening.
+9. **Open the pull request.**
+   Write the body to a temporary file and run `gh pr create --title "<title>" --body-file <file> --base main`.
+   Never pass a long body through `--body` on the command line.
+10. **Report the result.**
+    Give the user the pull request URL, and note that `.github/workflows/pr-build-check.yml` will post its results as a sticky comment on the pull request.
 
 
 ### `--auto` workflow flag
 
-1. **No intermediate questions.** Do not ask about scope, notes, or ambiguity before drafting.
-2. **Infer the title.** Use the branch's single commit title when there is exactly one commit, otherwise summarize the commits in the repository commit style, including the leading emoji.
+1. **No intermediate questions.**
+   Do not ask about scope, notes, or ambiguity before drafting.
+2. **Infer the title.**
+   Use the branch's single commit title when there is exactly one commit, otherwise summarize the commits in the repository commit style, including the leading emoji.
 3. **Push without asking** when the branch is ahead of or missing its upstream.
-4. **Still run the pre-flight checks.** Stop and report if any check fails; do not open a pull request on a red branch.
+4. **Still run the pre-flight checks.**
+   Stop and report if any check fails; do not open a pull request on a red branch.
 5. **Skip the draft confirmation** and open the pull request directly.
 6. **Leave a placeholder** in the form `<!-- TODO: confirm -->` wherever a required section needs a human answer that the diff cannot supply, and list every placeholder in the final report.
 
@@ -50,8 +75,10 @@ Use [`gh-cli`](../gh-cli/SKILL.md) for general `gh` command reference, [`gh-addr
 Refresh the body of the pull request that is already open for the current branch instead of opening a new one.
 Use this after pushing commits that make the existing body stale.
 
-1. **Find the pull request** with `gh pr view --json number,title,body,url`. Stop if the branch has no open pull request.
-2. **Read the existing body** and preserve every human edit, including checkbox states, reviewer notes, and added sections. This is an edit, not a regeneration.
+1. **Find the pull request** with `gh pr view --json number,title,body,url`.
+   Stop if the branch has no open pull request.
+2. **Read the existing body** and preserve every human edit, including checkbox states, reviewer notes, and added sections.
+   This is an edit, not a regeneration.
 3. **Recompute the changed files, the page URLs, and the checks** from the current branch state.
 4. **Show a before-and-after diff of the body** and confirm before writing, unless `--auto` is also present.
 5. **Write the update** with `gh pr edit <number> --body-file <file>`.
@@ -172,8 +199,10 @@ Derive published URLs from the changed paths under `contents/` using the routing
 
 Run these before drafting, and report the results in the "Checks" section of the body:
 
-* `pnpm check` for any pull request. It covers lint, the script tests, the typecheck, the name lint, the license check, en/ja parity, the contents tree, and the production build.
-* `pnpm tree` when the pull request adds, removes, renames, or moves pages. Commit the regenerated `docs/contents-structure.md`.
+* `pnpm check` for any pull request.
+  It covers lint, the script tests, the typecheck, the name lint, the license check, en/ja parity, the contents tree, and the production build.
+* `pnpm tree` when the pull request adds, removes, renames, or moves pages.
+  Commit the regenerated `docs/contents-structure.md`.
 * `node skills/skill-allowlist-syncer/scripts/check-skill-allowlist.mjs` when the pull request adds, renames, or removes a skill.
 
 Report a failure to the user with the command output.
@@ -196,10 +225,13 @@ Body:
 ## Constraints
 
 * Never add a "Generated with Claude Code" trailer, an AI attribution line, or any similar footer to the pull request body.
-* Base the body only on the diff, the commit messages, the check output, and notes the user supplies. Do not invent intent, testing, risk, or review findings.
+* Base the body only on the diff, the commit messages, the check output, and notes the user supplies.
+  Do not invent intent, testing, risk, or review findings.
 * Do not claim a check passed unless it ran in this session.
 * Do not tick a checkbox for a reviewer, and do not remove a reviewer's edits when running `--update`.
 * Follow the repository writing rules in `AGENTS.md`: a plain hyphen rather than an en dash or em dash, one sentence per source line, and sentence case headings.
 * Use the repository commit style guide at `docs/repo-commit-style-guide.md` for the pull request title, including the leading emoji.
-* Do not paste large chunks of the diff into the body. Describe the change instead.
-* Keep the collapsed section collapsed. The top of the body is for the summary, the published URLs, and the tasks.
+* Do not paste large chunks of the diff into the body.
+  Describe the change instead.
+* Keep the collapsed section collapsed.
+  The top of the body is for the summary, the published URLs, and the tasks.

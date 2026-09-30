@@ -22,7 +22,8 @@ You audit carefully, apply low-risk fixes yourself, and ask before anything risk
 
 ## Inputs
 
-* `COMMIT`: the commit SHA or ref whose additions to audit. Run `git show <COMMIT> --stat` to confirm the exact diff, then audit the final state of those files on the current branch, not just the diff.
+* `COMMIT`: the commit SHA or ref whose additions to audit.
+  Run `git show <COMMIT> --stat` to confirm the exact diff, then audit the final state of those files on the current branch, not just the diff.
 
 Worked example: a commit titled "Add example-checker skill" would typically add a skill and update the indexes that reference it:
 
@@ -32,8 +33,11 @@ Worked example: a commit titled "Add example-checker skill" would typically add 
 
 ## Method (follow in order)
 
-1. **Enumerate the additions.** From `git show <COMMIT>`, list every new or changed file. Separate them into skill definitions (`SKILL.md`), scripts, config, and index or doc files.
-2. **Read each added file in full** before forming conclusions. Note each script's purpose, entry points, inputs, outputs, and dependencies.
+1. **Enumerate the additions.**
+   From `git show <COMMIT>`, list every new or changed file.
+   Separate them into skill definitions (`SKILL.md`), scripts, config, and index or doc files.
+2. **Read each added file in full** before forming conclusions.
+   Note each script's purpose, entry points, inputs, outputs, and dependencies.
 3. **Run the four audit tasks:** scripts (task 1), documentation references (task 2), `SKILL.md` quality (task 3), and script opportunities (task 4).
 4. **Classify** every finding by severity, then de-duplicate.
 5. **Apply low-risk fixes** and queue risky ones for approval, per "How to handle fixes."
@@ -44,17 +48,23 @@ Worked example: a commit titled "Add example-checker skill" would typically add 
 
 Review every script the commit added and report on:
 
-* **Repo "Scripts" rules from `AGENTS.md`:** Node `.mjs` ES modules or zsh only (no Python), a `--help` output, a top-of-file notes section (general notes, usage, output, version history), and status emojis (for example, the success, warning, and error emojis) for user-facing messages. Run the bundled checker on the added scripts and fold its verdicts into the findings: `node skills/script-auditor/scripts/audit-helper-scripts.mjs <paths>`.
+* **Repo "Scripts" rules from `AGENTS.md`:** Node `.mjs` ES modules or zsh only (no Python), a `--help` output, a top-of-file notes section (general notes, usage, output, version history), and status emojis (for example, the success, warning, and error emojis) for user-facing messages.
+  Run the bundled checker on the added scripts and fold its verdicts into the findings: `node skills/script-auditor/scripts/audit-helper-scripts.mjs <paths>`.
 * **Correctness and robustness:** error handling, exit codes, `set -euo pipefail` (or the equivalent), input validation, quoting and escaping, idempotency, and safe handling of missing files, empty input, and edge cases.
-* **Full modern best practices (as of the audit date):** hold every script to the highest current standard, even beyond what `AGENTS.md` requires - current Node ESM idioms, no deprecated APIs, dependency hygiene, strong shell safety, testability, and clear, maintainable structure. Flag anything that is merely acceptable but not best-in-class, and say what "best" would look like.
+* **Full modern best practices (as of the audit date):** hold every script to the highest current standard, even beyond what `AGENTS.md` requires - current Node ESM idioms, no deprecated APIs, dependency hygiene, strong shell safety, testability, and clear, maintainable structure.
+  Flag anything that is merely acceptable but not best-in-class, and say what "best" would look like.
 
 
 ## Task 2: documentation reference audit
 
-Audit every internal doc in the repo that references these skills, or that should reference them but does not. Do not limit the scope to the files the commit touched. At minimum check:
+Audit every internal doc in the repo that references these skills, or that should reference them but does not.
+Do not limit the scope to the files the commit touched.
+At minimum check:
 
 * `skills/README.md` - each new skill is listed with the correct name, description, and links.
-* `.claude/settings.json` - the `Skill(...)` allowlist matches the `skills/` folder, with no missing or stale entries. Run the checker in check mode: `node skills/skill-allowlist-syncer/scripts/check-skill-allowlist.mjs`. If it reports drift, rerun with `--write` only after confirming that the shared `.claude/settings.json` should change.
+* `.claude/settings.json` - the `Skill(...)` allowlist matches the `skills/` folder, with no missing or stale entries.
+  Run the checker in check mode: `node skills/skill-allowlist-syncer/scripts/check-skill-allowlist.mjs`.
+  If it reports drift, rerun with `--write` only after confirming that the shared `.claude/settings.json` should change.
 * Each new `SKILL.md` - name, description, usage, and any file or script paths it references resolve correctly.
 * `AGENTS.md` - any section (Skills index, task-to-skill mappings, Scripts, and so on) that should mention these skills.
 * Other skills' docs - cross-links from related skills (for example, neighboring lint, polisher, or gh skills) that should point to these new skills.
@@ -65,13 +75,22 @@ Report broken links, wrong paths, missing entries, naming mismatches, and stale 
 
 ## Task 3: SKILL.md quality audit
 
-Audit each new or changed `SKILL.md` as a document an agent must load and follow, not only as a set of links. Check:
+Audit each new or changed `SKILL.md` as a document an agent must load and follow, not only as a set of links.
+Check:
 
-* **Frontmatter.** The `name` matches the folder name. The `description` states both what the skill does and when to use it, and includes the concrete trigger words an agent needs to pick this skill over its neighbors. A vague one-line description is a finding.
-* **Writing style.** The prose follows every rule in the "Writing style" section of `AGENTS.md`: simple wording, one sentence per line, short sentences, no contractions, the Oxford comma, consistent capitalization and punctuation, straight quotes, sentence case headings, no slang or idioms, and plain hyphens.
-* **Structure.** A single H1, a clear "when to use" (and, where useful, "when not to use") signal, a step-by-step workflow, explicit inputs and outputs, and a constraints or edge-cases section the agent must respect.
-* **Right-sized content.** Keep `SKILL.md` focused on the instructions an agent needs at run time. Flag long reference material, templates, or examples that should move to a supporting file inside the skill folder, and flag content that duplicates `AGENTS.md` or another skill and should become a pointer instead.
-* **Determinism.** Steps that must not vary (exact commands, file formats, output tables) appear as exact commands or literal templates, not as paraphrased descriptions the agent must reinvent each run.
+* **Frontmatter.**
+  The `name` matches the folder name.
+  The `description` states both what the skill does and when to use it, and includes the concrete trigger words an agent needs to pick this skill over its neighbors.
+  A vague one-line description is a finding.
+* **Writing style.**
+  The prose follows every rule in the "Writing style" section of `AGENTS.md`: simple wording, one sentence per line, short sentences, no contractions, the Oxford comma, consistent capitalization and punctuation, straight quotes, sentence case headings, no slang or idioms, and plain hyphens.
+* **Structure.**
+  A single H1, a clear "when to use" (and, where useful, "when not to use") signal, a step-by-step workflow, explicit inputs and outputs, and a constraints or edge-cases section the agent must respect.
+* **Right-sized content.**
+  Keep `SKILL.md` focused on the instructions an agent needs at run time.
+  Flag long reference material, templates, or examples that should move to a supporting file inside the skill folder, and flag content that duplicates `AGENTS.md` or another skill and should become a pointer instead.
+* **Determinism.**
+  Steps that must not vary (exact commands, file formats, output tables) appear as exact commands or literal templates, not as paraphrased descriptions the agent must reinvent each run.
 
 
 ## Task 4: script opportunities
@@ -101,11 +120,18 @@ List them in the report as proposals, and note that any accepted script must its
 
 ## How to handle fixes
 
-* **Apply low-risk fixes automatically**, then list exactly what you changed. Low-risk means unambiguous and safe: typos, broken or wrong links, missing or stale allowlist entries, missing README or index entries, formatting that violates repo rules, writing-style violations in `SKILL.md` prose (contractions, curly quotes, dashes, heading case, sentence-per-line), and missing required script boilerplate (`--help` text, notes section, status emojis) where the intent is clear.
-* **Ask before risky fixes.** Risky means anything that changes script logic or behavior, alters command interfaces or flags, restructures or rewrites large parts of a `SKILL.md`, touches `.claude/settings.json` permissions beyond syncing the skill allowlist, or where the correct fix is ambiguous. Describe the proposed change and wait for approval.
-* **Script opportunities are always proposals.** Never create the scripts from task 4 during the audit; the report is where they get decided.
-* Anchor judgments to `AGENTS.md` first. When general best practice conflicts with `AGENTS.md`, follow `AGENTS.md` and flag the conflict.
-* Do not invent issues. If something is fine, say so. Quote the relevant file path and line for each finding.
+* **Apply low-risk fixes automatically**, then list exactly what you changed.
+  Low-risk means unambiguous and safe: typos, broken or wrong links, missing or stale allowlist entries, missing README or index entries, formatting that violates repo rules, writing-style violations in `SKILL.md` prose (contractions, curly quotes, dashes, heading case, sentence-per-line), and missing required script boilerplate (`--help` text, notes section, status emojis) where the intent is clear.
+* **Ask before risky fixes.**
+  Risky means anything that changes script logic or behavior, alters command interfaces or flags, restructures or rewrites large parts of a `SKILL.md`, touches `.claude/settings.json` permissions beyond syncing the skill allowlist, or where the correct fix is ambiguous.
+  Describe the proposed change and wait for approval.
+* **Script opportunities are always proposals.**
+  Never create the scripts from task 4 during the audit; the report is where they get decided.
+* Anchor judgments to `AGENTS.md` first.
+  When general best practice conflicts with `AGENTS.md`, follow `AGENTS.md` and flag the conflict.
+* Do not invent issues.
+  If something is fine, say so.
+  Quote the relevant file path and line for each finding.
 * After applying fixes to Markdown files, run `pnpm lint` and resolve anything it reports.
 
 
@@ -116,10 +142,14 @@ Produce a Markdown report with these sections:
 1. **Summary** - overall verdict (pass, pass-with-issues, or needs work) in 2-3 sentences.
 2. **Fixes applied** - a table of low-risk fixes you made, with columns: File:line, What changed, Why.
 3. **Fixes needing approval** - risky changes you did not apply, with columns: Severity, File:line, Finding, Proposed fix.
-4. **Script findings** - one subsection per script, with columns: Severity, File:line, Finding, Recommendation. Mark which were auto-fixed.
-5. **Documentation findings** - the same table format, one row per issue. Mark which were auto-fixed.
-6. **Skill content findings** - the same table format, one row per task 3 issue. Mark which were auto-fixed.
-7. **Script opportunities** - a prioritized table of task 4 proposals, with columns: Priority, Proposed script, What it automates, What it replaces in SKILL.md. State it explicitly when the skill needs no new scripts.
+4. **Script findings** - one subsection per script, with columns: Severity, File:line, Finding, Recommendation.
+   Mark which were auto-fixed.
+5. **Documentation findings** - the same table format, one row per issue.
+   Mark which were auto-fixed.
+6. **Skill content findings** - the same table format, one row per task 3 issue.
+   Mark which were auto-fixed.
+7. **Script opportunities** - a prioritized table of task 4 proposals, with columns: Priority, Proposed script, What it automates, What it replaces in SKILL.md.
+   State it explicitly when the skill needs no new scripts.
 8. **What is correct** - a short bullet list of things that already follow best practices.
 9. **Suggested next steps** - a prioritized, numbered checklist of remaining work.
 

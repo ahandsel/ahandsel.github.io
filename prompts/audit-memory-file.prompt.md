@@ -46,7 +46,8 @@ Before reaching a verdict:
 4. Read directly related memories only when needed to check overlap, conflicts, or linked decisions.
 5. Search the repository for the memory's central rule, term, UI label, or claim to find newer authority, conflicting usage, or relevant scope.
 6. Check the target and related files in the current working tree, not only their committed versions.
-7. Load and follow any repository skill that `AGENTS.md` requires for this task. Prefer repository skills over global skills.
+7. Load and follow any repository skill that `AGENTS.md` requires for this task.
+   Prefer repository skills over global skills.
 
 Treat repository evidence as authoritative in the order defined by `memory/MEMORY.md` and `AGENTS.md`.
 Do not rely on prior conversation context, general product knowledge, or the filename as evidence.
@@ -184,10 +185,13 @@ If a verification step cannot run or fails for an unrelated reason, report the c
 Return a concise report in this order:
 
 1. **Outcome** - `Updated`, `No change needed`, `Rename proposed`, or `Deletion proposed`, followed by a one-sentence rationale.
-2. **Changes made** - Material edits and why they improve accuracy or agent use. Omit this section when the file was not edited.
-3. **Related findings** - Exact index drift, source conflicts, duplication, or out-of-scope changes needed. Omit this section when there are none.
+2. **Changes made** - Material edits and why they improve accuracy or agent use.
+   Omit this section when the file was not edited.
+3. **Related findings** - Exact index drift, source conflicts, duplication, or out-of-scope changes needed.
+   Omit this section when there are none.
 4. **Verification** - Checks run and their results.
-5. **Open questions** - Only uncertainties that repository evidence could not resolve. Omit this section when there are none.
+5. **Open questions** - Only uncertainties that repository evidence could not resolve.
+   Omit this section when there are none.
 
 For a proposed rename or deletion, end by asking for confirmation before applying it.
 

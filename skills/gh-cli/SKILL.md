@@ -128,7 +128,8 @@ This prompts you to pick from your repositories.
 gh repo sync
 ```
 
-This fetches and fast-forwards the current branch from its upstream. If you need to pull a specific branch like `main`:
+This fetches and fast-forwards the current branch from its upstream.
+If you need to pull a specific branch like `main`:
 
 ```bash
 git switch main && gh repo sync
@@ -293,7 +294,8 @@ STATUS  TITLE             WORKFLOW    BRANCH   EVENT   ID          ELAPSED  AGE
 
 ### Confirmation protocol
 
-All write operations modify data on GitHub. By default, Claude displays a summary and asks for confirmation before executing.
+All write operations modify data on GitHub.
+By default, Claude displays a summary and asks for confirmation before executing.
 
 **Confirmation format:**
 

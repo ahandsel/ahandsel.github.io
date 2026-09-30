@@ -34,8 +34,10 @@ Also, ensure the following style guidelines are followed:
 * Use sentence case for headings and subheadings (capitalize only the first word and proper nouns).
 * Avoid using slang or idiomatic expressions.
 * Keep the wording simple and straightforward to ensure non-native English speakers easily understand the content.
-* Do not use en dashes. Use hyphens (`-`) instead.
-* Do not use `→`. Use `->` instead.
+* Do not use en dashes.
+  Use hyphens (`-`) instead.
+* Do not use `→`.
+  Use `->` instead.
 
 Things to not change:
 

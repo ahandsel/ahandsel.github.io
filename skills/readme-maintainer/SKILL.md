@@ -54,11 +54,13 @@ Out of scope (skip these, do not create a README):
    * Stale READMEs - list the folders and what looks out of date.
    * Folders that are up to date - one-line summary count.
 
-   Ask the user to confirm before writing or editing files when more than a few changes are needed. For a single missing README in a folder the user just touched, proceed directly.
+   Ask the user to confirm before writing or editing files when more than a few changes are needed.
+   For a single missing README in a folder the user just touched, proceed directly.
 
 5. **Create or update**
    * For missing READMEs, create a new `README.md` that follows the style described below.
-   * For stale READMEs, edit only the parts that are out of date. Do not rewrite the whole file when a targeted edit is enough.
+   * For stale READMEs, edit only the parts that are out of date.
+     Do not rewrite the whole file when a targeted edit is enough.
    * Update any index files that link to the affected folder, for example [skills/README.md][] when adding a skill, `scripts/README.md` when adding a script.
 
 6. **Verify**
@@ -69,7 +71,8 @@ Out of scope (skip these, do not create a README):
 
 ## README style
 
-Follow the project's writing and markdown rules from `AGENTS.md`. In particular:
+Follow the project's writing and markdown rules from `AGENTS.md`.
+In particular:
 
 * Use straight quotes, not curly quotes.
 * Do not use contractions.
@@ -102,7 +105,8 @@ For folders whose contents are tightly themed (for example a single skill's `scr
 
 ## Edge cases
 
-* **Renamed file or folder** - update both the folder's own README and any other READMEs or docs that link to the old path. The rule under "File and folder naming" in `AGENTS.md` requires updating every reference.
+* **Renamed file or folder** - update both the folder's own README and any other READMEs or docs that link to the old path.
+  The rule under "File and folder naming" in `AGENTS.md` requires updating every reference.
 * **Folder added but not yet populated** - if the folder is tracked because of a `.gitkeep` only, skip it.
 * **Folder with sensitive or generated content** - describe the purpose without listing individual files when listing them would be noisy or could leak data.
 * **Conflicting prior README** - if a README looks intentionally minimal (for example a top-level folder that defers to a child index), preserve that style; do not expand it without reason.

@@ -1,12 +1,73 @@
 <script setup lang="ts">
 import { useData } from 'vitepress';
-import DefaultTheme from 'vitepress/theme';
-import { nextTick, provide } from 'vue';
+import DefaultTheme, { useLayout } from 'vitepress/theme';
+import {
+  computed,
+  nextTick,
+  onMounted,
+  onUnmounted,
+  provide,
+  ref,
+  watch,
+} from 'vue';
 
-const { isDark } = useData();
+const { isDark, lang } = useData();
 
-// Only animate when the browser supports the View Transitions API and the
-// visitor has not asked to reduce motion.
+// Sidebar collapse toggle.
+//
+// VitePress has no built-in control to collapse the whole desktop sidebar, so we render a floating button that toggles a `sidebar-collapsed` class on <html>.
+// The actual hide/reflow is done in style.css.
+// The choice is persisted to localStorage so it survives navigation and reloads.
+//
+// An inline script in the `head` of config.mts applies the stored class before the first paint, so the sidebar does not flash open on a full page load.
+// The class on <html> is therefore the source of truth at mount time.
+// `collapsed` starts as `false` to match the server-rendered HTML, and picks up the real state in `onMounted`, after hydration, so the button re-renders correctly.
+const STORAGE_KEY = 'sidebar-collapsed';
+const CLASS_NAME = 'sidebar-collapsed';
+const collapsed = ref(false);
+
+// Show the toggle only on pages that render a sidebar, using the default theme's own rule.
+// That rule also covers the Talks pages, which keep `layout: home` but set `isHome: false` to render the sidebar.
+const { hasSidebar } = useLayout();
+
+const toggleLabel = computed(() => {
+  const ja = lang.value.startsWith('ja');
+  if (collapsed.value) {
+    return ja ? 'サイドバーを表示' : 'Show sidebar';
+  }
+  return ja ? 'サイドバーを隠す' : 'Hide sidebar';
+});
+
+// LocalNav's Menu button (visible below 80rem) opens the VitePress sidebar.
+// Collapse CSS beats `.VPSidebar.open`, so a Menu click while collapsed would otherwise be a no-op.
+// Clear collapse in the capture phase before VitePress handles the click, so Menu expands the sidebar again.
+function onLocalNavMenuClick(event: Event) {
+  const target = event.target;
+  if (!(target instanceof Element)) return;
+  if (!target.closest('.VPLocalNav .menu')) return;
+  if (collapsed.value) collapsed.value = false;
+}
+
+onMounted(() => {
+  collapsed.value = document.documentElement.classList.contains(CLASS_NAME);
+
+  watch(collapsed, (value) => {
+    document.documentElement.classList.toggle(CLASS_NAME, value);
+    // Storage can be blocked (private mode, site data disabled).
+    // The toggle still works for the current visit; only the persistence is lost.
+    try {
+      localStorage.setItem(STORAGE_KEY, String(value));
+    } catch {}
+  });
+
+  document.addEventListener('click', onLocalNavMenuClick, true);
+});
+
+onUnmounted(() => {
+  document.removeEventListener('click', onLocalNavMenuClick, true);
+});
+
+// Only animate when the browser supports the View Transitions API and the visitor has not asked to reduce motion.
 function enableTransitions() {
   return (
     'startViewTransition' in document &&
@@ -14,8 +75,7 @@ function enableTransitions() {
   );
 }
 
-// VitePress's built-in appearance switch calls this injected function, so the
-// sun/moon toggle reveals the new theme as a circle growing from the cursor.
+// VitePress's built-in appearance switch calls this injected function, so the sun/moon toggle reveals the new theme as a circle growing from the cursor.
 provide('toggle-appearance', async ({ clientX: x, clientY: y }: MouseEvent) => {
   if (!enableTransitions()) {
     isDark.value = !isDark.value;
@@ -29,10 +89,8 @@ provide('toggle-appearance', async ({ clientX: x, clientY: y }: MouseEvent) => {
 
   const root = document.documentElement;
 
-  // Pause the continuously-running rainbow animation on <html> while the view
-  // transition is in flight. The transition snapshots <html>; if the rainbow
-  // keeps mutating it mid-capture, the old and new layers drift apart and the
-  // reveal looks jittery on repeated toggles.
+  // Pause the continuously-running rainbow animation on <html> while the view transition is in flight.
+  // The transition snapshots <html>; if the rainbow keeps mutating it mid-capture, the old and new layers drift apart and the reveal looks jittery on repeated toggles.
   root.classList.add('vt-freeze');
 
   const transition = document.startViewTransition(async () => {
@@ -56,5 +114,36 @@ provide('toggle-appearance', async ({ clientX: x, clientY: y }: MouseEvent) => {
 </script>
 
 <template>
-  <DefaultTheme.Layout />
+  <!-- The toggle renders in a slot so that `hasSidebar` is read after the
+       default layout has resolved the sidebar for the current page. -->
+  <DefaultTheme.Layout>
+    <template #layout-bottom>
+      <button
+        v-if="hasSidebar"
+        type="button"
+        class="sidebar-toggle"
+        :class="{ 'is-collapsed': collapsed }"
+        :aria-expanded="!collapsed"
+        aria-controls="VPSidebarNav"
+        :aria-label="toggleLabel"
+        :title="toggleLabel"
+        @click="collapsed = !collapsed"
+      >
+        <svg
+          class="sidebar-toggle__icon"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M15 18l-6-6 6-6" />
+        </svg>
+      </button>
+    </template>
+  </DefaultTheme.Layout>
 </template>

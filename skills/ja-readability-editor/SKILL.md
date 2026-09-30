@@ -23,7 +23,8 @@ description: Improve readability and scannability of Japanese Markdown documenta
    * Scannability barriers (dense blocks, weak headings, poor list structure).
    * Readability barriers (overly long sentences, heavy nominalization, ambiguous wording).
    * Plain-language gaps (unnecessary complexity, redundant phrasing).
-3. Edit only where the change is meaningful. Do not rewrite for cosmetic preference alone.
+3. Edit only where the change is meaningful.
+   Do not rewrite for cosmetic preference alone.
 4. Keep critical technical details, including defaults, feature scope, warnings, and admin options.
 5. Keep proper nouns and the glossary terms in `docs/glossary.yaml` exactly as written in source docs.
 6. Keep factual intent of each action verb (for example, do not replace a specific action with a different one).
@@ -33,7 +34,8 @@ description: Improve readability and scannability of Japanese Markdown documenta
 
 ## Editing rules
 
-1. Use concise, everyday Japanese. Remove or explain jargon that does not improve understanding.
+1. Use concise, everyday Japanese.
+   Remove or explain jargon that does not improve understanding.
 2. Prefer shorter phrasing when clarity is equal.
 3. Use active voice and direct second-person language when appropriate.
 4. Prefer direct instruction over soft filler phrases when the sentence is procedural.

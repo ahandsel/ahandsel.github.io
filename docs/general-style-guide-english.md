@@ -4,7 +4,8 @@ This guide defines the baseline English writing rules that apply across all cont
 
 **Audience:** Human writers and AI writing agents creating or reviewing English content in this repository.
 
-**Scope:** Read this guide before writing or editing any English content. For help-documentation-specific rules, also read the [technical style guide](./technical-style-guide-english.md), which supplements and takes precedence over this guide.
+**Scope:** Read this guide before writing or editing any English content.
+For help-documentation-specific rules, also read the [technical style guide](./technical-style-guide-english.md), which supplements and takes precedence over this guide.
 
 
 ## Changelog
@@ -124,14 +125,17 @@ If this guide does not provide explicit guidance, consult these third-party refe
 
 ### General rules
 
-* Write in a conversational tone by using simple, everyday language. Keep sentences short and to the point. Avoid using terms or phrases that non-native speakers may not understand.
+* Write in a conversational tone by using simple, everyday language.
+  Keep sentences short and to the point.
+  Avoid using terms or phrases that non-native speakers may not understand.
   * Example: "set a password" instead of "define a password"
 
 
 ### Active vs passive voices - default to active voice
 
 * Use active voice when the subject (doer) of the action is the user.
-* > In passive voice, it's easy to neglect to indicate who or what is performing a particular action. In this kind of construction, it's often hard for readers to figure out who's supposed to do something (such as the reader, the computer, the server, an end user, or a visitor to a web page).
+* > In passive voice, it's easy to neglect to indicate who or what is performing a particular action.
+  In this kind of construction, it's often hard for readers to figure out who's supposed to do something (such as the reader, the computer, the server, an end user, or a visitor to a web page).
 * Ref: [Active voice | Google developer documentation style guide][google-active-voice]
 
 [google-active-voice]: https://developers.google.com/style/voice
@@ -154,7 +158,8 @@ It is okay to use passive voice in the following cases:
 * Use positive sentences over negative sentences when telling users what they can or should do.
   * OK: "You can still proceed even if you skip this step."
   * NOT: "Skipping this step does not prevent you from proceeding."
-* Use negative sentences when describing cautions, restrictions, or errors. In these cases, we want to tell users what they cannot or should not do clearly and concisely.
+* Use negative sentences when describing cautions, restrictions, or errors.
+  In these cases, we want to tell users what they cannot or should not do clearly and concisely.
 * Avoid double negatives and use clear and direct language.
   * OK:
     * "If you do not select any users, an invitation will not be sent to anyone."
@@ -168,9 +173,11 @@ It is okay to use passive voice in the following cases:
 
 ### First- vs second-person pronouns
 
-In general, use second-person pronouns (you, your) to address the user directly. This approach clarifies that the text refers to the user's actions and not to any other entity.
+In general, use second-person pronouns (you, your) to address the user directly.
+This approach clarifies that the text refers to the user's actions and not to any other entity.
 
-First-person pronouns (I, my, me) should only be used when there is a clear reason for it. Appropriate contexts for using first-person pronouns include the following:
+First-person pronouns (I, my, me) should only be used when there is a clear reason for it.
+Appropriate contexts for using first-person pronouns include the following:
 
 * Proper nouns, such as feature names, service names, and setting names.
 * Situations where it is necessary to distinguish the signed-in user from others.
@@ -209,7 +216,8 @@ Ref:
 
 ### Abbreviations
 
-Abbreviations are intended to save the audience time. Avoid using specialized or technical abbreviations that the intended audience may not understand.
+Abbreviations are intended to save the audience time.
+Avoid using specialized or technical abbreviations that the intended audience may not understand.
 
 * Ref: [Abbreviations | Google developer documentation style guide][google-abbreviations]
 
@@ -284,7 +292,8 @@ Append a period at the end of a sentence if it is an independent clause.
 
 #### Periods with lists
 
-Start each list item with a capital letter unless the case is an important piece of information (for example, glossary terms). End each item with a period or other appropriate sentence-ending punctuation.
+Start each list item with a capital letter unless the case is an important piece of information (for example, glossary terms).
+End each item with a period or other appropriate sentence-ending punctuation.
 
 * Exceptions:
   * If the item consists of a single word, do not add end punctuation.
@@ -310,17 +319,20 @@ If the list is a complete sentence, use a period at the end.
 
 ### Exclamation marks `!`
 
-* Avoid using exclamation marks in general. They can appear overly emphatic, alarming, or unprofessional.
+* Avoid using exclamation marks in general.
+  They can appear overly emphatic, alarming, or unprofessional.
 * Exception:
   * When necessary for code syntax (e.g., `!=` operator).
   * When a significant milestone or achievement is reached.
 * Caution:
-  * Overuse of exclamation marks can diminish their impact. Always question if an exclamation mark is truly necessary.
+  * Overuse of exclamation marks can diminish their impact.
+    Always question if an exclamation mark is truly necessary.
 
 
 ### Slashes `/`
 
-* Use to signify alternatives. When at least one of the terms on either side of the slash is a multi-word phrase, consider adding a space before and after the slash to improve readability.
+* Use to signify alternatives.
+  When at least one of the terms on either side of the slash is a multi-word phrase, consider adding a space before and after the slash to improve readability.
   * Example: `and/or`, `Mr./Ms.`, `Genji/Gen-chan`, `San Francisco / Tokyo`
 * Use for dates, file paths, and URLs.
   * Example: `2023/06/15`, `C:/example/example/example`, `https://example.example/`
@@ -330,7 +342,8 @@ If the list is a complete sentence, use a period at the end.
 
 ### Colons `:`
 
-* Use to introduce a list. In this case, the text that precedes the colon should be a complete sentence.
+* Use to introduce a list.
+  In this case, the text that precedes the colon should be a complete sentence.
   * Example:
     * OK: `Required information: full name, email, password`, `The required information is as follows: full name, email, and password.`
     * NOT: `The required information is: full name, email, password`
@@ -345,9 +358,11 @@ Use to add _helpful_ but _not vital_ information.
 * Do not put vital information in parentheses as some readers may ignore it.
 * Examples of helpful but non-vital information: examples, clarifications, abbreviations.
   * Example:
-    * OK: Enter an 8-digit PIN (for example, 12345678), and then click OK. This PIN will be required when you sign-in on a new device.
+    * OK: Enter an 8-digit PIN (for example, 12345678), and then click OK.
+      This PIN will be required when you sign-in on a new device.
     * NOT: Enter an 8-digit PIN (required when you sign-in on a new device), and then click OK.
-* When including parentheses in the middle of a sentence, keep the parenthetical phrase as short as possible so as not to affect readability. Otherwise, consider breaking the sentence into two.
+* When including parentheses in the middle of a sentence, keep the parenthetical phrase as short as possible so as not to affect readability.
+  Otherwise, consider breaking the sentence into two.
   * Example:
     * OK: Enter a recognizable name (for example, "Development Team"), and then move on to the next step.
     * NOT: Enter a recognizable name (for example, if you are creating a team for developers, you can name it "Development Team"), and then move on to the next step.
@@ -371,7 +386,8 @@ Use for placeholders, where a variable is inserted by the system.
 
 ### Punctuations not recommended for use
 
-When writing for user interfaces, there are some punctuations that are not recommended for use due to screen reader compatibility issues. Refer to a separate accessible name style guide for use of punctuation marks and special characters in UI copy.
+When writing for user interfaces, there are some punctuations that are not recommended for use due to screen reader compatibility issues.
+Refer to a separate accessible name style guide for use of punctuation marks and special characters in UI copy.
 
 
 ## Inclusive language
@@ -379,7 +395,8 @@ When writing for user interfaces, there are some punctuations that are not recom
 
 ### Inclusive jokes
 
-When including jokes in copies, ensure they are understandable by anyone, regardless of the reader's background or knowledge. Avoid jokes that are only relatable or funny to specific groups.
+When including jokes in copies, ensure they are understandable by anyone, regardless of the reader's background or knowledge.
+Avoid jokes that are only relatable or funny to specific groups.
 
 * Do not use "reference" jokes that rely on familiarity with particular movies, books, or other media.
 * Puns and wordplay can be included, provided they are easily understood by anyone who understands the language.
@@ -387,12 +404,14 @@ When including jokes in copies, ensure they are understandable by anyone, regard
 
 ### Do not solely rely on sensory characteristics
 
-Do not rely only on sensory characteristics to convey information. Due to their abilities or devices, these characteristics can be ambiguous or misleading to some users.
+Do not rely only on sensory characteristics to convey information.
+Due to their abilities or devices, these characteristics can be ambiguous or misleading to some users.
 
 * User ability example: A visually impaired user may not perceive color, shape, or size as expected.
 * User device example: The same user on a mobile device, screen reader, or desktop may perceive visual location or orientation differently.
 
-Sensory characteristics include color, shape, size, visual location, orientation, or sound. In addition to sensory characteristics, provide information that can be understood independently of the user's ability to perceive these characteristics to ensure accessibility for all users.
+Sensory characteristics include color, shape, size, visual location, orientation, or sound.
+In addition to sensory characteristics, provide information that can be understood independently of the user's ability to perceive these characteristics to ensure accessibility for all users.
 
 * OK: `Fields with an asterisk (*) are required.`, `Fields marked with a red asterisk (*) are required.`
 * NOT: `Fields highlighted in red are required.`
@@ -400,7 +419,9 @@ Sensory characteristics include color, shape, size, visual location, orientation
 
 ### Use gender-neutral pronouns
 
-Use the singular "they" when referring to a person or group. It is an effective and inclusive way to refer to any individual. Avoid gender-specific pronouns unless the person you are referring to is actually that gender.
+Use the singular "they" when referring to a person or group.
+It is an effective and inclusive way to refer to any individual.
+Avoid gender-specific pronouns unless the person you are referring to is actually that gender.
 
 Use they instead of a combination of he or she.
 
@@ -414,7 +435,8 @@ When describing a group of people, put the person first and the description seco
 
 If you have a specific context, it is even better to improve your descriptions by carefully selecting relevant details instead of relying on short, trait-based phrases.
 
-ℹ️ Referring to someone by just one characteristic can suggest that they can be defined solely by that trait. Even if it is not intended to be harmful, it can feel limiting.
+ℹ️ Referring to someone by just one characteristic can suggest that they can be defined solely by that trait.
+Even if it is not intended to be harmful, it can feel limiting.
 
 * OK:
   * `people with disabilities`
@@ -430,10 +452,13 @@ If you have a specific context, it is even better to improve your descriptions b
   * `elderly people`, `the aged`, `seniors`
 
 <!--
-WRITING_NOTES: Commenting this section out due to sensitive of the topic. Will revisit this section later if needed.
+WRITING_NOTES: Commenting this section out due to sensitive of the topic.
+Will revisit this section later if needed.
 #### Exceptions
 
-In some cases, people prefer to be referred to by their identity first to emphasize their identity. In these cases, it is important to respect their preferences. Consider this in mind when writing content.
+In some cases, people prefer to be referred to by their identity first to emphasize their identity.
+In these cases, it is important to respect their preferences.
+Consider this in mind when writing content.
 
 * Example:
   * OK: `People with Japanese nationality living in the United States`
@@ -450,23 +475,31 @@ Reference: [Inclusive language - Content - Atlassian Design System][atlassian-in
 
 ### Use global English
 
-Global English is a style of writing designed to be easily understood by non-native readers. This is achieved by avoiding idioms, slang, and regional expressions. It also avoids complex vocabulary and long sentences. Instead, the language used is precise, logical, and literal.
+Global English is a style of writing designed to be easily understood by non-native readers.
+This is achieved by avoiding idioms, slang, and regional expressions.
+It also avoids complex vocabulary and long sentences.
+Instead, the language used is precise, logical, and literal.
 
-Using global English is important as it makes content accessible to as many people as possible. Also, global English will make the translation process easier and smoother.
+Using global English is important as it makes content accessible to as many people as possible.
+Also, global English will make the translation process easier and smoother.
 
 
 ### Be clear and concise
 
-Use clear and straightforward language to prevent misunderstandings. Keep in mind that the content will be translated into several languages.
+Use clear and straightforward language to prevent misunderstandings.
+Keep in mind that the content will be translated into several languages.
 
-If you're uncertain about the clarity of your writing, try using a machine translation tool to translate the text into another language and then translate it back to English. This can help you assess the precision of your content.
+If you're uncertain about the clarity of your writing, try using a machine translation tool to translate the text into another language and then translate it back to English.
+This can help you assess the precision of your content.
 
 * Use short sentences and paragraphs.
-* Avoid using too many modifiers before a noun. Try rephrasing the sentence to make the structure more straightforward.
+* Avoid using too many modifiers before a noun.
+  Try rephrasing the sentence to make the structure more straightforward.
   * Example:
     * OK: `Private groups that you most recently joined`
     * NOT: `Your most recently joined private groups`
-* Remember that participle constructions can often be ambiguous and challenging to translate. Avoid using them unless they are necessary.
+* Remember that participle constructions can often be ambiguous and challenging to translate.
+  Avoid using them unless they are necessary.
   * Example:
     * OK: `Enable passkeys as an alternative sign-in option for your users. This option allows them to sign in without a password.`
     * NOT: `Enable passkeys as an alternative sign-in option for your users, allowing them to sign in without a password.`
@@ -488,7 +521,8 @@ If you're uncertain about the clarity of your writing, try using a machine trans
 
 Use the same terms consistently throughout the content to avoid confusion.
 
-However, it is acceptable to use different expressions if doing so aids user understanding. In such cases, ensure that users recognize that the expressions convey the same meaning.
+However, it is acceptable to use different expressions if doing so aids user understanding.
+In such cases, ensure that users recognize that the expressions convey the same meaning.
 
 
 ## Formatting
@@ -516,7 +550,8 @@ For details on the implementation, refer to the [Supplementary information: Impl
 * Use `Today` as the relative date.
 * Do not use terms such as tomorrow, yesterday, or one month ago as relative dates.
 * All other dates should use the absolute date format.
-* Do not include a comma between the date and time to maintain a consistent format across English and Japanese. This reduces development costs.
+* Do not include a comma between the date and time to maintain a consistent format across English and Japanese.
+  This reduces development costs.
 * For details on the time format, refer to the [Time format](#time-format) section.
 
 
@@ -548,11 +583,13 @@ For details on the time format, refer to the [Time format](#time-format) section
 
 ### Time format
 
-* Use the 24-hour time format. Do not use the 12-hour format or the AM and PM suffixes.
+* Use the 24-hour time format.
+  Do not use the 12-hour format or the AM and PM suffixes.
   * Example: `15:45`
 * Write the hour with two digits, adding a leading zero before 10:00.
   * Example: `02:18`
-* Use hyphens (-) in time ranges. Do not add spaces before or after the hyphens.
+* Use hyphens (-) in time ranges.
+  Do not add spaces before or after the hyphens.
   * Example: `09:00-10:00`
 * Keep the minutes on round hours.
   * Example: `15:00`
@@ -608,7 +645,9 @@ Not "login" or "log in".
 
 ### single sign-on (noun), single sign-on (adjective), SSO (abbreviation)
 
-Not "sign-on" or "sign on". Do not use either form on its onw. Use the hyphenated version as part of "single sign-on".
+Not "sign-on" or "sign on".
+Do not use either form on its onw.
+Use the hyphenated version as part of "single sign-on".
 
 
 ### username
@@ -620,14 +659,16 @@ Not "user name" nor "account name".
 
 * Use `continue` to indicate that the operation has not yet been completed and that the user must proceed.
   * For example, when the user is in the middle of a process.
-* Note that `next` is used differently from `continue`! See [next](#next) for more details.
+* Note that `next` is used differently from `continue`!
+  See [next](#next) for more details.
 
 
 ### next
 
 * Use `next` to indicate that the action is completed and the user can move to the next step.
   * For example, when the user has completed the current step and is ready to move on.
-* Note that `continue` is used differently from `next`! See [continue](#continue) for more details.
+* Note that `continue` is used differently from `next`!
+  See [continue](#continue) for more details.
 
 
 ### email
@@ -670,7 +711,8 @@ Do not use `ex/` or `ex.` for `example`.
 
 * According to Merriam-Webster, "invite" is both a noun and a verb.
 * Use `invite` instead when referring specifically to the `invite email` or `invitation email`.
-  * Example: "The invite has been sent. Check your email."
+  * Example: "The invite has been sent.
+    Check your email."
 * Use "invitation" instead when referring to the higher-level concept.
 
 
@@ -710,7 +752,8 @@ NOT:
 * Use `Administrator` when writing to a powerful user trying to manage settings.
   * By default, use sentence case.
   * When referring to a specific administrator type (for example, `Super Administrator`), use title case.
-* Logic: `admin` is casual, shorter, and less intimidating. The word `Administrator` should be used when the user SHOULD be aware that their actions have consequences.
+* Logic: `admin` is casual, shorter, and less intimidating.
+  The word `Administrator` should be used when the user SHOULD be aware that their actions have consequences.
 
 
 ### ⚠️ account
@@ -746,15 +789,18 @@ NOT:
 ### ⚠️ Inactive vs Deactivated
 
 * A user's own inaction makes their account "Inactive."
-* An Admin can "deactivate" a user. (A user cannot deactivate themselves.)
+* An Admin can "deactivate" a user.
+  (A user cannot deactivate themselves.)
 
 
 ### ⚠️ limit reached vs limit exceeded
 
 * Use "reached" when the user is at the limit and can no longer perform the action.
-  * Example scenario: 10 items are selected, which is the maximum allowed. When the user tries to select the 11th item, the system prevents the action until they deselect one of the currently selected items.
+  * Example scenario: 10 items are selected, which is the maximum allowed.
+    When the user tries to select the 11th item, the system prevents the action until they deselect one of the currently selected items.
 * Use "exceeded" when the user is over the limit.
-  * Example scenario: 11 items are selected when the limit is 10, and the user submits the form. The system prompts the user to reduce their selection to 10 items or fewer in order to proceed.
+  * Example scenario: 11 items are selected when the limit is 10, and the user submits the form.
+    The system prompts the user to reduce their selection to 10 items or fewer in order to proceed.
 * Example wording:
   * "Limit reached":
     * `You have reached the limit of 6 conditions. To add another, delete an existing one to free up a slot.`
@@ -765,7 +811,8 @@ NOT:
 
 ### ⚠️ let's
 
-* "Let's" conveys a casual, friendly tone that fosters a sense of partnership, making users feel guided through a process together. Use it when that tone aligns with the context.
+* "Let's" conveys a casual, friendly tone that fosters a sense of partnership, making users feel guided through a process together.
+  Use it when that tone aligns with the context.
 * Avoid using "Let's" where users need clear and concise instructions or where the language should be action-efficient and action-oriented.
 
 Example of when to use "Let's":
@@ -781,37 +828,44 @@ Example of when to avoid "Let's":
 
 ### 🚫 login (noun or adjective), log in (verb)
 
-Do not use. Instead, use "sign in" and "sign-in".
+Do not use.
+Instead, use "sign in" and "sign-in".
 
 
 ### 🚫 log out
 
-Do not use. Instead, use "sign out".
+Do not use.
+Instead, use "sign out".
 
 
 ### 🚫 sign into
 
-Do not use. Instead, use "sign in to".
+Do not use.
+Instead, use "sign in to".
 
 
 ### 🚫 sign-on, sign on
 
-Do not use either form on its own. Use the hyphenated version as part of "single sign-on".
+Do not use either form on its own.
+Use the hyphenated version as part of "single sign-on".
 
 
 ### 🚫 sign-up (noun or adjective), sign up (verb)
 
-Do not use. Instead, use "Create an account".
+Do not use.
+Instead, use "Create an account".
 
 
 ### 🚫 user name
 
-Do not use. Instead, use "username".
+Do not use.
+Instead, use "username".
 
 
 ### 🚫 account name
 
-Do not use. Instead, use "username".
+Do not use.
+Instead, use "username".
 
 * If possible, avoid using `account` as it is too generic.
 * Exceptions: User account settings
@@ -824,7 +878,8 @@ Do not use. Instead, use "username".
 
 ### 🚫 input (user inputting value)
 
-Do not use. Instead, use "enter" when referring to the user entering text or value into a field.
+Do not use.
+Instead, use "enter" when referring to the user entering text or value into a field.
 
 Example: In the name field, enter your full name.
 

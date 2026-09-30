@@ -63,19 +63,23 @@ Tutorial vs. How-to Guide:
 
 Tutorial vs. Explanation:
 
-* Readers will gain a skill from a tutorial. Example: How to create a secure user account.
-* Readers will understand a topic from an explanation. Example: How HTTPS encryption works.
+* Readers will gain a skill from a tutorial.
+  Example: How to create a secure user account.
+* Readers will understand a topic from an explanation.
+  Example: How HTTPS encryption works.
 
 
 ## How-to guides
 
-* How-to guides are **directions** that guide the reader through a problem or towards a result. How-to guides are **goal-oriented**.
+* How-to guides are **directions** that guide the reader through a problem or towards a result.
+  How-to guides are **goal-oriented**.
 * [How-to guides structure and template](./templates/how-to-guides-template-structure.md)
 
 
 ## Reference document
 
-* Reference documents are **technical descriptions** of the software and how to operate it. Reference document is **information-oriented**.
+* Reference documents are **technical descriptions** of the software and how to operate it.
+  Reference document is **information-oriented**.
 * [Reference document structure and template](./templates/reference-document-template-structure.md)
 
 
@@ -83,7 +87,9 @@ Tutorial vs. Explanation:
 
 [Diataxis](https://diataxis.fr/) - Handbook for organizing and writing documentation
 
-* The core idea of Diataxis is that there are fundamentally four identifiable kinds of documentation, that respond to four different needs. The four kinds are: tutorials, how-to guides, reference and explanation. Each has a different purpose, and needs to be written in a different way.
+* The core idea of Diataxis is that there are fundamentally four identifiable kinds of documentation, that respond to four different needs.
+  The four kinds are: tutorials, how-to guides, reference and explanation.
+  Each has a different purpose, and needs to be written in a different way.
 
 [Tutorials]: https://diataxis.fr/tutorials/
 [How-to guides]: https://diataxis.fr/how-to-guides/

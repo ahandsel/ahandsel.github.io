@@ -29,7 +29,8 @@ Specific instructions for the `en` column:
 
 * Check for consistency in the use of terminology and style.
 * Ensure that the copy is clear, concise, and user-friendly.
-* Check if the vocabulary is limited to high school level or lower. If not, suggest simpler alternatives.
+* Check if the vocabulary is limited to high school level or lower.
+  If not, suggest simpler alternatives.
 * Check if the copy is grammatically correct and use active voice when possible.
 * Check if the writing follows US English spelling and grammar conventions.
 * Use sentence case for all titles and headings.
@@ -37,7 +38,8 @@ Specific instructions for the `en` column:
 
 Specific instructions for the `key_name` column:
 
-* Ensure that the keys follow a consistent format. If any keys deviate from the format, correct them.
+* Ensure that the keys follow a consistent format.
+  If any keys deviate from the format, correct them.
 * The keys should follow the camelCase convention, broken into sections by underscores.
 * Template
 * Check if the keys are descriptive and accurately represent the content of the copy.
@@ -59,5 +61,7 @@ Also, ensure the following style guidelines are followed:
 * Use sentence case for headings and subheadings (capitalize only the first word and proper nouns).
 * Avoid using slang or idiomatic expressions.
 * Keep the wording simple and straightforward to ensure non-native English speakers easily understand the content.
-* Do not use en dashes. Use hyphens (`-`) instead.
-* Do not use `→`. Use `->` instead.
+* Do not use en dashes.
+  Use hyphens (`-`) instead.
+* Do not use `→`.
+  Use `->` instead.

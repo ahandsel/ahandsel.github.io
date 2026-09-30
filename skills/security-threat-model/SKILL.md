@@ -5,7 +5,9 @@ description: 'Repository-grounded threat modeling that enumerates trust boundari
 
 # Threat Model Source Code Repo
 
-Deliver an actionable AppSec-grade threat model that is specific to the repository or a project path, not a generic checklist. Anchor every architectural claim to evidence in the repo and keep assumptions explicit. Prioritizing realistic attacker goals and concrete impacts over generic checklists.
+Deliver an actionable AppSec-grade threat model that is specific to the repository or a project path, not a generic checklist.
+Anchor every architectural claim to evidence in the repo and keep assumptions explicit.
+Prioritizing realistic attacker goals and concrete impacts over generic checklists.
 
 
 ## Quick start
@@ -16,7 +18,8 @@ Deliver an actionable AppSec-grade threat model that is specific to the reposito
 * Intended usage, deployment model, internet exposure, and auth expectations (if known).
 * Any existing repository summary or architecture spec.
 * Use prompts in `references/prompt-template.md` to generate a repository summary.
-* Follow the required output contract in `references/prompt-template.md`. Use it verbatim when possible.
+* Follow the required output contract in `references/prompt-template.md`.
+  Use it verbatim when possible.
 
 
 ## Workflow
@@ -98,4 +101,5 @@ Deliver an actionable AppSec-grade threat model that is specific to the reposito
 * Output contract and full prompt template: `references/prompt-template.md`
 * Optional controls/asset list: `references/security-controls-and-assets.md`
 
-Only load the reference files you need. Keep the final result concise, grounded, and reviewable.
+Only load the reference files you need.
+Keep the final result concise, grounded, and reviewable.

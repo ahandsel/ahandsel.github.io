@@ -1,6 +1,5 @@
 // Black-box tests for contents/.vitepress/llms-pages.ts.
-// Imports the real module through Node's type stripper so the theme gate and
-// the plugin ignore list stay covered without a separate TypeScript runner.
+// Imports the real module through Node's type stripper so the theme gate and the plugin ignore list stay covered without a separate TypeScript runner.
 
 import assert from 'node:assert/strict';
 import test from 'node:test';

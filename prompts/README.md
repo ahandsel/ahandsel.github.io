@@ -1,6 +1,7 @@
 # Prompts
 
-Reusable AI prompt files (`*.prompt.md`) for reviewing, linting, and converting Markdown documentation, UX copy, and scripts in this repository. Each file defines a task-specific instruction set to run with an AI assistant.
+Reusable AI prompt files (`*.prompt.md`) for reviewing, linting, and converting Markdown documentation, UX copy, and scripts in this repository.
+Each file defines a task-specific instruction set to run with an AI assistant.
 
 
 ## Usage

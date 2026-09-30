@@ -15,8 +15,10 @@
 // * With `--write`, edits `.claude/settings.json`: appends missing `Skill(<name>)` entries and removes stale ones.
 // * Non-Skill permission entries (`Bash(...)`, `Read(...)`, etc.) are never reordered, rewritten, or removed.
 // * Skill names come from the `name:` frontmatter field in each `SKILL.md`, falling back to the directory name if missing.
-
-import { spawnSync } from 'node:child_process';
+//
+// Version history:
+// * v1.1 - 2026-09-30 - Apply sentence-per-line formatting to comments.
+// * v1.0 - 2026-06-08 - Initial release.
 import {
   existsSync,
   readFileSync,
@@ -181,8 +183,7 @@ function bucketAllowlist(allowlist, desired) {
   return { inSync, toAdd, toRemove };
 }
 
-// Rebuild the allowlist: keep every non-Skill entry in its original position,
-// then append the desired Skill() entries sorted case-insensitively.
+// Rebuild the allowlist: keep every non-Skill entry in its original position, then append the desired Skill() entries sorted case-insensitively.
 function reconcileAllowlist(allowlist, desired) {
   const nonSkill = [];
   for (const entry of allowlist) {

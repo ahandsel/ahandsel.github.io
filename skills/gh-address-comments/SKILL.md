@@ -7,9 +7,11 @@ metadata:
 
 # PR Comment Handler
 
-Guide to find the open PR for the current branch and address its comments with gh CLI. Run all `gh` commands with elevated network access.
+Guide to find the open PR for the current branch and address its comments with gh CLI.
+Run all `gh` commands with elevated network access.
 
-Prereq: ensure `gh` is authenticated (for example, run `gh auth login` once), then run `gh auth status` with escalated permissions (include workflow/repo scopes) so `gh` commands succeed. If sandboxing blocks `gh auth status`, approve the command when prompted or adjust permission settings to allow it.
+Prereq: ensure `gh` is authenticated (for example, run `gh auth login` once), then run `gh auth status` with escalated permissions (include workflow/repo scopes) so `gh` commands succeed.
+If sandboxing blocks `gh auth status`, approve the command when prompted or adjust permission settings to allow it.
 
 
 ## 1) Inspect comments needing attention
@@ -20,7 +22,8 @@ Prereq: ensure `gh` is authenticated (for example, run `gh auth login` once), th
   node skills/gh-address-comments/scripts/fetch-pr-comments.mjs
   ```
 
-* Each entry under `review_threads` carries `isResolved` and `isOutdated`. Treat a resolved or outdated thread as already handled unless the user says otherwise.
+* Each entry under `review_threads` carries `isResolved` and `isOutdated`.
+  Treat a resolved or outdated thread as already handled unless the user says otherwise.
 
 
 ## 2) Ask the user for clarification

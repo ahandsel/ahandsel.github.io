@@ -9,7 +9,8 @@ The memory files supplement those rules with non-obvious facts, decisions, and o
 
 * Review this index before starting a task, then open only the memory files relevant to that task.
 * Follow confirmed decisions and facts unless a more authoritative or newer repository source contradicts them.
-* Treat open questions as unresolved. Do not assume an answer or present one as confirmed.
+* Treat open questions as unresolved.
+  Do not assume an answer or present one as confirmed.
 * If a memory conflicts with `AGENTS.md`, a style guide, or the current site content, follow the authoritative source and update or remove the outdated memory.
 
 
@@ -19,12 +20,16 @@ The memory files supplement those rules with non-obvious facts, decisions, and o
 * Keep one subject in each memory file.
 * Start each file with a title heading, followed by `Type`, `Added`, and `Source` list items and a short, actionable explanation.
 * Use an ISO 8601 date in the `Added` item, such as `2026-08-28`.
-* Make the `Source` item specific. Name the relevant file, pull request, or other authoritative source.
+* Make the `Source` item specific.
+  Name the relevant file, pull request, or other authoritative source.
 * Link related memories with relative Markdown links.
 * Add every new memory to the contents section below with a concise description.
-* Keep the contents section and this folder in sync. When they disagree, write the missing memory file or delete the stale entry.
-* Update or delete a memory when it becomes incorrect or moves to an authoritative repository source. Update or delete its contents entry at the same time.
-* An auto memory that Claude saves on its own arrives with YAML frontmatter and without the `Type`, `Added`, and `Source` items. Rewrite it into the format above and give it a category prefix the next time you touch it.
+* Keep the contents section and this folder in sync.
+  When they disagree, write the missing memory file or delete the stale entry.
+* Update or delete a memory when it becomes incorrect or moves to an authoritative repository source.
+  Update or delete its contents entry at the same time.
+* An auto memory that Claude saves on its own arrives with YAML frontmatter and without the `Type`, `Added`, and `Source` items.
+  Rewrite it into the format above and give it a category prefix the next time you touch it.
 
 Name each memory file with a kebab-case slug that starts with one of these category prefixes:
 

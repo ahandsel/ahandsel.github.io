@@ -29,12 +29,17 @@ You have access to:
 
 Use this repository's own commands and checks when assessing and validating the branch:
 
-* `pnpm check` is the full local gate: lint, script tests, typecheck, name lint, license check, en/ja parity, contents tree, and production build. Run it before declaring the branch ready.
-* `pnpm tree` regenerates `docs/contents-structure.md`. Run it and include the result whenever the page set under `contents/` changes.
+* `pnpm check` is the full local gate: lint, script tests, typecheck, name lint, license check, en/ja parity, contents tree, and production build.
+  Run it before declaring the branch ready.
+* `pnpm tree` regenerates `docs/contents-structure.md`.
+  Run it and include the result whenever the page set under `contents/` changes.
 * The pull request gate is `.github/workflows/pr-build-check.yml`, which runs the read-only checks and posts the results as a sticky comment on the pull request.
-* `.github/workflows/pr-lint-autofix.yml` runs `pnpm lint` and `pnpm tree` on pull requests and commits the fixes back to the branch. It is skipped for pull requests from forks.
-* This repository has no pull request preview deployment. Verify rendering locally with `pnpm preview` when needed.
-* A pull request that adds new pages under `contents/` must include the published URL for each new page in its description. Build each URL from `https://ahandsel.github.io`: English pages keep the `/en/` prefix, Japanese pages keep the `/ja/` prefix, and an `index.md` file maps to its folder root.
+* `.github/workflows/pr-lint-autofix.yml` runs `pnpm lint` and `pnpm tree` on pull requests and commits the fixes back to the branch.
+  It is skipped for pull requests from forks.
+* This repository has no pull request preview deployment.
+  Verify rendering locally with `pnpm preview` when needed.
+* A pull request that adds new pages under `contents/` must include the published URL for each new page in its description.
+  Build each URL from `https://ahandsel.github.io`: English pages keep the `/en/` prefix, Japanese pages keep the `/ja/` prefix, and an `index.md` file maps to its folder root.
 
 
 ## Objectives
@@ -69,7 +74,8 @@ Before proposing or making changes:
 
 Ask focused clarifying questions only when required information cannot be determined from the repository, Pull Request, linked resources, or available tooling.
 
-Do not assume. Verify all material conclusions.
+Do not assume.
+Verify all material conclusions.
 
 
 ### Phase 2: Assess Merge Readiness
@@ -155,7 +161,8 @@ The plan must include:
 
 Prefer the smallest safe change that resolves the issue.
 
-Small readability improvements may be included when they directly make the Pull Request easier to review. Do not perform unrelated cleanup, broad refactoring, or stylistic rewrites.
+Small readability improvements may be included when they directly make the Pull Request easier to review.
+Do not perform unrelated cleanup, broad refactoring, or stylistic rewrites.
 
 After presenting the plan, wait for explicit approval before modifying code.
 

@@ -13,9 +13,16 @@ Confirm or refute every claim against the code.
 
 Three rules hold for the whole run.
 
-* **Blunt.** State each defect plainly, at its real severity, with no hedge and no cushion. Praise only what is technically load-bearing. A softened finding is a finding nobody fixes.
-* **Reproduce.** Prefer reproducing a defect over reasoning about it: run the test, run the script, run the type checker, revert the hunk, grep for the caller. What you observed is `Confirmed`, what you only traced is `Suspected`, and the report says which.
-* **Report only.** Never edit the branch, commit, push, or post a PR comment unless the user asks for it. Never make a defect go away by weakening a test, widening an exception, or adding a fallback.
+* **Blunt.**
+  State each defect plainly, at its real severity, with no hedge and no cushion.
+  Praise only what is technically load-bearing.
+  A softened finding is a finding nobody fixes.
+* **Reproduce.**
+  Prefer reproducing a defect over reasoning about it: run the test, run the script, run the type checker, revert the hunk, grep for the caller.
+  What you observed is `Confirmed`, what you only traced is `Suspected`, and the report says which.
+* **Report only.**
+  Never edit the branch, commit, push, or post a PR comment unless the user asks for it.
+  Never make a defect go away by weakening a test, widening an exception, or adding a fallback.
 
 
 ## Step 1: Establish the target and the intended behavior
@@ -46,7 +53,8 @@ Done when you can state the intended behavior and the change actually made in on
 A diff shows what changed and never whether the change is right.
 For every symbol the diff touches, read four things outside the changed hunks.
 
-* **Callers.** `grep -rn '<symbol>' --exclude-dir=node_modules .` for each renamed, retyped, or removed symbol, so a signature change cannot silently strand one.
+* **Callers.**
+  `grep -rn '<symbol>' --exclude-dir=node_modules .` for each renamed, retyped, or removed symbol, so a signature change cannot silently strand one.
 * **The whole module,** not the hunk, because the invariant a change breaks usually lives above or below it.
 * **The nearest existing implementation of the same kind of thing,** which is the convention this change is supposed to match.
 * **The tests that cover it,** and what they actually assert.
@@ -113,17 +121,21 @@ An AI agent optimizes for code that reads as correct, so the defects it leaves a
 Hunt each of these by name.
 
 * Code that satisfies the wording of the task and not the requirement behind it.
-* An invented API, configuration field, flag, or library behavior. Check each against the installed source under `node_modules` or the vendor's documentation, never against how the name reads.
+* An invented API, configuration field, flag, or library behavior.
+  Check each against the installed source under `node_modules` or the vendor's documentation, never against how the name reads.
 * A `try`/`catch`, `?.`, or `|| default` that turns a defect into a silent success.
-* A second implementation of a utility the repository already has. Grep for the behavior before accepting a new helper.
+* A second implementation of a utility the repository already has.
+  Grep for the behavior before accepting a new helper.
 * Validation the caller already performed, layered on again.
-* A test that asserts what a mock returned, or that would still pass with the change reverted. Revert the hunk, rerun the test, and see whether it fails.
+* A test that asserts what a mock returned, or that would still pass with the change reverted.
+  Revert the hunk, rerun the test, and see whether it fails.
 * A change made to turn a test green rather than to fix the behavior the test names.
 * An abstraction, refactor, or rename the task did not require.
 * A partial migration: the new path added, the old path left live, and callers split between the two.
 * An assumption inferred from a filename, a comment, or a function name rather than from the body it describes.
 * Compatibility code for a platform, version, or scenario this project does not support.
-* A cross-cutting change applied to some matching sites and not the rest. Grep for every site and count them.
+* A cross-cutting change applied to some matching sites and not the rest.
+  Grep for every site and count them.
 
 Done when every lens has been applied to the diff and every failure mode above has been checked by name, with the checks that found nothing left out of the report.
 
@@ -132,9 +144,12 @@ Done when every lens has been applied to the diff and every failure mode above h
 
 Take each finding back to the code before writing any of it down.
 
-* Can you name the input, state, or sequence that triggers it? If not, it is not a finding.
-* Did you observe it or infer it? Observed is `Confirmed`, inferred is `Suspected`, and the report never blurs the two.
-* Is the rule you cite this project's, or one you brought with you? Cite `AGENTS.md`, a style guide, a lint configuration, or a neighboring implementation.
+* Can you name the input, state, or sequence that triggers it?
+  If not, it is not a finding.
+* Did you observe it or infer it?
+  Observed is `Confirmed`, inferred is `Suspected`, and the report never blurs the two.
+* Is the rule you cite this project's, or one you brought with you?
+  Cite `AGENTS.md`, a style guide, a lint configuration, or a neighboring implementation.
 * Is the fix you propose the smallest safe correction, or a rewrite dressed as one?
 
 Drop what you cannot support.
@@ -148,10 +163,17 @@ Done when every surviving finding carries a severity, a confidence, and its evid
 
 ### Severity
 
-* **Critical.** Data loss, a security or authorization breach, or a crash or corruption on a common path. Must fix before merge.
-* **High.** Incorrect behavior or a regression hit under realistic conditions. Should fix before merge.
-* **Medium.** A real defect on an edge path, missing test coverage, or a maintainability risk. Fix soon.
-* **Low.** A minor issue with limited impact.
+* **Critical.**
+  Data loss, a security or authorization breach, or a crash or corruption on a common path.
+  Must fix before merge.
+* **High.**
+  Incorrect behavior or a regression hit under realistic conditions.
+  Should fix before merge.
+* **Medium.**
+  A real defect on an edge path, missing test coverage, or a maintainability risk.
+  Fix soon.
+* **Low.**
+  A minor issue with limited impact.
 
 A style preference is not a finding unless it changes correctness, maintainability, consistency, or safety.
 
@@ -181,10 +203,14 @@ Write "No findings." in place of the table when there are none.
 
 Pick exactly one by this gate.
 
-* **Block merge.** A Confirmed Critical finding stands.
-* **Request changes.** A Confirmed High finding stands, or a Suspected Critical finding you could not rule out.
-* **Approve with minor changes.** Only Medium and Low findings remain.
-* **Approve.** Nothing meaningful remains.
+* **Block merge.**
+  A Confirmed Critical finding stands.
+* **Request changes.**
+  A Confirmed High finding stands, or a Suspected Critical finding you could not rule out.
+* **Approve with minor changes.**
+  Only Medium and Low findings remain.
+* **Approve.**
+  Nothing meaningful remains.
 
 An unresolved Suspected finding that could move a tier takes the more conservative verdict, and the report says so explicitly.
 

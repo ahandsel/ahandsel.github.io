@@ -20,7 +20,8 @@ Review the Markdown file below and improve it by polishing the writing and forma
 
 1. Correct spelling, grammar, punctuation, and obvious typos.
 2. Fix inconsistencies in capitalization, wording, and formatting.
-3. Ensure the wording is clear and concise, while preserving the original meaning and intent. Non-native English speakers should be able to understand the content easily.
+3. Ensure the wording is clear and concise, while preserving the original meaning and intent.
+   Non-native English speakers should be able to understand the content easily.
 4. Format the content so it is optimized for Slack posts, making it easy to read and visually clear.
 5. Convert the final result into Slack-compatible formatting.
 
@@ -50,7 +51,8 @@ Please ensure the following style guidelines are followed.
 * Continue increasing indentation by 4 spaces for each deeper level.
 * Preserve lists, code blocks, links, and inline code unless a change is required for correctness or Slack compatibility.
 * Use single backticks for inline code or highlighting key terms.
-* Format all links using standard Markdown syntax: `[text](URL)`. Do not use angle-bracket pipe format (`<URL|text>`).
+* Format all links using standard Markdown syntax: `[text](URL)`.
+  Do not use angle-bracket pipe format (`<URL|text>`).
 
 
 ## Output instructions

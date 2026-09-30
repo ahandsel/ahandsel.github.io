@@ -1,6 +1,5 @@
 // Black-box tests for scripts/check-en-ja-parity.mjs.
-// Each case spawns the real script with --root pointing at a disposable
-// fixture and asserts the documented exit codes and diagnostics.
+// Each case spawns the real script with --root pointing at a disposable fixture and asserts the documented exit codes and diagnostics.
 
 import assert from 'node:assert/strict';
 import test from 'node:test';

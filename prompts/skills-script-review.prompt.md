@@ -123,7 +123,8 @@ List expected output files, stdout, logs, or exit codes.
 Describe the script's core logic step by step.
 
 **Recommended packages:**  
-Prefer `node:` built-ins. List an npm package only when a built-in cannot do the job, or state "No external dependencies recommended."
+Prefer `node:` built-ins.
+List an npm package only when a built-in cannot do the job, or state "No external dependencies recommended."
 
 **Error handling:**  
 Describe expected validation and failure behavior.

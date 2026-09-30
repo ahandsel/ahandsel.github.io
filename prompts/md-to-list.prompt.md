@@ -21,10 +21,12 @@ Convert the provided Markdown table into a Markdown list format following the sp
 
 ## Rules and guidelines
 
-* Keep all cell text exactly as given. Do not add or remove words.
+* Keep all cell text exactly as given.
+  Do not add or remove words.
 * Preserve row and column order.
 * Use nested lists to represent columns within each row.
-* Output only the resulting Markdown list. No extra prose.
+* Output only the resulting Markdown list.
+  No extra prose.
 * If the table has a header row, format each row as:
   * `* <Header 1>: <Cell 1>` then nested bullets for the remaining headers and cells.
 * If the table has no header row, format each row as:

@@ -20,6 +20,7 @@
 //   Exit codes: 0 = trees in parity, 1 = drift found, 2 = configuration error.
 //
 // Version history:
+//   * v1.0.1 - 2026-09-30 - Apply sentence-per-line formatting to comments and help text.
 //   * v1.0.0 - 2026-08-28 - Initial release.
 
 import { readdirSync, readFileSync, statSync } from 'node:fs';
@@ -27,11 +28,10 @@ import path from 'node:path';
 import process from 'node:process';
 import { fileURLToPath } from 'node:url';
 
-const SCRIPT_VERSION = '1.0.0';
+const SCRIPT_VERSION = '1.0.1';
 
 // Frontmatter fields that must match between a page and its counterpart.
-// layout and isHome change the page shell, so a mismatch makes the two
-// languages render differently.
+// layout and isHome change the page shell, so a mismatch makes the two languages render differently.
 const SYNC_FIELDS = ['layout', 'isHome'];
 
 const LOCALES = ['en', 'ja'];
@@ -39,16 +39,13 @@ const LOCALES = ['en', 'ja'];
 const HELP_TEXT = `check-en-ja-parity.mjs v${SCRIPT_VERSION}
 
 Check that the contents/en and contents/ja trees stay in parity.
-Every Markdown page must have a counterpart at the same relative path in the
-other language tree, and paired pages must agree on the sync-critical
-frontmatter fields: ${SYNC_FIELDS.join(', ')}.
+Every Markdown page must have a counterpart at the same relative path in the other language tree, and paired pages must agree on the sync-critical frontmatter fields: ${SYNC_FIELDS.join(', ')}.
 
 Usage:
   node scripts/check-en-ja-parity.mjs [--root <path>] [--help]
 
 Options:
-  --root <path>  Repository root to check (default: the repository that holds
-                 this script; the automated tests point it at fixtures).
+  --root <path>  Repository root to check (default: the repository that holds this script; the automated tests point it at fixtures).
   -h, --help     Show this help message and exit.
 
 Exit codes:
@@ -81,8 +78,7 @@ function parseArgs(argv) {
 }
 
 // Recursively list Markdown files under dir, as paths relative to dir.
-// README.md files are internal documentation, not published pages, so they
-// are skipped.
+// README.md files are internal documentation, not published pages, so they are skipped.
 function listMarkdownFiles(dir, prefix = '') {
   const files = [];
   for (const entry of readdirSync(dir, { withFileTypes: true })) {
@@ -98,9 +94,7 @@ function listMarkdownFiles(dir, prefix = '') {
 }
 
 // Read the top-level scalar frontmatter fields of a Markdown file.
-// Only zero-indent "key: value" lines inside the leading --- block are
-// considered, which covers every field in SYNC_FIELDS without needing a full
-// YAML parser.
+// Only zero-indent "key: value" lines inside the leading --- block are considered, which covers every field in SYNC_FIELDS without needing a full YAML parser.
 function readFrontmatterFields(filePath) {
   const text = readFileSync(filePath, 'utf8');
   const lines = text.split('\n');
