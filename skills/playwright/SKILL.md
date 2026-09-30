@@ -11,25 +11,25 @@ Treat this skill as CLI-first automation. Do not pivot to `@playwright/test` unl
 
 ## Prerequisite check (required)
 
-Before proposing commands, check whether `npx` is available (the wrapper depends on it):
+Before proposing commands, check whether `pnpm` is available (the wrapper depends on it):
 
 ```bash
-command -v npx > /dev/null 2>&1
+command -v pnpm > /dev/null 2>&1
 ```
 
-If it is not available, pause and ask the user to install Node.js/npm (which provides `npx`). Provide these steps verbatim:
+If it is not available, pause and ask the user to install Node.js and pnpm. This repository uses pnpm only, so do not suggest `npm` or `npx`. Provide these steps verbatim:
 
 ```bash
-# Verify Node/npm are installed
+# Verify Node.js and pnpm are installed
 node --version
-npm --version
+pnpm --version
 
-# If missing, install Node.js/npm, then:
-npm install -g @playwright/cli@latest
-playwright-cli --help
+# If pnpm is missing, install Node.js, then enable pnpm:
+corepack enable pnpm
+pnpm --version
 ```
 
-Once `npx` is present, proceed with the wrapper script. A global install of `playwright-cli` is optional.
+Once `pnpm` is present, proceed with the wrapper script. A global install of `playwright-cli` is optional.
 
 
 ## Skill path (set once)
@@ -57,7 +57,7 @@ Use the wrapper script:
 If the user prefers a global install, this is also valid:
 
 ```bash
-npm install -g @playwright/cli@latest
+pnpm add -g @playwright/cli@latest
 playwright-cli --help
 ```
 
@@ -129,7 +129,7 @@ Refs can go stale. When a command fails due to a missing ref, snapshot again.
 
 ## Wrapper script
 
-The wrapper script uses `npx --package @playwright/cli playwright-cli` so the CLI can run without a global install:
+The wrapper script uses `pnpm dlx --package @playwright/cli playwright-cli` so the CLI can run without a global install:
 
 ```bash
 "$PWCLI" --help
