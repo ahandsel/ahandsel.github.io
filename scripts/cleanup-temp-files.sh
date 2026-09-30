@@ -7,6 +7,7 @@ Usage:    cleanup-temp-files.sh [-y|--yes] [-h|--help]
 Purpose:  Find and list temporary files, delete empty ones automatically, then optionally delete all remaining matches after user confirmation.
 
 Version history:
+- v5.4, 2026-09-30; Apply sentence-per-line formatting to comments.
 - v5.3, 2026-04-08; Fix: guard empty ADDITIONAL_DIRS; eliminate double-stat race in mod_date; surface find errors; clarify docs and prompts.
 - v5.2, 2026-04-08; Merge: incorporate 🗑️ icon for empty files from main.
 - v5.1, 2026-03-24; Refactor: idiomatic zsh (setopt, parameter expansion); remove unused cmd_exists and install_deps stubs; fix short_path HOME substitution to avoid regex bugs.
@@ -35,7 +36,7 @@ setopt ERR_EXIT NO_UNSET PIPE_FAIL
 
 # Configuration
 SCRIPT_NAME="cleanup-temp-files.sh"
-VERSION="5.3"
+VERSION="5.4"
 
 # Files that deviate from "temp*" rules
 ADDITIONAL_FILES=("import.csv" "import.md" ".DS_Store")
@@ -55,8 +56,7 @@ on_error() {
 trap on_error ZERR
 
 # Format a path for human-readable display.
-# Converts absolute paths to ./ relative when inside $PWD, and abbreviates
-# $HOME to ~.
+# Converts absolute paths to ./ relative when inside $PWD, and abbreviates $HOME to ~.
 short_path() {
   local p="${1:?path required}"
   local out="$p"
