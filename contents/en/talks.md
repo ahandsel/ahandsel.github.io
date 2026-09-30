@@ -4,6 +4,9 @@ layout: home
 # Keep the home hero and feature grid, but force the default theme to treat
 # this as a non-home page so the configured sidebar still renders.
 isHome: false
+# Without this, the page title falls back to the site title and the site
+# titleTemplate renders "Genji Fujimori - Genji Fujimori".
+title: Talks
 
 hero:
   name: Talks

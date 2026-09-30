@@ -1,6 +1,9 @@
 ---
 # https://vitepress.dev/reference/default-theme-home-page
 layout: home
+# The page title falls back to the site title, so disable the site titleTemplate
+# here. Otherwise the tab reads "Genji Fujimori - Genji Fujimori".
+titleTemplate: false
 
 hero:
   name: Genji Fujimori
