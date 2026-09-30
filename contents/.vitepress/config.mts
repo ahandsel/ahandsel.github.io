@@ -16,6 +16,14 @@ export default defineConfig({
   head: [
     ['link', { rel: 'icon', href: '/favicon.ico' }],
     ['link', { rel: 'apple-touch-icon', href: '/cat-icon-background.png' }],
+    // Apply the stored sidebar-collapse choice before the first paint, so the
+    // sidebar does not flash open on a full page load. Layout.vue reads this
+    // class on mount and owns it from then on.
+    [
+      'script',
+      {},
+      "try{if(localStorage.getItem('sidebar-collapsed')==='true')document.documentElement.classList.add('sidebar-collapsed')}catch{}",
+    ],
   ],
 
   // Folder README.md files are internal documentation, not published pages.

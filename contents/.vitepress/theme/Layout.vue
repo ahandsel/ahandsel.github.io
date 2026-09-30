@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { useData, inBrowser } from 'vitepress';
-import DefaultTheme from 'vitepress/theme';
-import { computed, nextTick, provide, ref, watch } from 'vue';
+import { useData } from 'vitepress';
+import DefaultTheme, { useLayout } from 'vitepress/theme';
+import { computed, nextTick, onMounted, provide, ref, watch } from 'vue';
 
-const { isDark, frontmatter, lang } = useData();
+const { isDark, lang } = useData();
 
 // Sidebar collapse toggle.
 //
@@ -11,23 +11,20 @@ const { isDark, frontmatter, lang } = useData();
 // we render a floating button that toggles a `sidebar-collapsed` class on
 // <html>. The actual hide/reflow is done in style.css. The choice is persisted
 // to localStorage so it survives navigation and reloads.
+//
+// An inline script in the `head` of config.mts applies the stored class before
+// the first paint, so the sidebar does not flash open on a full page load. The
+// class on <html> is therefore the source of truth at mount time. `collapsed`
+// starts as `false` to match the server-rendered HTML, and picks up the real
+// state in `onMounted`, after hydration, so the button re-renders correctly.
 const STORAGE_KEY = 'sidebar-collapsed';
-const collapsed = ref(
-  inBrowser && localStorage.getItem(STORAGE_KEY) === 'true',
-);
+const CLASS_NAME = 'sidebar-collapsed';
+const collapsed = ref(false);
 
-// Show the toggle only on pages that actually render a sidebar. This mirrors
-// the default theme's own `hasSidebar` rule: a sidebar shows unless the page
-// opts out (`sidebar: false`) or is treated as the home page. The `isHome`
-// frontmatter override lets the Talks pages keep `layout: home` while still
-// rendering the configured sidebar, so the toggle must appear there too. The
-// `page` layout is the root redirect stub, which has no sidebar.
-const showToggle = computed(() => {
-  const fm = frontmatter.value;
-  if (fm.layout === 'page') return false;
-  const isHome = !!(fm.isHome ?? fm.layout === 'home');
-  return fm.sidebar !== false && !isHome;
-});
+// Show the toggle only on pages that render a sidebar, using the default
+// theme's own rule. That rule also covers the Talks pages, which keep
+// `layout: home` but set `isHome: false` to render the sidebar.
+const { hasSidebar } = useLayout();
 
 const toggleLabel = computed(() => {
   const ja = lang.value.startsWith('ja');
@@ -37,16 +34,18 @@ const toggleLabel = computed(() => {
   return ja ? 'サイドバーを隠す' : 'Hide sidebar';
 });
 
-if (inBrowser) {
-  watch(
-    collapsed,
-    (value) => {
-      document.documentElement.classList.toggle('sidebar-collapsed', value);
+onMounted(() => {
+  collapsed.value = document.documentElement.classList.contains(CLASS_NAME);
+
+  watch(collapsed, (value) => {
+    document.documentElement.classList.toggle(CLASS_NAME, value);
+    // Storage can be blocked (private mode, site data disabled). The toggle
+    // still works for the current visit; only the persistence is lost.
+    try {
       localStorage.setItem(STORAGE_KEY, String(value));
-    },
-    { immediate: true },
-  );
-}
+    } catch {}
+  });
+});
 
 // Only animate when the browser supports the View Transitions API and the
 // visitor has not asked to reduce motion.
@@ -99,32 +98,36 @@ provide('toggle-appearance', async ({ clientX: x, clientY: y }: MouseEvent) => {
 </script>
 
 <template>
-  <DefaultTheme.Layout />
-
-  <button
-    v-if="showToggle"
-    type="button"
-    class="sidebar-toggle"
-    :class="{ 'is-collapsed': collapsed }"
-    :aria-expanded="!collapsed"
-    aria-controls="VPSidebarNav"
-    :aria-label="toggleLabel"
-    :title="toggleLabel"
-    @click="collapsed = !collapsed"
-  >
-    <svg
-      class="sidebar-toggle__icon"
-      width="20"
-      height="20"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      aria-hidden="true"
-    >
-      <path d="M15 18l-6-6 6-6" />
-    </svg>
-  </button>
+  <!-- The toggle renders in a slot so that `hasSidebar` is read after the
+       default layout has resolved the sidebar for the current page. -->
+  <DefaultTheme.Layout>
+    <template #layout-bottom>
+      <button
+        v-if="hasSidebar"
+        type="button"
+        class="sidebar-toggle"
+        :class="{ 'is-collapsed': collapsed }"
+        :aria-expanded="!collapsed"
+        aria-controls="VPSidebarNav"
+        :aria-label="toggleLabel"
+        :title="toggleLabel"
+        @click="collapsed = !collapsed"
+      >
+        <svg
+          class="sidebar-toggle__icon"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M15 18l-6-6 6-6" />
+        </svg>
+      </button>
+    </template>
+  </DefaultTheme.Layout>
 </template>

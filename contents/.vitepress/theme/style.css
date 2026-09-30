@@ -294,6 +294,11 @@ body {
  * entrance staggered across the home hero and feature cards, a slow `float`
  * bob on the hero illustration, and a lift-on-hover on the feature cards.
  * Everything here is disabled under `prefers-reduced-motion` further down.
+ *
+ * Use the `backwards` fill mode for `fade-in-up`, never `both` or `forwards`.
+ * A forwards fill keeps the final `transform` applied after the animation
+ * ends, and animation values beat normal rules in the cascade, so it would
+ * silently cancel every `:hover` transform on the same element.
  * -------------------------------------------------------------------------- */
 
 @keyframes fade-in-up {
@@ -322,23 +327,23 @@ body {
 
 /* Staggered reveal of the home hero, top to bottom. */
 .VPHero .name {
-  animation: fade-in-up 0.8s ease-out both;
+  animation: fade-in-up 0.8s ease-out backwards;
 }
 
 .VPHero .text {
-  animation: fade-in-up 0.8s ease-out 0.1s both;
+  animation: fade-in-up 0.8s ease-out 0.1s backwards;
 }
 
 .VPHero .tagline {
-  animation: fade-in-up 0.8s ease-out 0.2s both;
+  animation: fade-in-up 0.8s ease-out 0.2s backwards;
 }
 
 .VPHero .actions {
-  animation: fade-in-up 0.8s ease-out 0.3s both;
+  animation: fade-in-up 0.8s ease-out 0.3s backwards;
 }
 
 .VPHero .image {
-  animation: fade-in-up 0.8s ease-out 0.2s both;
+  animation: fade-in-up 0.8s ease-out 0.2s backwards;
 }
 
 /* Slow bob on the hero illustration, paused while hovered. */
@@ -352,7 +357,7 @@ body {
 
 /* Feature cards fade up in sequence, then lift on hover. */
 .VPFeatures .VPFeature {
-  animation: fade-in-up 0.8s ease-out both;
+  animation: fade-in-up 0.8s ease-out backwards;
   transition:
     border-color 0.25s,
     box-shadow 0.25s,
@@ -401,23 +406,44 @@ body {
  *
  * The default theme has no control to collapse the whole desktop sidebar.
  * Layout.vue renders a floating `.sidebar-toggle` button that toggles the
- * `sidebar-collapsed` class on <html>. Collapsing sets `--vp-sidebar-width`
- * to 0 so the content reflows to full width (the default theme keeps it
- * centered within the max width at large viewports), and hides the sidebar.
+ * `sidebar-collapsed` class on <html>. Collapsing hides the sidebar and
+ * removes the content offsets that reserve room for it, so the content
+ * reflows to full width (centered within the max width at large viewports).
+ *
+ * Do not collapse by setting `--vp-sidebar-width` to 0. The default theme
+ * also sizes the nav bar title from that variable, so the site title would
+ * shrink to nothing. Override the offsets one by one instead.
  *
  * This only applies at >= 960px. Below that, the default theme already swaps
  * the sidebar for the mobile hamburger menu, so the toggle is hidden.
  * -------------------------------------------------------------------------- */
 
 @media (min-width: 960px) {
-  html.sidebar-collapsed {
-    --vp-sidebar-width: 0px;
-  }
-
   html.sidebar-collapsed .VPSidebar {
     opacity: 0;
     visibility: hidden;
     transform: translateX(-100%);
+  }
+
+  html.sidebar-collapsed .VPContent.has-sidebar,
+  html.sidebar-collapsed .VPLocalNav.has-sidebar {
+    padding-left: 0;
+  }
+
+  /* The nav bar keeps its title column, but the bottom rule runs full width
+     because there is no sidebar column left to line up with. */
+  html.sidebar-collapsed .VPNavBar.has-sidebar .divider {
+    padding-left: 0;
+  }
+
+  html.sidebar-collapsed .VPNavBar.has-sidebar .divider::before {
+    display: none;
+  }
+}
+
+@media (min-width: 1440px) {
+  html.sidebar-collapsed .VPContent.has-sidebar {
+    padding-left: calc((100% - var(--vp-layout-max-width)) / 2);
   }
 }
 
@@ -466,10 +492,21 @@ body {
   }
 }
 
-/* When the sidebar is open, park the button near its right edge. */
+/* When the sidebar is open, park the button near its right edge. From 1440px
+   the sidebar grows to fill the gutter beside the centered layout, so match
+   the width formula in the default theme's VPSidebar.vue. */
 @media (min-width: 960px) {
   html:not(.sidebar-collapsed) .sidebar-toggle {
     left: calc(var(--vp-sidebar-width) - 40px);
+  }
+}
+
+@media (min-width: 1440px) {
+  html:not(.sidebar-collapsed) .sidebar-toggle {
+    left: calc(
+      (100% - (var(--vp-layout-max-width) - 4rem)) / 2 +
+        var(--vp-sidebar-width) - 2rem - 40px
+    );
   }
 }
 

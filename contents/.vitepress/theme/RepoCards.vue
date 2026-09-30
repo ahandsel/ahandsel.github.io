@@ -85,8 +85,9 @@ function formatDate(iso: string): string {
   border: 1px solid var(--vp-c-divider);
   border-radius: 12px;
   background-color: var(--vp-c-bg-soft);
-  /* `fade-in-up` is defined globally in theme/style.css. */
-  animation: fade-in-up 0.6s ease-out both;
+  /* `fade-in-up` is defined globally in theme/style.css. Keep the `backwards`
+     fill mode so the hover lift below still applies after the entrance. */
+  animation: fade-in-up 0.6s ease-out backwards;
   transition:
     border-color 0.25s,
     box-shadow 0.25s,
