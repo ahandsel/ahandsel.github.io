@@ -1,14 +1,9 @@
 // lint-names.mjs notes
 // General notes:
-// * Purpose: Lint repository file and folder names against three fixed rules
-//   from skills/file-folder-name-linter/SKILL.md - notes/ naming, .yaml not
-//   .yml, and kebab-case for everything else.
+// * Purpose: Lint repository file and folder names against three fixed rules from skills/file-folder-name-linter/SKILL.md - notes/ naming, .yaml not .yml, and kebab-case for everything else.
 // * Honors .gitignore implicitly by enumerating paths via `git ls-files -z`.
 // * Honors the repo-root .namelintignore (one glob per line, # for comments).
-// * Hardcoded default ignores cover standard repo docs (README.md, AGENTS.md,
-//   MEMORY.md, ONBOARDING.md, LICENSE, CHANGELOG.md, ...), dotfiles and
-//   dot-folders, package manager files (package.json, pnpm-lock.yaml,
-//   tsconfig*.json), and vendored Figma skills (skills/figma-*/).
+// * Hardcoded default ignores cover standard repo docs (README.md, AGENTS.md, MEMORY.md, ONBOARDING.md, LICENSE, CHANGELOG.md, ...), dotfiles and dot-folders, package manager files (package.json, pnpm-lock.yaml, tsconfig*.json), and vendored Figma skills (skills/figma-*/).
 // Usage:
 //   node skills/file-folder-name-linter/scripts/lint-names.mjs
 //   node skills/file-folder-name-linter/scripts/lint-names.mjs notes/
@@ -16,13 +11,12 @@
 //   node skills/file-folder-name-linter/scripts/lint-names.mjs --json
 //   pnpm lint-naming                # equivalent to the no-arg form
 // Output:
-// * Human-readable report grouped by rule, then an informational list of
-//   style guides discovered in the repo for reviewer reference.
+// * Human-readable report grouped by rule, then an informational list of style guides discovered in the repo for reviewer reference.
 // * With --json: { violations: [...], styleGuides: [...] } on stdout.
 // * Exit codes: 0 = clean, 1 = violations found, 2 = configuration error.
 // Version history:
-// * v1.1 - 2026-08-31 - Treat NOTICE.txt as a standard doc basename, matching
-//   the existing LICENSE.txt, NOTICE, and NOTICE.md entries.
+// * v1.2 - 2026-09-30 - Apply sentence-per-line formatting to comments.
+// * v1.1 - 2026-08-31 - Treat NOTICE.txt as a standard doc basename, matching the existing LICENSE.txt, NOTICE, and NOTICE.md entries.
 // * v1.0 - 2026-06-05 - Initial release.
 
 import { spawnSync } from 'node:child_process';
@@ -34,10 +28,8 @@ const NOTES_NAME_RE =
   /^\d{4}-\d{2}-\d{2}-[a-z0-9][a-z0-9-]*\.(md|png|jpg|jpeg|gif|webp|svg)$/;
 const KEBAB_RE = /^[a-z0-9][a-z0-9-]*$/;
 
-// Standard repo docs and tool-convention files - matched by basename anywhere
-// in the tree. These are the well-known fixed filenames that ecosystems
-// require (Anthropic skills, Homebrew, Make, Docker, ...), so a kebab-case
-// check against them is always a false positive.
+// Standard repo docs and tool-convention files - matched by basename anywhere in the tree.
+// These are the well-known fixed filenames that ecosystems require (Anthropic skills, Homebrew, Make, Docker, ...), so a kebab-case check against them is always a false positive.
 const STANDARD_DOC_BASENAMES = new Set([
   'README.md',
   'README.txt',
@@ -69,8 +61,7 @@ const STANDARD_DOC_BASENAMES = new Set([
   'Vagrantfile',
 ]);
 
-// Exact package-manager files at any depth (rare outside the root, but cheap
-// to allow everywhere).
+// Exact package-manager files at any depth (rare outside the root, but cheap to allow everywhere).
 const PACKAGE_MANAGER_BASENAMES = new Set([
   'package.json',
   'package-lock.json',
@@ -79,12 +70,10 @@ const PACKAGE_MANAGER_BASENAMES = new Set([
   'yarn.lock',
 ]);
 
-// Vendored skill directory prefixes. Anything under one of these is skipped
-// entirely, both file and folder checks.
+// Vendored skill directory prefixes. Anything under one of these is skipped entirely, both file and folder checks.
 const VENDORED_DIR_PREFIXES = ['skills/figma-'];
 
-// Heuristic style-guide discovery patterns. Pure informational; never affects
-// exit code.
+// Heuristic style-guide discovery patterns. Pure informational; never affects exit code.
 const STYLE_GUIDE_PATTERNS = [
   /(^|\/)AGENTS\.md$/,
   /(^|\/)repo-commit-style-guide\.md$/,
@@ -200,9 +189,8 @@ function readIgnoreFile(repoRoot) {
     .filter((line) => line.length > 0 && !line.startsWith('#'));
 }
 
-// Translate a minimal glob (with `*`, `**`, and trailing-slash directory
-// scoping) to an anchored regex. Patterns match against repo-relative POSIX
-// paths.
+// Translate a minimal glob (with `*`, `**`, and trailing-slash directory scoping) to an anchored regex.
+// Patterns match against repo-relative POSIX paths.
 function globToRegex(glob) {
   let pattern = glob;
   let isDir = false;
@@ -278,8 +266,7 @@ function inScope(path, scope) {
   );
 }
 
-// Folder names derived from in-scope file paths. Returns a sorted array of
-// unique folder paths (repo-relative, no trailing slash).
+// Folder names derived from in-scope file paths. Returns a sorted array of unique folder paths (repo-relative, no trailing slash).
 function collectFolders(files) {
   const folders = new Set();
   for (const file of files) {
