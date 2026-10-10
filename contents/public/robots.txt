@@ -1,3 +1,6 @@
 # https://www.robotstxt.org/robotstxt.html
 User-agent: *
 Disallow:
+
+# Project sites under this domain
+Sitemap: https://ahandsel.github.io/tokyo-geek/sitemap.xml
