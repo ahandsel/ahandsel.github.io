@@ -10,7 +10,6 @@ Prefer the bundled wrapper script so the CLI works even when it is not globally 
 Treat this skill as CLI-first automation.
 Do not pivot to `@playwright/test` unless the user explicitly asks for test files.
 
-
 ## Prerequisite check (required)
 
 Before proposing commands, check whether `pnpm` is available (the wrapper depends on it):
@@ -36,7 +35,6 @@ pnpm --version
 Once `pnpm` is present, proceed with the wrapper script.
 A global install of `playwright-cli` is optional.
 
-
 ## Skill path (set once)
 
 ```bash
@@ -44,7 +42,6 @@ export PWCLI="skills/playwright/scripts/playwright-cli.sh"
 ```
 
 When running from the repository root, the wrapper script is at `skills/playwright/scripts/playwright-cli.sh`.
-
 
 ## Quick start
 
@@ -66,7 +63,6 @@ pnpm add -g @playwright/cli@latest
 playwright-cli --help
 ```
 
-
 ## Core workflow
 
 1. Open the page.
@@ -84,7 +80,6 @@ Minimal loop:
 "$PWCLI" snapshot
 ```
 
-
 ## When to snapshot again
 
 Snapshot again after:
@@ -97,9 +92,7 @@ Snapshot again after:
 Refs can go stale.
 When a command fails due to a missing ref, snapshot again.
 
-
 ## Recommended patterns
-
 
 ### Form fill and submit
 
@@ -112,7 +105,6 @@ When a command fails due to a missing ref, snapshot again.
 "$PWCLI" snapshot
 ```
 
-
 ### Debug a UI flow with traces
 
 ```bash
@@ -122,7 +114,6 @@ When a command fails due to a missing ref, snapshot again.
 "$PWCLI" tracing-stop
 ```
 
-
 ### Multi-tab work
 
 ```bash
@@ -131,7 +122,6 @@ When a command fails due to a missing ref, snapshot again.
 "$PWCLI" tab-select 0
 "$PWCLI" snapshot
 ```
-
 
 ## Wrapper script
 
@@ -143,14 +133,12 @@ The wrapper script uses `pnpm dlx --package @playwright/cli playwright-cli` so t
 
 Prefer the wrapper unless the repository already standardizes on a global install.
 
-
 ## References
 
 Open only what you need:
 
 * CLI command reference: `references/cli.md`
 * Practical workflows and troubleshooting: `references/workflows.md`
-
 
 ## Guardrails
 

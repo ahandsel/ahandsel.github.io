@@ -9,7 +9,6 @@ It is intentionally written as a set of **normative requirements** ("MUST/SHOULD
 
 ---
 
-
 ## 0) Safety, boundaries, and anti-abuse constraints (MUST FOLLOW)
 
 * MUST NOT request, output, log, or commit secrets (API keys, passwords, private keys, session secrets, cookies, tokens).
@@ -22,9 +21,7 @@ It is intentionally written as a set of **normative requirements** ("MUST/SHOULD
 
 ---
 
-
 ## 1) Operating modes
-
 
 ### 1.1 Generation mode (default)
 
@@ -35,14 +32,12 @@ When asked to write new Express code or modify existing code:
 * MUST prefer safe-by-default APIs and proven libraries over custom security code.
 * MUST avoid introducing new risky sinks (shell execution, dynamic code evaluation, unsafe redirects, serving user files as HTML, template rendering from untrusted strings, unsafe filesystem paths, SSRF URL fetch endpoints, etc.).
 
-
 ### 1.2 Passive review mode (always on while editing)
 
 While working anywhere in an Express repo (even if the user did not ask for a security scan):
 
 * MUST "notice" violations of this spec in touched/nearby code.
 * SHOULD mention issues as they come up, with a brief explanation + safe fix.
-
 
 ### 1.3 Active audit mode (explicit scan request)
 
@@ -76,9 +71,7 @@ Recommended audit order:
 
 ---
 
-
 ## 2) Definitions and review guidance
-
 
 ### 2.1 Untrusted input (treat as attacker-controlled unless proven otherwise)
 
@@ -98,11 +91,9 @@ Special proxy note:
 * If `trust proxy` is enabled, values like `req.ip`, `req.hostname`, and `req.protocol` may be derived from `X-Forwarded-*` headers which **can be attacker-controlled** if your proxy chain is not correctly overwriting/removing them.
   ([Express][2])
 
-
 ### 2.2 State-changing request
 
 A request is state-changing if it can create/update/delete data, change auth/session state, trigger side effects (purchase, email send, webhook send), or initiate privileged actions.
-
 
 ### 2.3 Required audit finding format
 
@@ -118,7 +109,6 @@ For each issue found, output:
 * False positive notes: what to verify if uncertain
 
 ---
-
 
 ## 3) Secure baseline: minimum production configuration (MUST in production)
 
@@ -148,11 +138,9 @@ Minimum baseline targets:
 
 ---
 
-
 ## 4) Rules (generation + audit)
 
 Each rule contains: required practice, insecure patterns, detection hints, and remediation.
-
 
 ### EXPRESS-INPUT-001: Treat all user input as untrusted and validate it
 
@@ -188,7 +176,6 @@ Notes:
 
 ---
 
-
 ### EXPRESS-REDIRECT-001: Prevent open redirects; validate redirect targets
 
 Severity: Medium
@@ -222,7 +209,6 @@ Notes:
   ([NVD][9])
 
 ---
-
 
 ### EXPRESS-HEADERS-001: Use Helmet (or equivalent) to set essential security headers
 
@@ -265,7 +251,6 @@ Notes:
 
 ---
 
-
 ### EXPRESS-FINGERPRINT-001: Reduce fingerprinting by disabling `x-powered-by` and customizing error/404 responses
 
 Severity: Low (defense-in-depth)
@@ -300,7 +285,6 @@ Notes:
   ([Express][1])
 
 ---
-
 
 ### EXPRESS-COOKIE-001: Cookies must use secure attributes and minimal scope
 
@@ -345,7 +329,6 @@ Notes:
 
 ---
 
-
 ### EXPRESS-SESS-001: Do not use the default session cookie name; avoid session fingerprinting
 
 Severity: Low (defense-in-depth)
@@ -374,7 +357,6 @@ Notes:
   ([Express][1])
 
 ---
-
 
 ### EXPRESS-SESS-002: Session storage and lifecycle must be production-safe
 
@@ -415,7 +397,6 @@ Notes:
   ([Express][1])
 
 ---
-
 
 ### EXPRESS-CSRF-001: Cookie-authenticated state-changing requests MUST be CSRF-protected
 
@@ -458,7 +439,6 @@ Notes:
 
 ---
 
-
 ### EXPRESS-CORS-001: CORS must be explicit and least-privilege
 
 Severity: Medium (High if misconfigured with credentials)
@@ -494,7 +474,6 @@ Notes:
 
 ---
 
-
 ### EXPRESS-PROXY-001: Reverse proxy trust (`trust proxy`) must be configured correctly
 
 Severity: Medium (High if using IP based authentication)
@@ -529,7 +508,6 @@ Notes:
   ([Express][2])
 
 ---
-
 
 ### EXPRESS-BODY-001: Request body size and parsing limits MUST be set appropriately
 
@@ -571,7 +549,6 @@ Notes:
 
 ---
 
-
 ### EXPRESS-INPUT-002: Prevent HTTP Parameter Pollution and type confusion in `req.query`
 
 Severity: Medium
@@ -603,7 +580,6 @@ Notes:
   ([OWASP Cheat Sheet Series][8])
 
 ---
-
 
 ### EXPRESS-XSS-001: Prevent reflected/stored XSS in HTML responses and templating
 
@@ -645,7 +621,6 @@ Notes:
 
 ---
 
-
 ### EXPRESS-TEMPLATE-001: Never render untrusted templates or template paths (SSTI / LFI risk)
 
 Severity: Critical (if you can prove template strings/paths are user/attacker-controlled)
@@ -677,7 +652,6 @@ Notes:
 * Express's template system depends on the chosen engine; assume unsafe if user input influences template selection or source.
 
 ---
-
 
 ### EXPRESS-FILES-001: Prevent path traversal and unsafe file serving (sendFile/download)
 
@@ -713,7 +687,6 @@ Notes:
   ([Express][5])
 
 ---
-
 
 ### EXPRESS-STATIC-001: Harden `express.static` / serve-static and never serve untrusted uploads as active content
 
@@ -752,7 +725,6 @@ Notes:
 
 ---
 
-
 ### EXPRESS-UPLOAD-001: File uploads must be validated, stored safely, and served safely
 
 Severity: Low - Medium
@@ -788,7 +760,6 @@ Notes:
 
 ---
 
-
 ### EXPRESS-INJECT-001: Prevent SQL injection (use parameterized queries / ORM)
 
 Severity: High
@@ -820,7 +791,6 @@ Notes:
 
 ---
 
-
 ### EXPRESS-INJECT-002: Prevent NoSQL injection / operator injection (Mongo-style)
 
 Severity: High (app-dependent)
@@ -851,7 +821,6 @@ Notes:
   ([OWASP Cheat Sheet Series][8])
 
 ---
-
 
 ### EXPRESS-CMD-001: Prevent OS command injection (child_process)
 
@@ -890,7 +859,6 @@ Notes:
   ([OWASP Cheat Sheet Series][14])
 
 ---
-
 
 ### EXPRESS-SSRF-001: Prevent server-side request forgery (SSRF) in outbound HTTP
 
@@ -932,7 +900,6 @@ Notes:
 
 ---
 
-
 ### EXPRESS-ERROR-001: Error handling MUST not leak sensitive details in production
 
 Severity: Low
@@ -971,7 +938,6 @@ Notes:
 
 ---
 
-
 ### EXPRESS-AUTH-001: Prevent brute-force attacks against authorization endpoints
 
 Severity: Medium
@@ -1007,7 +973,6 @@ Notes:
   ([OWASP Cheat Sheet Series][8])
 
 ---
-
 
 ### EXPRESS-DEPS-001: Dependency and patch hygiene (Express + Node + critical middleware)
 
@@ -1051,7 +1016,6 @@ Notes:
 
 ---
 
-
 ### EXPRESS-DOS-001: Configure DoS protections (timeouts, limits, reverse proxy)
 
 Severity: Low
@@ -1090,7 +1054,6 @@ Notes:
 
 ---
 
-
 ### EXPRESS-NODE-INSPECT-001: Do not expose the Node inspector in production
 
 Severity: Critical
@@ -1124,7 +1087,6 @@ Notes:
 
 ---
 
-
 ### EXPRESS-NODE-HTTP-001: Do not enable insecure HTTP parsing in production
 
 Severity: High
@@ -1154,7 +1116,6 @@ Notes:
   ([Node.js][15])
 
 ---
-
 
 ## 5) Practical scanning heuristics (how to "hunt")
 
@@ -1212,7 +1173,6 @@ Always try to confirm:
 * whether protections are at the edge vs in app code
 
 ---
-
 
 ## 6) Sources (accessed 2026-01-27)
 

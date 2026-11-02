@@ -4,7 +4,6 @@ Use the wrapper script and snapshot often.
 Assume `PWCLI` is set and `pwcli` is an alias for `"$PWCLI"`.
 In this repo, run commands from `output/playwright/<label>/` to keep artifacts contained.
 
-
 ## Standard interaction loop
 
 ```bash
@@ -13,7 +12,6 @@ pwcli snapshot
 pwcli click e3
 pwcli snapshot
 ```
-
 
 ## Form submission
 
@@ -27,7 +25,6 @@ pwcli snapshot
 pwcli screenshot
 ```
 
-
 ## Data extraction
 
 ```bash
@@ -36,7 +33,6 @@ pwcli snapshot
 pwcli eval "document.title"
 pwcli eval "el => el.textContent" e12
 ```
-
 
 ## Debugging and inspection
 
@@ -56,7 +52,6 @@ pwcli tracing-stop
 pwcli screenshot
 ```
 
-
 ## Sessions
 
 Use sessions to isolate work across projects:
@@ -73,7 +68,6 @@ Or set the session once:
 export PLAYWRIGHT_CLI_SESSION=checkout
 pwcli open https://example.com/checkout
 ```
-
 
 ## Configuration file
 
@@ -94,7 +88,6 @@ Minimal example:
   }
 }
 ```
-
 
 ## Troubleshooting
 

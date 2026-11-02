@@ -9,7 +9,6 @@ It is intentionally written as a set of **normative requirements** ("MUST/SHOULD
 
 ---
 
-
 ## 0) Safety, boundaries, and anti-abuse constraints (MUST FOLLOW)
 
 * MUST NOT request, output, log, or commit secrets (API keys, passwords, private keys, session cookies, `SECRET_KEY`, `SECRET_KEY_FALLBACKS`, database passwords).
@@ -22,9 +21,7 @@ It is intentionally written as a set of **normative requirements** ("MUST/SHOULD
 
 ---
 
-
 ## 1) Operating modes
-
 
 ### 1.1 Generation mode (default)
 
@@ -35,14 +32,12 @@ When asked to write new Django code or modify existing code:
 * MUST prefer safe-by-default Django APIs and proven libraries over custom security code.
 * MUST avoid introducing new risky sinks (dynamic template rendering from untrusted strings, unsafe redirects, unsafe file serving, shell execution, raw SQL string formatting, SSRF-capable URL fetchers from untrusted input).
 
-
 ### 1.2 Passive review mode (always on while editing)
 
 While working anywhere in a Django repo (even if the user did not ask for a security scan):
 
 * MUST "notice" violations of this spec in touched/nearby code.
 * SHOULD mention issues as they come up, with a brief explanation + safe fix.
-
 
 ### 1.3 Active audit mode (explicit scan request)
 
@@ -67,9 +62,7 @@ Recommended audit order:
 
 ---
 
-
 ## 2) Definitions and review guidance
-
 
 ### 2.1 Untrusted input (treat as attacker-controlled unless proven otherwise)
 
@@ -86,11 +79,9 @@ Examples include:
 Django explicitly emphasizes "never trust user-controlled data" and recommends using forms/validation.
 ([Django Project][2])
 
-
 ### 2.2 State-changing request
 
 A request is state-changing if it can create/update/delete data, change auth/session state, trigger side effects (purchase, email send, webhook send), or initiate privileged actions.
-
 
 ### 2.3 Required audit finding format
 
@@ -107,13 +98,11 @@ For each issue found, output:
 
 ---
 
-
 ## 3) Secure baseline: minimum production configuration (MUST in production)
 
 This is the smallest "production baseline" that prevents common Django misconfigurations.
 Django provides a "Deployment checklist" and recommends running `manage.py check --deploy` against production settings.
 ([Django Project][1])
-
 
 ### 3.1 Settings management pattern (SHOULD)
 
@@ -123,7 +112,6 @@ Django provides a "Deployment checklist" and recommends running `manage.py check
   ([Django Project][1])
 * SHOULD separate dev vs prod settings modules, with safe defaults for production (fail closed if critical settings are missing).
   ([Django Project][1])
-
 
 ### 3.2 Minimum baseline targets (production)
 
@@ -144,11 +132,9 @@ Django provides a "Deployment checklist" and recommends running `manage.py check
 
 ---
 
-
 ## 4) Rules (generation + audit)
 
 Each rule contains: required practice, insecure patterns, detection hints, and remediation.
-
 
 ### DJANGO-DEPLOY-001: Do not use Django's development server in production
 
@@ -183,7 +169,6 @@ Note:
 
 ---
 
-
 ### DJANGO-DEPLOY-002: `DEBUG` MUST be disabled in production
 
 Severity: High
@@ -212,7 +197,6 @@ Fix:
   ([Django Project][1])
 
 ---
-
 
 ### DJANGO-CONFIG-001: `SECRET_KEY` must be strong, secret, and rotated safely
 
@@ -250,7 +234,6 @@ Fix:
 
 ---
 
-
 ### DJANGO-HOST-001: Host header must be validated (`ALLOWED_HOSTS` must be strict)
 
 Severity: Medium
@@ -285,7 +268,6 @@ Notes:
   ([Django Project][2])
 
 ---
-
 
 ### DJANGO-HTTPS-001: If TLS is used cookie transport must be secured
 
@@ -324,7 +306,6 @@ Fix:
 
 ---
 
-
 ### DJANGO-PROXY-001: Reverse proxy trust must be configured correctly (`SECURE_PROXY_SSL_HEADER`)
 
 Severity: Medium (when behind a TLS proxy)
@@ -355,7 +336,6 @@ Fix:
   ([Django Project][3])
 
 ---
-
 
 ### DJANGO-SESS-001: Session cookies must use secure attributes in production
 
@@ -395,7 +375,6 @@ Fix:
 
 ---
 
-
 ### DJANGO-SESS-002: CSRF cookie settings must be deliberate (HttpOnly has tradeoffs)
 
 Severity: Medium
@@ -428,7 +407,6 @@ Fix:
   ([Django Project][4])
 
 ---
-
 
 ### DJANGO-CSRF-001: Cookie-authenticated state-changing requests MUST be CSRF-protected
 
@@ -474,7 +452,6 @@ Notes:
 
 ---
 
-
 ### DJANGO-XSS-001: Prevent reflected/stored XSS in templates and HTML generation
 
 Severity: High
@@ -518,7 +495,6 @@ Fix:
 
 ---
 
-
 ### DJANGO-TEMPLATE-001: Never render untrusted template source strings
 
 Severity: High to Critical (depends on context and exposure)
@@ -544,7 +520,6 @@ Fix:
 * If you _must_ support user-defined templates, isolate heavily (separate service/tenant context, strict allowlists, and assume bypasses are possible).
 
 ---
-
 
 ### DJANGO-SQL-001: Prevent SQL injection (use ORM or parameterized raw SQL)
 
@@ -584,7 +559,6 @@ Fix:
 
 ---
 
-
 ### DJANGO-CMD-001: Prevent OS command injection
 
 Severity: Critical to High (depends on exposure)
@@ -614,7 +588,6 @@ Fix:
 * Replace with library APIs; if unavoidable, hard-code executable and allowlist validated parameters.
 
 ---
-
 
 ### DJANGO-UPLOAD-001: File uploads must be validated, stored safely, and served safely
 
@@ -657,7 +630,6 @@ Fix:
 
 ---
 
-
 ### DJANGO-PATH-001: Prevent path traversal and unsafe file serving (static/media separation)
 
 Severity: High
@@ -689,7 +661,6 @@ Fix:
 
 ---
 
-
 ### DJANGO-REDIRECT-001: Prevent open redirects (`next`, `return_to`, `redirect`)
 
 Severity: Medium (High when combined with auth flows)
@@ -717,7 +688,6 @@ Fix:
   ([Django Project][3])
 
 ---
-
 
 ### DJANGO-HEADERS-001: Enable essential security headers (SecurityMiddleware + clickjacking protection)
 
@@ -761,7 +731,6 @@ NOTE:
 
 ---
 
-
 ### DJANGO-CSP-001: Deploy a Content Security Policy (CSP) as defense-in-depth
 
 Severity: Medium (High for apps rendering untrusted content)
@@ -798,7 +767,6 @@ Fix:
 
 ---
 
-
 ### DJANGO-AUTH-001: Password storage must use Django's secure hashers; password policy must be configured
 
 Severity: High
@@ -831,7 +799,6 @@ Fix:
 
 ---
 
-
 ### DJANGO-AUTHZ-001: Authorization must be explicit and consistent
 
 Severity: High
@@ -857,7 +824,6 @@ Fix:
 * Add explicit permission checks and tests for unauthorized access.
 
 ---
-
 
 ### DJANGO-ADMIN-001: Django admin must be treated as a high-value target
 
@@ -885,7 +851,6 @@ Fix:
 * Add network controls and enforce HTTPS.
 
 ---
-
 
 ### DJANGO-LOG-001: Logging and error reporting must not leak secrets
 
@@ -918,7 +883,6 @@ Fix:
 
 ---
 
-
 ### DJANGO-SUPPLY-001: Dependency and patch hygiene (Django + security-critical deps)
 
 Severity: Medium (High if known vulnerable versions)
@@ -939,7 +903,6 @@ Fix:
 * Upgrade to patched versions; add regression tests for previously vulnerable classes.
 
 ---
-
 
 ## 5) Practical scanning heuristics (how to "hunt")
 
@@ -988,7 +951,6 @@ Always try to confirm:
 * whether security headers/controls are set in-app vs at the edge
 
 ---
-
 
 ## 6) Sources (accessed 2026-01-27)
 

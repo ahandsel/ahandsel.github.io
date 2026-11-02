@@ -15,7 +15,6 @@ Optional convenience alias:
 alias pwcli="$PWCLI"
 ```
 
-
 ## Core
 
 ```bash
@@ -41,7 +40,6 @@ pwcli dialog-dismiss
 pwcli resize 1920 1080
 ```
 
-
 ## Navigation
 
 ```bash
@@ -49,7 +47,6 @@ pwcli go-back
 pwcli go-forward
 pwcli reload
 ```
-
 
 ## Keyboard
 
@@ -59,7 +56,6 @@ pwcli press ArrowDown
 pwcli keydown Shift
 pwcli keyup Shift
 ```
-
 
 ## Mouse
 
@@ -72,7 +68,6 @@ pwcli mouseup right
 pwcli mousewheel 0 100
 ```
 
-
 ## Save as
 
 ```bash
@@ -80,7 +75,6 @@ pwcli screenshot
 pwcli screenshot e5
 pwcli pdf
 ```
-
 
 ## Tabs
 
@@ -93,7 +87,6 @@ pwcli tab-close 2
 pwcli tab-select 0
 ```
 
-
 ## DevTools
 
 ```bash
@@ -104,7 +97,6 @@ pwcli run-code "await page.waitForTimeout(1000)"
 pwcli tracing-start
 pwcli tracing-stop
 ```
-
 
 ## Sessions
 

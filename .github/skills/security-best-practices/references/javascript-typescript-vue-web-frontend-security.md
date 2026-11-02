@@ -9,7 +9,6 @@ It is intentionally written as a set of **normative requirements** ("MUST/SHOULD
 
 ---
 
-
 ## 0) Safety, boundaries, and anti-abuse constraints (MUST FOLLOW)
 
 * MUST NOT request, output, log, or commit secrets (API keys, passwords, private keys, session cookies, auth tokens).
@@ -21,9 +20,7 @@ It is intentionally written as a set of **normative requirements** ("MUST/SHOULD
 
 ---
 
-
 ## 1) Operating modes
-
 
 ### 1.1 Generation mode (default)
 
@@ -35,14 +32,12 @@ When asked to write new Vue code or modify existing code:
 * MUST avoid introducing new risky sinks (runtime template compilation, `v-html` / `innerHTML`, unsafe URL navigation, dynamic script injection, etc.).
   ([Vue.js][1])
 
-
 ### 1.2 Passive review mode (always on while editing)
 
 While working anywhere in a Vue repo (even if the user did not ask for a security scan):
 
 * MUST "notice" violations of this spec in touched/nearby code.
 * SHOULD mention issues as they come up, with a brief explanation + safe fix.
-
 
 ### 1.3 Active audit mode (explicit scan request)
 
@@ -71,9 +66,7 @@ Recommended audit order:
 
 ---
 
-
 ## 2) Definitions and review guidance
-
 
 ### 2.1 Untrusted input (treat as attacker-controlled unless proven otherwise)
 
@@ -87,7 +80,6 @@ In a Vue app, untrusted input includes (non-exhaustive):
 * Anything that can be influenced by an attacker through DOM clobbering or injected HTML (especially if Vue is mounted onto non-sterile DOM).
   ([Vue.js][1])
 
-
 ### 2.2 State-changing action (frontend perspective)
 
 An action is state-changing if it can:
@@ -96,7 +88,6 @@ An action is state-changing if it can:
 * Change authentication/session state (login, logout, refresh token).
 * Trigger privileged operations (payments, admin actions).
 * Cause side effects (sending emails, triggering webhooks, changing account settings).
-
 
 ### 2.3 Required audit finding format
 
@@ -112,7 +103,6 @@ For each issue found, output:
 * False positive notes: what to verify if uncertain
 
 ---
-
 
 ## 3) Secure baseline: minimum production configuration (MUST in production)
 
@@ -133,11 +123,9 @@ This is the smallest "production baseline" that prevents common Vue/front-end mi
 
 ---
 
-
 ## 4) Rules (generation + audit)
 
 Each rule contains: required practice, insecure patterns, detection hints, and remediation.
-
 
 ### VUE-DEPLOY-001: Do not run dev/preview servers in production
 
@@ -172,7 +160,6 @@ Notes:
 
 ---
 
-
 ### VUE-DEPLOY-002: Use Vue production builds and keep devtools off in production
 
 Severity: Medium (High if production devtools/debug hooks are enabled)
@@ -200,7 +187,6 @@ Fix:
 * Switch to production build artifacts and ensure compile-time flags are configured for production.
 
 ---
-
 
 ### VUE-SECRETS-001: Never ship secrets in frontend code or env variables
 
@@ -239,7 +225,6 @@ Notes:
 
 ---
 
-
 ### VUE-SECRETS-002: Do not broaden Vite env exposure
 
 Severity: High
@@ -270,7 +255,6 @@ Notes:
   ([vitejs][2])
 
 ---
-
 
 ### VUE-XSS-001: Prefer Vue's default escaping; avoid raw HTML injection
 
@@ -310,7 +294,6 @@ Notes:
 
 ---
 
-
 ### VUE-XSS-002: Never use non-trusted templates (client-side template/code injection)
 
 Severity: Critical
@@ -341,7 +324,6 @@ Fix:
 
 ---
 
-
 ### VUE-XSS-003: Do not mount Vue onto DOM that may contain user-provided server-rendered HTML
 
 Severity: Medium
@@ -367,7 +349,6 @@ Fix:
 * Move user-rendered HTML outside the Vue mount root, or render it in a safe way (text/sanitized HTML) from Vue components.
 
 ---
-
 
 ### VUE-XSS-004: Prevent URL injection in bindings and navigations
 
@@ -400,7 +381,6 @@ Fix:
 
 ---
 
-
 ### VUE-XSS-005: Prevent style/CSS injection and UI redress
 
 Severity: Low
@@ -429,7 +409,6 @@ Fix:
 
 ---
 
-
 ### VUE-XSS-006: Never bind user-provided JavaScript into event handler attributes
 
 Severity: Critical
@@ -457,7 +436,6 @@ Fix:
 
 ---
 
-
 ### VUE-ROUTER-001: Do not treat client-side route guards as authorization
 
 Severity: High
@@ -483,7 +461,6 @@ Fix:
 * Keep route guards as UX only (reduce accidental access), but enforce real checks server-side.
 
 ---
-
 
 ### VUE-ROUTER-002: Prevent open redirects and unsafe "return_to/next" handling
 
@@ -517,7 +494,6 @@ Notes:
 
 ---
 
-
 ### VUE-AUTH-001: Token storage must assume XSS is possible
 
 Severity: Low
@@ -546,7 +522,6 @@ Fix:
   ([OWASP Cheat Sheet Series][4])
 
 ---
-
 
 ### VUE-CSRF-001: Coordinate with the backend for CSRF when using cookies
 
@@ -583,7 +558,6 @@ Notes:
 
 ---
 
-
 ### VUE-HTTP-001: Do not put secrets in URLs; avoid leaking sensitive data in navigation/logs
 
 Severity: Medium
@@ -609,7 +583,6 @@ Fix:
 * Scrub logs; gate debug logs behind dev-only checks.
 
 ---
-
 
 ### VUE-HEADERS-001: Require security headers at the deployment layer
 
@@ -639,7 +612,6 @@ Fix:
 
 ---
 
-
 ### VUE-CSP-001: Use Trusted Types and DOM XSS hardening when feasible
 
 Severity: Low
@@ -664,7 +636,6 @@ Fix:
 * Reduce/centralize HTML injection, sanitize inputs, and add Trusted Types policies where appropriate.
 
 ---
-
 
 ### VUE-THIRDPARTY-001: Avoid dynamic third-party script injection; prefer static, vetted loading
 
@@ -692,7 +663,6 @@ Fix:
 
 ---
 
-
 ### VUE-SRI-001: Use Subresource Integrity for CDN-hosted scripts/styles
 
 Severity: Low
@@ -718,7 +688,6 @@ Fix:
 * Add SRI hashes (and pin versions), or bundle assets with your build.
 
 ---
-
 
 ### VUE-SUPPLY-001: Dependency and patch hygiene is mandatory
 
@@ -749,7 +718,6 @@ Fix:
 
 ---
 
-
 ### VUE-SSR-001: SSR adds additional trust boundaries; treat state injection as XSS-sensitive
 
 Severity: Medium
@@ -778,7 +746,6 @@ Fix:
 * Avoid rendering untrusted HTML; sanitize or isolate.
 
 ---
-
 
 ## 5) Practical scanning heuristics (how to "hunt")
 
@@ -823,7 +790,6 @@ Always try to confirm:
 * protective controls present (sanitization, allowlists, CSP/Trusted Types, backend validation)
 
 ---
-
 
 ## 6) Sources (accessed 2026-01-27)
 

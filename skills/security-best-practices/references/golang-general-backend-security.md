@@ -9,7 +9,6 @@ It is intentionally written as a set of **normative requirements** ("MUST/SHOULD
 
 ---
 
-
 ## 0) Safety, boundaries, and anti-abuse constraints (MUST FOLLOW)
 
 * MUST NOT request, output, log, or commit secrets (API keys, passwords, private keys, session cookies, JWTs, database URLs with credentials, signing keys, client secrets).
@@ -20,9 +19,7 @@ It is intentionally written as a set of **normative requirements** ("MUST/SHOULD
 
 ---
 
-
 ## 1) Operating modes
-
 
 ### 1.1 Generation mode (default)
 
@@ -33,14 +30,12 @@ When asked to write new Go code or modify existing code:
 * MUST prefer safe-by-default APIs and proven libraries over custom security code.
 * MUST avoid introducing new risky sinks (shell execution, dynamic template execution, serving user files as HTML, unsafe redirects, weak crypto, unbounded parsing, etc.).
 
-
 ### 1.2 Passive review mode (always on while editing)
 
 While working anywhere in a Go repo (even if the user did not ask for a security scan):
 
 * MUST "notice" violations of this spec in touched/nearby code.
 * SHOULD mention issues as they come up, with a brief explanation + safe fix.
-
 
 ### 1.3 Active audit mode (explicit scan request)
 
@@ -67,9 +62,7 @@ Recommended audit order:
 
 ---
 
-
 ## 2) Definitions and review guidance
-
 
 ### 2.1 Untrusted input (treat as attacker-controlled unless proven otherwise)
 
@@ -82,11 +75,9 @@ Examples include:
 * Any persisted user content (DB rows) that originated from users
 * Configuration values that might be attacker-influenced in some deployments (headers set by upstream proxies, environment variables in multi-tenant systems)
 
-
 ### 2.2 State-changing request
 
 A request is state-changing if it can create/update/delete data, change auth/session state, trigger side effects (purchase, email send, webhook send), or initiate privileged actions.
-
 
 ### 2.3 Required audit finding format
 
@@ -103,11 +94,9 @@ For each issue found, output:
 
 ---
 
-
 ## 3) Secure baseline: minimum production configuration (MUST in production)
 
 This is the smallest "production baseline" that prevents common Go misconfigurations.
-
 
 ### 3.1 Toolchain, patching, and dependency hygiene (MUST)
 
@@ -116,7 +105,6 @@ This is the smallest "production baseline" that prevents common Go misconfigurat
 * MUST use Go modules with committed `go.mod` and `go.sum`.
 * MUST NOT disable module authenticity mechanisms for public modules (checksum DB) unless you have a controlled, documented replacement.
 * MUST run `govulncheck` (source scan and/or binary scan) in CI and address findings.
-
 
 ### 3.2 HTTP server baseline (MUST for network-facing services)
 
@@ -136,11 +124,9 @@ Illustrative baseline skeleton (adjust to your project):
 
 ---
 
-
 ## 4) Rules (generation + audit)
 
 Each rule contains: required practice, insecure patterns, detection hints, and remediation.
-
 
 ### GO-DEPLOY-001: Keep the Go toolchain and standard library updated (security releases)
 
@@ -176,7 +162,6 @@ Notes:
 * Go publishes regular minor releases that frequently include security fixes across standard library packages.
 
 ---
-
 
 ### GO-SUPPLY-001: Go module authenticity MUST NOT be disabled for public dependencies
 
@@ -214,7 +199,6 @@ Notes:
 
 ---
 
-
 ### GO-CONFIG-001: Secrets must be externalized and never logged or committed
 
 Severity: High (Critical if credentials are committed)
@@ -245,7 +229,6 @@ Fix:
 * Add secret scanning to CI and pre-commit.
 
 ---
-
 
 ### GO-HTTP-001: HTTP servers MUST set timeouts and MaxHeaderBytes
 
@@ -278,7 +261,6 @@ Notes:
 * Net/http documents that these timeouts exist and that zero/negative values mean "no timeout"; production services should choose explicit values.
 
 ---
-
 
 ### GO-HTTP-002: Request body and multipart parsing MUST be size-bounded
 
@@ -314,7 +296,6 @@ Notes:
 * There are known vulnerability classes and advisories related to excessive resource consumption in multipart/form parsing; treat unbounded parsing as a security issue.
 
 ---
-
 
 ### GO-DEPLOY-002: Diagnostic endpoints (pprof/expvar/metrics) MUST NOT be publicly exposed
 
@@ -353,7 +334,6 @@ Notes:
 
 ---
 
-
 ### GO-HTTP-003: Reverse proxy and forwarded header trust MUST be explicit
 
 Severity: High (auth, URL generation, logging/auditing correctness)
@@ -383,7 +363,6 @@ Fix:
 * If generating external links, use a configured allowlisted canonical origin (not the request's Host header).
 
 ---
-
 
 ### GO-HTTP-004: Security headers SHOULD be set (in app or at the edge)
 
@@ -421,7 +400,6 @@ Fix:
 
 ---
 
-
 ### GO-HTTP-005: Cookies MUST use secure attributes in production
 
 Severity: Medium
@@ -458,7 +436,6 @@ Notes:
 
 ---
 
-
 ### GO-HTTP-006: Cookie-authenticated state-changing endpoints MUST be CSRF-protected
 
 Severity: High
@@ -491,7 +468,6 @@ Fix:
 
 ---
 
-
 ### GO-HTTP-007: CORS must be explicit and least-privilege
 
 Severity: Medium (High if misconfigured with credentials)
@@ -520,7 +496,6 @@ Fix:
 * Ensure cookie-auth endpoints are not exposed cross-origin unless required.
 
 ---
-
 
 ### GO-XSS-001: Use html/template and avoid bypassing auto-escaping with untrusted data
 
@@ -551,7 +526,6 @@ Fix:
 
 ---
 
-
 ### GO-SSTI-001: Never parse/execute templates from untrusted input (SSTI)
 
 Severity: Critical
@@ -579,7 +553,6 @@ Fix:
 * If templates must be user-controlled, isolate and sandbox aggressively.
 
 ---
-
 
 ### GO-PATH-001: Prevent path traversal and unsafe file serving
 
@@ -611,7 +584,6 @@ Fix:
 
 ---
 
-
 ### GO-UPLOAD-001: File uploads must be validated, stored safely, and served safely
 
 Severity: High
@@ -642,7 +614,6 @@ Fix:
 
 ---
 
-
 ### GO-INJECT-001: Prevent SQL injection (parameterized queries / ORM)
 
 Severity: High
@@ -668,7 +639,6 @@ Fix:
 * Validate and type-check IDs before use.
 
 ---
-
 
 ### GO-INJECT-002: Prevent OS command injection; avoid shelling out with untrusted input
 
@@ -706,7 +676,6 @@ Notes:
 
 ---
 
-
 ### GO-SSRF-001: Prevent SSRF in outbound HTTP requests
 
 Severity: Medium (High in cloud/LAN environments)
@@ -739,7 +708,6 @@ Fix:
 * Set timeouts, disable redirects unless needed, and cap response sizes.
 
 ---
-
 
 ### GO-HTTPCLIENT-001: Outbound HTTP clients MUST set timeouts and close bodies
 
@@ -775,7 +743,6 @@ Notes:
 
 ---
 
-
 ### GO-REDIRECT-001: Prevent open redirects
 
 Severity: Medium (can be High with auth flows)
@@ -800,7 +767,6 @@ Fix:
 * Reject absolute URLs unless explicitly needed and allowlisted.
 
 ---
-
 
 ### GO-CRYPTO-001: Cryptographic randomness MUST come from crypto/rand
 
@@ -834,7 +800,6 @@ Notes:
 * The crypto/rand package provides secure randomness APIs and token generation helpers.
 
 ---
-
 
 ### GO-AUTH-001: Password storage MUST use adaptive hashing (bcrypt/argon2id) and safe comparisons
 
@@ -870,7 +835,6 @@ Notes:
 
 ---
 
-
 ### GO-CONC-001: Data races and concurrency hazards MUST be treated as security-relevant
 
 Severity: Medium to High (depends on what races affect)
@@ -904,7 +868,6 @@ Notes:
 
 ---
 
-
 ### GO-UNSAFE-001: Use of unsafe/cgo MUST be minimized and audited like memory-unsafe code
 
 Severity: High (Critical in high-risk code paths)
@@ -935,7 +898,6 @@ Notes:
 * The unsafe package explicitly provides operations that step around Go's type safety guarantees.
 
 ---
-
 
 ## 5) Practical scanning heuristics (how to "hunt")
 
@@ -1004,7 +966,6 @@ Always try to confirm:
 * protective controls present (limits, validation, allowlists, middleware, network controls)
 
 ---
-
 
 ## 6) Sources (accessed 2026-01-28)
 

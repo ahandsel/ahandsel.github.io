@@ -9,7 +9,6 @@ It is intentionally written as a set of **normative requirements** ("MUST/SHOULD
 
 ---
 
-
 ## 0) Safety, boundaries, and anti-abuse constraints (MUST FOLLOW)
 
 * MUST NOT request, output, log, or commit secrets (API keys, OAuth client secrets, private keys, session cookies, JWTs, signing keys).
@@ -24,9 +23,7 @@ It is intentionally written as a set of **normative requirements** ("MUST/SHOULD
 
 ---
 
-
 ## 1) Operating modes
-
 
 ### 1.1 Generation mode (default)
 
@@ -38,14 +35,12 @@ When asked to write new React code or modify existing code:
 * MUST avoid introducing new risky sinks (raw HTML insertion, direct DOM sinks like `innerHTML`, dynamic code execution, untrusted redirects/navigation, third‑party script injection, unsafe token storage, etc.).
   ([MDN Web Docs][3])
 
-
 ### 1.2 Passive review mode (always on while editing)
 
 While working anywhere in a React repo (even if the user did not ask for a security scan):
 
 * MUST "notice" violations of this spec in touched/nearby code.
 * SHOULD mention issues as they come up, with a brief explanation + safe fix.
-
 
 ### 1.3 Active audit mode (explicit scan request)
 
@@ -70,9 +65,7 @@ Recommended audit order:
 
 ---
 
-
 ## 2) Definitions and review guidance
-
 
 ### 2.1 Untrusted input (treat as attacker-controlled unless proven otherwise)
 
@@ -88,7 +81,6 @@ Examples include:
 * Any data produced by third-party scripts or tag managers (treat as untrusted unless strongly controlled).
   ([OWASP Cheat Sheet Series][5])
 
-
 ### 2.2 State-changing request (frontend perspective)
 
 A request is state-changing if it can create/update/delete data, change auth/session state, trigger side effects (purchase, email send, webhook), or initiate privileged actions.
@@ -98,7 +90,6 @@ Frontend-specific note:
 * State changes are often triggered by `fetch/axios` calls or form submissions.
   If authentication is cookie-based, these calls can be CSRF-relevant (§4 REACT-CSRF-001).
   ([OWASP Cheat Sheet Series][6])
-
 
 ### 2.3 Required audit finding format
 
@@ -115,11 +106,9 @@ For each issue found, output:
 
 ---
 
-
 ## 3) Secure baseline: minimum production configuration (MUST in production)
 
 This is the smallest "production baseline" that prevents common React frontend misconfigurations.
-
 
 ### 3.1 Production build and configuration hygiene (MUST)
 
@@ -130,7 +119,6 @@ This is the smallest "production baseline" that prevents common React frontend m
 * SHOULD treat source maps as sensitive operational artifacts:
   * Either don't publish them publicly, or publish them only where intended (e.g., behind auth or to an error-reporting provider), because they can reveal code structure and internal URLs.
 
-
 ### 3.2 Browser-enforced protections (SHOULD, but baseline expectation for modern apps)
 
 * SHOULD deploy a CSP as defense-in-depth against XSS, and keep it compatible with your React build (avoid `unsafe-inline` and `unsafe-eval` unless strictly necessary and documented).
@@ -139,7 +127,6 @@ This is the smallest "production baseline" that prevents common React frontend m
   ([MDN Web Docs][7])
 * SHOULD enable clickjacking defenses via `frame-ancestors` (CSP) and/or `X-Frame-Options`, unless embedding is an explicit product requirement.
   ([MDN Web Docs][8])
-
 
 ### 3.3 High-risk features baseline (MUST if used)
 
@@ -153,11 +140,9 @@ This is the smallest "production baseline" that prevents common React frontend m
 
 ---
 
-
 ## 4) Rules (generation + audit)
 
 Each rule contains: required practice, insecure patterns, detection hints, and remediation.
-
 
 ### REACT-CONFIG-001: Never embed secrets in the client bundle (env vars are public)
 
@@ -197,7 +182,6 @@ Notes:
   ([vitejs][11])
 
 ---
-
 
 ### REACT-XSS-001: Do not use `dangerouslySetInnerHTML` with untrusted content (sanitize or avoid)
 
@@ -240,7 +224,6 @@ Notes:
 
 ---
 
-
 ### REACT-XSS-002: Rely on React's escaping-by-default behavior; do not bypass it
 
 Severity: High (when bypassed)
@@ -273,7 +256,6 @@ Notes:
   ([React][14])
 
 ---
-
 
 ### REACT-DOM-001: Avoid DOM XSS injection sinks in React code (use safe alternatives)
 
@@ -311,7 +293,6 @@ Notes:
   ([OWASP Cheat Sheet Series][4])
 
 ---
-
 
 ### REACT-URL-001: Validate and constrain untrusted URLs used in `href`, `src`, navigation, and redirects
 
@@ -356,7 +337,6 @@ Notes:
 
 ---
 
-
 ### REACT-MARKUP-001: Markdown / rich text rendering must be configured safely
 
 Severity: Medium
@@ -393,7 +373,6 @@ Notes:
   ([OWASP Cheat Sheet Series][9])
 
 ---
-
 
 ### REACT-TT-001: Use Trusted Types (with CSP) to harden DOM XSS sinks where feasible
 
@@ -435,7 +414,6 @@ Notes:
 
 ---
 
-
 ### REACT-CSP-001: Deploy and maintain a CSP as defense-in-depth (especially when rendering untrusted content)
 
 Severity: Medium to High
@@ -471,7 +449,6 @@ Notes:
   ([OWASP Cheat Sheet Series][2])
 
 ---
-
 
 ### REACT-SRI-001: Use Subresource Integrity (SRI) for third-party scripts and styles (or self-host)
 
@@ -511,7 +488,6 @@ Notes:
   ([OWASP Cheat Sheet Series][2])
 
 ---
-
 
 ### REACT-3P-001: Third-party JavaScript and tag managers must be minimized and governed
 
@@ -554,7 +530,6 @@ Notes:
 
 ---
 
-
 ### REACT-AUTH-001: Token and session handling must be resilient to XSS (avoid sensitive storage in Web Storage)
 
 Severity: Medium
@@ -592,7 +567,6 @@ Notes:
   ([IETF Datatracker][16])
 
 ---
-
 
 ### REACT-CSRF-001: Cookie-authenticated, state-changing requests MUST be CSRF-protected
 
@@ -635,7 +609,6 @@ Notes:
 
 ---
 
-
 ### REACT-AUTHZ-001: Do not rely on frontend-only authorization
 
 Severity: High (only if used as primary protection)
@@ -665,7 +638,6 @@ Notes:
 * This is a general web app security property; React cannot protect server resources by itself.
 
 ---
-
 
 ### REACT-NET-001: Prevent data exfiltration and credential leakage via dynamic outbound requests
 
@@ -704,7 +676,6 @@ Notes:
 
 ---
 
-
 ### REACT-REDIRECT-001: Prevent open redirects and untrusted navigation
 
 Severity: Medium
@@ -734,7 +705,6 @@ Notes:
 * Open redirects are frequently used in phishing and can undermine SSO/OAuth flows.
 
 ---
-
 
 ### REACT-SW-001: Service workers are high-privilege; require HTTPS and safe caching/update rules
 
@@ -773,7 +743,6 @@ Notes:
   ([MDN Web Docs][18])
 
 ---
-
 
 ### REACT-HEADERS-001: Ensure essential security headers are set for the React app shell (app or edge)
 
@@ -814,7 +783,6 @@ Notes:
 
 ---
 
-
 ### REACT-POSTMSG-001: `postMessage` must validate origin and treat payload as untrusted data
 
 Severity: Medium to High (depends on what messages can do)
@@ -849,7 +817,6 @@ Notes:
 
 ---
 
-
 ### REACT-FILE-001: File uploads and previews must not create client-side active content vulnerabilities
 
 Severity: Medium (can be High if stored-XSS possible)
@@ -883,7 +850,6 @@ Notes:
   ([OWASP Cheat Sheet Series][19])
 
 ---
-
 
 ### REACT-SUPPLY-001: Dependency and supply-chain hygiene (frontend + build tooling)
 
@@ -932,7 +898,6 @@ Notes:
 
 ---
 
-
 ## 5) Practical scanning heuristics (how to "hunt")
 
 When actively scanning, use these high-signal patterns:
@@ -978,7 +943,6 @@ Always try to confirm:
 * protective controls present (sanitization, allowlists, CSP/Trusted Types, CSRF tokens, headers, governance)
 
 ---
-
 
 ## 6) Sources (accessed 2026-01-26)
 

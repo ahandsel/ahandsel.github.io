@@ -5,13 +5,11 @@ description: 'Perform language and framework specific security best-practice rev
 
 # Security Best Practices
 
-
 ## Overview
 
 This skill provides a description of how to identify the language and frameworks used by the current context, and then to load information from this skill's references directory about the security best practices for this language and or frameworks.
 
 This information, if present, can be used to write new secure by default code, or to passively detect major issues within existing code, or (if requested by the user) provide a vulnerability report and suggest fixes.
-
 
 ## Workflow
 
@@ -47,13 +45,11 @@ From there it can operate in a few ways.
    Then offer to start working on fixes for these issues.
    See #fixes below.
 
-
 ## Workflow Decision Tree
 
 * If the language/framework is unclear, inspect the repo to determine it and list your evidence.
 * If matching guidance exists in `references/`, load only the relevant files and follow their instructions.
 * If no matching guidance exists, consider if you know any well known security best practices for the chosen language and or frameworks, but if asked to generate a report, let the user know that concrete guidance is not available (you can still generate the report or detect for sure critical vulnerabilities)
-
 
 ## Overrides
 
@@ -61,7 +57,6 @@ While these references contain the security best practices for languages and fra
 Pay attention to specific rules and instructions in the project's documentation and prompt files which may require you to override certain best practices.
 When overriding a best practice, you MAY report it to the user, but do not fight with them.
 If a security best practice needs to be bypassed / ignored for some project specific reason, you can also suggest to add documentation about this to the project so it is clear why the best practice is not being followed and to follow that bypass in the future.
-
 
 ## Report Format
 
@@ -85,7 +80,6 @@ After you write the report file, summarize the findings to the user.
 
 Also tell the user where the final report was written to
 
-
 ## Fixes
 
 If you produced a report, let the user read the report and ask to begin performing fixes.
@@ -108,18 +102,15 @@ Try to avoid bunching a number of unrelated findings into a single commit.
 Always follow any normal testing flows the user has configured (if any) to confirm that your changes are not introducing regressions.
 Consider the second order impacts the changes may have and inform the user before making them if there are any.
 
-
 ## General Security Advice
 
 Below is a few bits of secure coding advice that applies to almost any language or framework.
-
 
 ### Avoid Using Incrementing IDs for Public IDs of Resources
 
 When assigning an ID for some resource, which will then be used by exposed to the internet, avoid using small auto-incrementing IDs.
 Use longer, random UUID4 or random hex string instead.
 This will prevent users from learning the quantity of a resource and being able to guess resource IDs.
-
 
 ### A note on TLS
 

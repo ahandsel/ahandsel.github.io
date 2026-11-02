@@ -12,7 +12,6 @@ Target scope: Next.js **16.1.x** (latest line shown in the App Router docs) ([Ne
 
 ---
 
-
 ## 0) Safety, boundaries, and anti-abuse constraints (MUST FOLLOW)
 
 * MUST NOT request, output, log, or commit secrets (API keys, passwords, private keys, session cookies, OAuth tokens, `process.env` dumps, database URLs with credentials).
@@ -25,9 +24,7 @@ Target scope: Next.js **16.1.x** (latest line shown in the App Router docs) ([Ne
 
 ---
 
-
 ## 1) Operating modes
-
 
 ### 1.1 Generation mode (default)
 
@@ -38,14 +35,12 @@ When asked to write new Next.js code or modify existing code:
 * MUST prefer safe-by-default APIs and proven libraries over custom security code.
 * MUST avoid introducing new risky sinks (dynamic code execution, unsafe redirects, serving user files as HTML, SSRF URL fetchers, building SQL strings, etc.).
 
-
 ### 1.2 Passive review mode (always on while editing)
 
 While working anywhere in a Next.js repo (even if the user did not ask for a security scan):
 
 * MUST "notice" violations of this spec in touched/nearby code.
 * SHOULD mention issues as they come up, with a brief explanation + safe fix.
-
 
 ### 1.3 Active audit mode (explicit scan request)
 
@@ -70,9 +65,7 @@ Recommended audit order:
 
 ---
 
-
 ## 2) Definitions and review guidance
-
 
 ### 2.1 Untrusted input (treat as attacker-controlled unless proven otherwise)
 
@@ -97,7 +90,6 @@ Plus:
 * Anything from external systems (webhooks, third-party APIs, message queues)
 * Any persisted user content (DB rows) that originated from users
 
-
 ### 2.2 State-changing request
 
 A request is state-changing if it can create/update/delete data, change auth/session state, trigger side effects (purchase, email send, webhook send), or initiate privileged actions.
@@ -106,7 +98,6 @@ Special note for Next.js:
 
 * **Server Actions** are invoked via network requests and can mutate state; treat them as state-changing endpoints.
   ([Next.js][5])
-
 
 ### 2.3 Required audit finding format
 
@@ -123,11 +114,9 @@ For each issue found, output:
 
 ---
 
-
 ## 3) Secure baseline: minimum production configuration (MUST in production)
 
 This is the smallest "production baseline" that prevents common Next.js backend misconfigurations.
-
 
 ### 3.1 Run Next.js in production mode (MUST)
 
@@ -137,12 +126,10 @@ This is the smallest "production baseline" that prevents common Next.js backend 
 * MUST ensure `NODE_ENV=production` in production (Next.js defaults `NODE_ENV` based on command; verify the runtime environment).
   ([Next.js][7])
 
-
 ### 3.2 Put a reverse proxy / edge layer in front when self-hosting (MUST for public internet)
 
 * If self-hosting, MUST place a reverse proxy (e.g., nginx) or equivalent edge layer in front of the Next.js server to handle malformed requests, slow attacks, payload size limits, rate limiting, and similar concerns.
   ([Next.js][8])
-
 
 ### 3.3 Baseline header/cookie posture (SHOULD)
 
@@ -156,7 +143,6 @@ This is the smallest "production baseline" that prevents common Next.js backend 
   You should do this conditionally based on if the app is running in production mode.
   You should also include a property like `SESSION_COOKIE_SECURE` which can be used to disable `Secure` cookies when testing over HTTP.
 
-
 ### 3.4 Clear separation between server-only and client code (MUST)
 
 * MUST prevent secrets and privileged logic from being bundled into client code.
@@ -165,11 +151,9 @@ This is the smallest "production baseline" that prevents common Next.js backend 
 
 ---
 
-
 ## 4) Rules (generation + audit)
 
 Each rule contains: required practice, insecure patterns, detection hints, and remediation.
-
 
 ### NEXT-DEPLOY-001: Do not run `next dev` in production; ensure production mode behavior
 
@@ -206,7 +190,6 @@ Note:
   Only flag if it is being used as a production entrypoint.
 
 ---
-
 
 ### NEXT-SUPPLY-001: Stay on supported Next.js releases; patch quickly for security advisories
 
@@ -246,7 +229,6 @@ Fix:
 
 ---
 
-
 ### NEXT-SECRETS-001: Secrets MUST NOT be committed or exposed to the browser
 
 Severity: High (Critical if secret is client-exposed)
@@ -279,7 +261,6 @@ Fix:
 
 ---
 
-
 ### NEXT-SECRETS-002: Avoid server-only → client bundling mistakes (server/client boundary is a security boundary)
 
 Severity: High
@@ -308,7 +289,6 @@ Fix:
 * Add an explicit "server-only" guard pattern (and/or tests) to prevent accidental imports.
 
 ---
-
 
 ### NEXT-AUTH-001: Authentication/authorization MUST be enforced server-side for every protected action
 
@@ -341,7 +321,6 @@ Fix:
 * Implement least-privilege authorization checks (role/resource ownership) per action.
 
 ---
-
 
 ### NEXT-AUTH-002: Proxy/Middleware-based auth MUST NOT create route coverage gaps
 
@@ -376,7 +355,6 @@ Notes:
   ([Next.js][12])
 
 ---
-
 
 ### NEXT-CSRF-001: Cookie-authenticated state-changing endpoints MUST be CSRF-protected
 
@@ -420,7 +398,6 @@ Notes:
 
 ---
 
-
 ### NEXT-SESS-001: Session cookies MUST use secure attributes in production
 
 Severity: Medium
@@ -458,7 +435,6 @@ Fix:
 
 ---
 
-
 ### NEXT-SESS-002: Sessions MUST be bounded and resistant to fixation/replay
 
 Severity: Low
@@ -486,7 +462,6 @@ Fix:
 * Store only opaque session IDs in cookies; keep sensitive material server-side.
 
 ---
-
 
 ### NEXT-INPUT-001: Runtime input validation is mandatory (TypeScript is not validation)
 
@@ -517,7 +492,6 @@ Fix:
 * Validate IDs as strict types (UUID/int) and enforce length/charset constraints.
 
 ---
-
 
 ### NEXT-HEADERS-001: Essential security headers MUST be set (in app or at the edge)
 
@@ -552,7 +526,6 @@ Fix:
 * Ensure consistent headers across routes.
 
 ---
-
 
 ### NEXT-CSP-001: Use a CSP to reduce XSS impact; prefer nonces for scripts
 
@@ -589,7 +562,6 @@ Notes:
 
 ---
 
-
 ### NEXT-XSS-001: Prevent reflected/stored XSS in React/Next rendering
 
 Severity: High
@@ -622,7 +594,6 @@ Fix:
 * Add CSP to reduce impact.
 
 ---
-
 
 ### NEXT-ACTION-001: Server Actions MUST be treated like public endpoints
 
@@ -658,7 +629,6 @@ Fix:
 
 ---
 
-
 ### NEXT-ACTION-002: Do not accidentally leak secrets through Server Action closure/binding patterns
 
 Severity: Medium (High if important secrets are exposed)
@@ -687,7 +657,6 @@ Fix:
 * Keep action arguments minimal and validated.
 
 ---
-
 
 ### NEXT-CACHE-001: Prevent data leaks via static rendering and shared caching
 
@@ -724,7 +693,6 @@ Fix:
 
 ---
 
-
 ### NEXT-FILES-001: User uploads MUST be validated, stored safely, and served safely
 
 Severity: Medium
@@ -755,7 +723,6 @@ Fix:
 
 ---
 
-
 ### NEXT-PATH-001: Prevent path traversal and unsafe file access
 
 Severity: High
@@ -783,7 +750,6 @@ Fix:
 * Sanitize and disallow `..` from being used when creating urls
 
 ---
-
 
 ### NEXT-SSRF-001: Outbound requests using user-influenced URLs MUST be restricted
 
@@ -820,7 +786,6 @@ Fix:
 
 ---
 
-
 ### NEXT-REDIRECT-001: Prevent open redirects (including auth flows)
 
 Severity: Low
@@ -849,7 +814,6 @@ Fix:
 * If invalid, fall back to a safe default (home/dashboard).
 
 ---
-
 
 ### NEXT-CORS-001: CORS must be explicit and least-privilege
 
@@ -882,7 +846,6 @@ Fix:
 
 ---
 
-
 ### NEXT-WEBHOOK-001: Webhook endpoints MUST verify authenticity using the raw body
 
 Severity: Medium
@@ -909,7 +872,6 @@ Fix:
 
 ---
 
-
 ### NEXT-INJECT-001: Prevent SQL injection (use parameterized queries / ORM)
 
 Severity: High
@@ -935,7 +897,6 @@ Fix:
 * Validate and coerce types before querying.
 
 ---
-
 
 ### NEXT-INJECT-002: Prevent OS command injection and unsafe subprocess use
 
@@ -966,7 +927,6 @@ Fix:
 
 ---
 
-
 ### NEXT-INJECT-003: Avoid dynamic code execution and unsafe deserialization
 
 Severity: High to Critical
@@ -992,7 +952,6 @@ Fix:
 * Validate and constrain input.
 
 ---
-
 
 ### NEXT-LOG-001: Logging MUST NOT leak secrets or sensitive headers
 
@@ -1025,7 +984,6 @@ Fix:
 
 ---
 
-
 ### NEXT-ERROR-001: Error handling MUST avoid leaking implementation details in production
 
 Severity: Low
@@ -1051,7 +1009,6 @@ Fix:
 * Return generic error messages to clients; log details server-side with redaction.
 
 ---
-
 
 ### NEXT-PROXY-001: Proxy/Middleware must not introduce header smuggling or unsafe header forwarding
 
@@ -1083,7 +1040,6 @@ Fix:
 
 ---
 
-
 ### NEXT-HOST-001: Host/Origin-derived URL construction MUST be allowlisted
 
 Severity: Medium
@@ -1110,7 +1066,6 @@ Fix:
 * Allowlist hostnames; fail closed.
 
 ---
-
 
 ### NEXT-DOS-001: Rate limiting and resource controls MUST exist for abuse-prone endpoints
 
@@ -1143,7 +1098,6 @@ Fix:
 * Add job queues for heavy work; return 202 when appropriate.
 
 ---
-
 
 ## 5) Practical scanning heuristics (how to "hunt")
 
@@ -1200,7 +1154,6 @@ Always try to confirm:
 * protective controls present (schema validation, allowlists, middleware/proxy checks, authz helpers, edge protections)
 
 ---
-
 
 ## 6) Sources (accessed 2026-01-27)
 

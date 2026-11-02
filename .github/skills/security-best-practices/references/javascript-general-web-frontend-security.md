@@ -9,7 +9,6 @@ It is intentionally written as a set of **normative requirements** ("MUST/SHOULD
 
 ---
 
-
 ## 0) Safety, boundaries, and anti-abuse constraints (MUST FOLLOW)
 
 * MUST NOT request, output, log, hard-code, or commit secrets (API keys intended to be secret, private keys, passwords, OAuth refresh tokens, session tokens, cookies).
@@ -30,9 +29,7 @@ It is intentionally written as a set of **normative requirements** ("MUST/SHOULD
 
 ---
 
-
 ## 1) Operating modes
-
 
 ### 1.1 Generation mode (default)
 
@@ -44,14 +41,12 @@ When asked to write new frontend JS/TS code or modify existing code:
 * MUST avoid introducing new risky sinks (DOM XSS injection sinks like `innerHTML`, navigation to `javascript:` URLs, dynamic code execution via `eval`/`Function`, unsafe `postMessage`, unsafe third-party script loading, etc.).
   ([OWASP Cheat Sheet Series][2])
 
-
 ### 1.2 Passive review mode (always on while editing)
 
 While working anywhere in a frontend repo (even if the user did not ask for a security scan):
 
 * MUST "notice" violations of this spec in touched/nearby code.
 * SHOULD mention issues as they come up, with a brief explanation + safe fix.
-
 
 ### 1.3 Active audit mode (explicit scan request)
 
@@ -79,9 +74,7 @@ Recommended audit order:
 
 ---
 
-
 ## 2) Definitions and review guidance
-
 
 ### 2.1 Untrusted input (treat as attacker-controlled unless proven otherwise)
 
@@ -98,7 +91,6 @@ Examples include:
 * Any data returned from network calls (even if from "your API"), because it may contain stored attacker content that becomes dangerous only when inserted into the DOM.
   ([OWASP Cheat Sheet Series][2])
 
-
 ### 2.2 Dangerous sink (DOM XSS / code execution sink)
 
 A sink is any API/operation that can execute script or interpret attacker-controlled strings as HTML/JS/URL in a security-sensitive way.
@@ -112,7 +104,6 @@ High-signal sinks include:
   ([MDN Web Docs][4])
 * Setting event handler attributes from strings, e.g. `setAttribute("onclick", "...")`.
   ([OWASP Cheat Sheet Series][2])
-
 
 ### 2.3 Required audit finding format
 
@@ -129,12 +120,10 @@ For each issue found, output:
 
 ---
 
-
 ## 3) Secure baseline: minimum production configuration (MUST in production)
 
 This is the smallest baseline that prevents common frontend JS/TS security misconfigurations.
 Some items are "in repo" (HTML/JS) and some may live at the server/edge.
-
 
 ### 3.1 Content Security Policy (CSP) baseline (SHOULD; MUST for high-risk apps)
 
@@ -158,14 +147,12 @@ Practical baseline goals:
 * Consider enabling Trusted Types enforcement where feasible.
   ([MDN Web Docs][11])
 
-
 ### 3.2 Third-party scripts baseline (SHOULD)
 
 * SHOULD minimize third-party script execution and treat it as equivalent privilege to first-party JS (it runs with your origin's privileges).
   ([OWASP Cheat Sheet Series][7])
 * SHOULD use Subresource Integrity (SRI) for third-party scripts/styles loaded from CDNs.
   ([MDN Web Docs][12])
-
 
 ### 3.3 Cross-window communication baseline (SHOULD)
 
@@ -174,11 +161,9 @@ Practical baseline goals:
 
 ---
 
-
 ## 4) Rules (generation + audit)
 
 Each rule contains: required practice, insecure patterns, detection hints, and remediation.
-
 
 ### JS-XSS-001: Do not inject untrusted HTML into the DOM (avoid `innerHTML` and friends)
 
@@ -232,7 +217,6 @@ False positive notes:
 
 ---
 
-
 ### JS-XSS-002: Avoid `document.write` / `document.writeln` (XSS + document clobbering hazards)
 
 Severity: Critical if you can prove attacker-controlled input can reach these APIs; otherwise Medium
@@ -265,7 +249,6 @@ Mitigation:
   ([MDN Web Docs][10])
 
 ---
-
 
 ### JS-XSS-003: Do not use string-to-code execution (`eval`, `new Function`, string timeouts)
 
@@ -310,7 +293,6 @@ Mitigation:
 
 ---
 
-
 ### JS-XSS-004: Do not set event handler attributes from strings (e.g., `setAttribute("onclick", "...")`)
 
 Severity: High
@@ -339,7 +321,6 @@ Fix:
   ([OWASP Cheat Sheet Series][2])
 
 ---
-
 
 ### JS-URL-001: Sanitize and allowlist URLs before navigation (especially `window.location` / `location.replace`)
 
@@ -408,7 +389,6 @@ If not fully attacker controlled, then this is informational at best.
 
 ---
 
-
 ### JS-URL-002: Sanitize URLs before inserting into DOM URL contexts (`href`, `src`, etc.)
 
 Severity: Low (High if you can prove an attacker can fully control the URL)
@@ -450,7 +430,6 @@ Fix:
     ([OWASP Cheat Sheet Series][8])
 
 ---
-
 
 ### JS-CSP-001: Use CSP; meta delivery is allowed
 
@@ -498,7 +477,6 @@ Fix:
 
 ---
 
-
 ### JS-CSP-002: Prefer strict CSP (nonces/hashes); avoid inline/eval patterns in code
 
 Severity: Medium
@@ -532,7 +510,6 @@ Fix:
   ([MDN Web Docs][10])
 
 ---
-
 
 ### JS-TT-001: Use Trusted Types to reduce DOM XSS attack surface (where supported)
 
@@ -569,7 +546,6 @@ Fix:
   ([MDN Web Docs][11])
 
 ---
-
 
 ### JS-MSG-001: `postMessage` must use strict origin validation and explicit targetOrigin
 
@@ -621,7 +597,6 @@ Mitigation:
 
 ---
 
-
 ### JS-STORAGE-001: Web Storage is not a safe place for secrets (and is attacker-influencable)
 
 Severity: Low
@@ -655,7 +630,6 @@ Fix:
 * If storage must be used for non-sensitive state, keep it non-auth and validate/escape before use.
 
 ---
-
 
 ### JS-SUPPLY-001: Third-party JavaScript is a major supply-chain risk; minimize and control it
 
@@ -696,7 +670,6 @@ Fix:
 
 ---
 
-
 ### JS-SRI-001: Use Subresource Integrity (SRI) for third-party scripts/styles
 
 Severity: Low
@@ -724,7 +697,6 @@ Fix:
 * Prefer self-hosting critical libraries.
 
 ---
-
 
 ### FS-DOMC-001: Prevent DOM clobbering (avoid relying on `window`/`document` named properties)
 
@@ -763,7 +735,6 @@ Fix:
   ([OWASP Cheat Sheet Series][8])
 
 ---
-
 
 ## 5) Practical scanning heuristics (how to "hunt")
 
@@ -812,7 +783,6 @@ Always try to confirm:
 * protective controls present (CSP, Trusted Types, sanitizers, strict allowlists, schema validation).
 
 ---
-
 
 ## 6) Sources (accessed 2026-01-27)
 

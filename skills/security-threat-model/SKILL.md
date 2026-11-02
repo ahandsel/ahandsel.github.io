@@ -9,7 +9,6 @@ Deliver an actionable AppSec-grade threat model that is specific to the reposito
 Anchor every architectural claim to evidence in the repo and keep assumptions explicit.
 Prioritizing realistic attacker goals and concrete impacts over generic checklists.
 
-
 ## Quick start
 
 1. Collect (or infer) inputs:
@@ -21,9 +20,7 @@ Prioritizing realistic attacker goals and concrete impacts over generic checklis
 * Follow the required output contract in `references/prompt-template.md`.
   Use it verbatim when possible.
 
-
 ## Workflow
-
 
 ### 1) Scope and extract the system model
 
@@ -33,13 +30,11 @@ Prioritizing realistic attacker goals and concrete impacts over generic checklis
 * Map the in-scope locations to those components and exclude out-of-scope items explicitly.
 * Do not claim components, flows, or controls without evidence.
 
-
 ### 2) Derive boundaries, assets, and entry points
 
 * Enumerate trust boundaries as concrete edges between components, noting protocol, auth, encryption, validation, and rate limiting.
 * List assets that drive risk (data, credentials, models, config, compute resources, audit logs).
 * Identify entry points (endpoints, upload surfaces, parsers/decoders, job triggers, admin tooling, logging/error sinks).
-
 
 ### 3) Calibrate assets and attacker capabilities
 
@@ -47,20 +42,17 @@ Prioritizing realistic attacker goals and concrete impacts over generic checklis
 * Describe realistic attacker capabilities based on exposure and intended usage.
 * Explicitly note non-capabilities to avoid inflated severity.
 
-
 ### 4) Enumerate threats as abuse paths
 
 * Prefer attacker goals that map to assets and boundaries (exfiltration, privilege escalation, integrity compromise, denial of service).
 * Classify each threat and tie it to impacted assets.
 * Keep the number of threats small but high quality.
 
-
 ### 5) Prioritize with explicit likelihood and impact reasoning
 
 * Use qualitative likelihood and impact (low/medium/high) with short justifications.
 * Set overall priority (critical/high/medium/low) using likelihood x impact, adjusted for existing controls.
 * State which assumptions most influence the ranking.
-
 
 ### 6) Validate service context and assumptions with the user
 
@@ -69,14 +61,12 @@ Prioritizing realistic attacker goals and concrete impacts over generic checklis
 * Pause and wait for user feedback before producing the final report.
 * If the user declines or can't answer, state which assumptions remain and how they influence priority.
 
-
 ### 7) Recommend mitigations and focus paths
 
 * Distinguish existing mitigations (with evidence) from recommended mitigations.
 * Tie mitigations to concrete locations (component, boundary, or entry point) and control types (authZ checks, input validation, schema enforcement, sandboxing, rate limits, secrets isolation, audit logging).
 * Prefer specific implementation hints over generic advice (e.g., "enforce schema at gateway for upload payloads" vs "validate inputs").
 * Base recommendations on validated user context; if assumptions remain unresolved, mark recommendations as conditional.
-
 
 ### 8) Run a quality check before finalizing
 
@@ -88,13 +78,11 @@ Prioritizing realistic attacker goals and concrete impacts over generic checklis
 * Confirm that the format of the report matches closely the required output format defined in prompt template: `references/prompt-template.md`
 * Write the final Markdown to a file named `<repo-or-dir-name>-threat-model.md` (use the basename of the repo root, or the in-scope directory if you were asked to model a subpath).
 
-
 ## Risk prioritization guidance (illustrative, not exhaustive)
 
 * High: pre-auth RCE, auth bypass, cross-tenant access, sensitive data exfiltration, key or token theft, model or config integrity compromise, sandbox escape.
 * Medium: targeted DoS of critical components, partial data exposure, rate-limit bypass with measurable impact, log/metrics poisoning that affects detection.
 * Low: low-sensitivity info leaks, noisy DoS with easy mitigation, issues requiring unlikely preconditions.
-
 
 ## References
 

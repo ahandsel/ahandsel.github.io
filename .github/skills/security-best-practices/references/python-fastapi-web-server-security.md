@@ -12,7 +12,6 @@ FastAPI is commonly deployed with an ASGI server (e.g., Uvicorn) and is built on
 
 ---
 
-
 ## 0) Safety, boundaries, and anti-abuse constraints (MUST FOLLOW)
 
 * MUST NOT request, output, log, or commit secrets (API keys, passwords, private keys, session cookies, signing keys, database URLs with credentials).
@@ -26,9 +25,7 @@ FastAPI is commonly deployed with an ASGI server (e.g., Uvicorn) and is built on
 
 ---
 
-
 ## 1) Operating modes
-
 
 ### 1.1 Generation mode (default)
 
@@ -39,14 +36,12 @@ When asked to write new FastAPI code or modify existing code:
 * MUST prefer safe-by-default APIs and proven libraries over custom security code.
 * MUST avoid introducing new risky sinks (shell execution, unsafe deserialization, dynamic eval, untrusted template rendering, unsafe file serving, unsafe redirects, arbitrary outbound fetching).
 
-
 ### 1.2 Passive review mode (always on while editing)
 
 While working anywhere in a FastAPI repo (even if the user did not ask for a security scan):
 
 * MUST "notice" violations of this spec in touched/nearby code.
 * SHOULD mention issues as they come up, with a brief explanation + safe fix.
-
 
 ### 1.3 Active audit mode (explicit scan request)
 
@@ -70,9 +65,7 @@ Recommended audit order:
 
 ---
 
-
 ## 2) Definitions and review guidance
-
 
 ### 2.1 Untrusted input (treat as attacker-controlled unless proven otherwise)
 
@@ -87,11 +80,9 @@ Examples include:
 * Any data from external systems (webhooks, third-party APIs, message queues)
 * Any persisted user content (DB rows) that originated from users
 
-
 ### 2.2 State-changing request
 
 A request is state-changing if it can create/update/delete data, change auth/session state, trigger side effects (purchase, email send, webhook send), or initiate privileged actions.
-
 
 ### 2.3 Required audit finding format
 
@@ -107,7 +98,6 @@ For each issue found, output:
 * False positive notes: what to verify if uncertain
 
 ---
-
 
 ## 3) Secure baseline: minimum production configuration (MUST in production)
 
@@ -134,11 +124,9 @@ Baseline goals:
 
 ---
 
-
 ## 4) Rules (generation + audit)
 
 Each rule contains: required practice, insecure patterns, detection hints, and remediation.
-
 
 ### FASTAPI-DEPLOY-001: Do not use auto-reload / dev-only server modes in production
 
@@ -172,7 +160,6 @@ Note:
 
 ---
 
-
 ### FASTAPI-DEPLOY-002: Debug mode MUST be disabled in production
 
 Severity: Critical
@@ -201,7 +188,6 @@ Fix:
 
 ---
 
-
 ### FASTAPI-OPENAPI-001: OpenAPI and interactive docs MUST be disabled or protected in production
 
 Severity: Medium (can be High in sensitive/internal apps)
@@ -227,7 +213,6 @@ Fix:
 * Disable docs endpoints in prod (`docs_url=None`, `redoc_url=None`, `openapi_url=None`) or restrict access at the edge.
 
 ---
-
 
 ### FASTAPI-AUTH-001: Authentication MUST be explicit and consistently enforced via dependencies
 
@@ -257,7 +242,6 @@ Fix:
 
 ---
 
-
 ### FASTAPI-AUTH-002: Use standard auth transports; avoid secrets in URLs
 
 Severity: High
@@ -283,7 +267,6 @@ Fix:
 * Move tokens to Authorization headers; rotate/shorten lifetimes; use POST bodies for sensitive values.
 
 ---
-
 
 ### FASTAPI-AUTH-003: Password storage MUST be strongly hashed; never store plaintext passwords
 
@@ -311,7 +294,6 @@ Fix:
 * Migrate to a proper password hashing library; add a re-hash-on-login upgrade path.
 
 ---
-
 
 ### FASTAPI-AUTH-004: JWT validation MUST be strict; JWTs MUST NOT carry secrets
 
@@ -343,7 +325,6 @@ Fix:
 
 ---
 
-
 ### FASTAPI-AUTHZ-001: Authorization MUST be enforced per-object and per-property
 
 Severity: High
@@ -370,7 +351,6 @@ Fix:
 * Use dedicated response models that include only allowed fields.
 
 ---
-
 
 ### FASTAPI-SESS-001: If using cookie-based sessions and TLS, cookie attributes MUST be secure in production
 
@@ -406,7 +386,6 @@ Fix:
 
 ---
 
-
 ### FASTAPI-SESS-002: Do not store sensitive secrets in signed session cookies
 
 Severity: High
@@ -432,7 +411,6 @@ Fix:
 * Move sensitive values to server-side storage; keep cookie minimal.
 
 ---
-
 
 ### FASTAPI-CSRF-001: Cookie-authenticated state-changing requests MUST be CSRF-protected
 
@@ -468,7 +446,6 @@ Fix:
 
 ---
 
-
 ### FASTAPI-VALID-001: Request parsing and validation MUST be schema-driven; prevent mass assignment
 
 Severity: Medium (especially for APIs that write to DB)
@@ -497,7 +474,6 @@ Fix:
 
 ---
 
-
 ### FASTAPI-RESP-001: Prevent excessive data exposure via response models and explicit serialization
 
 Severity: Medium
@@ -524,7 +500,6 @@ Fix:
   ([FastAPI][15])
 
 ---
-
 
 ### FASTAPI-XSS-001: Prevent reflected/stored XSS in HTML responses and templates
 
@@ -558,7 +533,6 @@ Note:
 
 ---
 
-
 ### FASTAPI-SSTI-001: Never render untrusted templates (Server-Side Template Injection)
 
 Severity: Critical
@@ -589,7 +563,6 @@ Fix:
   ([jinja.palletsprojects.com][18])
 
 ---
-
 
 ### FASTAPI-HEADERS-001: Set essential security headers (in app or at the edge)
 
@@ -622,7 +595,6 @@ Fix:
 
 ---
 
-
 ### FASTAPI-CORS-001: CORS MUST be explicit and least-privilege
 
 Severity: Medium (High if misconfigured with credentials)
@@ -654,7 +626,6 @@ Fix:
 
 ---
 
-
 ### FASTAPI-HOST-001: Host header MUST be validated in production
 
 Severity: Low
@@ -680,7 +651,6 @@ Fix:
 * Configure a strict allowed-hosts list in production; enforce at edge too if possible.
 
 ---
-
 
 ### FASTAPI-PROXY-001: Reverse proxy trust MUST be configured correctly
 
@@ -711,7 +681,6 @@ Fix:
 
 ---
 
-
 ### FASTAPI-LIMITS-001: Request and multipart limits MUST be enforced to prevent DoS
 
 Severity: Low
@@ -739,7 +708,6 @@ Fix:
   ([advisories.gitlab.com][9])
 
 ---
-
 
 ### FASTAPI-FILES-001: Prevent path traversal and unsafe static file exposure
 
@@ -769,7 +737,6 @@ Fix:
 
 ---
 
-
 ### FASTAPI-FILES-002: Mitigate Range-header DoS on file-serving endpoints
 
 Severity: Low (if affected versions and file serving is enabled)
@@ -797,7 +764,6 @@ Fix:
 * Add edge caching/rate limiting for file endpoints where appropriate.
 
 ---
-
 
 ### FASTAPI-UPLOAD-001: File uploads MUST be validated, stored safely, and served safely
 
@@ -828,7 +794,6 @@ Fix:
 
 ---
 
-
 ### FASTAPI-INJECT-001: Prevent SQL injection (use parameterized queries / ORM)
 
 Severity: High
@@ -855,7 +820,6 @@ Fix:
   ([OWASP Cheat Sheet Series][21])
 
 ---
-
 
 ### FASTAPI-INJECT-002: Prevent OS command injection
 
@@ -887,7 +851,6 @@ Fix:
   ([OWASP Cheat Sheet Series][22])
 
 ---
-
 
 ### FASTAPI-SSRF-001: Prevent server-side request forgery (SSRF) in outbound HTTP
 
@@ -922,7 +885,6 @@ Fix:
 
 ---
 
-
 ### FASTAPI-REDIRECT-001: Prevent open redirects
 
 Severity: Low
@@ -947,7 +909,6 @@ Fix:
   ([OWASP Cheat Sheet Series][24])
 
 ---
-
 
 ### FASTAPI-WS-001: WebSocket endpoints MUST be authenticated and protected against cross-site abuse
 
@@ -977,7 +938,6 @@ Fix:
   ([OWASP Cheat Sheet Series][25])
 
 ---
-
 
 ### FASTAPI-SUPPLY-001: Dependency and patch hygiene (focus on security-relevant deps)
 
@@ -1009,7 +969,6 @@ Fix:
 * Upgrade to patched versions per advisories; add regression tests around affected behavior.
 
 ---
-
 
 ## 5) Practical scanning heuristics (how to "hunt")
 
@@ -1065,7 +1024,6 @@ Always try to confirm:
 * installed dependency versions vs vulnerable ranges ([advisories.gitlab.com][10])
 
 ---
-
 
 ## 6) Sources (accessed 2026-01-27)
 

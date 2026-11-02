@@ -5,7 +5,6 @@ description: 'Use when a user asks to debug or fix failing GitHub PR checks that
 
 # Gh Pr Checks Plan Fix
 
-
 ## Overview
 
 Use gh to locate failing PR checks, fetch GitHub Actions logs for actionable failures, summarize the failure snippet, then propose a fix plan and implement after explicit approval.
@@ -14,19 +13,16 @@ Use gh to locate failing PR checks, fetch GitHub Actions logs for actionable fai
 
 Prereq: authenticate with the standard GitHub CLI once (for example, run `gh auth login`), then confirm with `gh auth status` (repo + workflow scopes are typically required).
 
-
 ## Inputs
 
 * `repo`: path inside the repo (default `.`)
 * `pr`: PR number or URL (optional; defaults to current branch PR)
 * `gh` authentication for the repo host
 
-
 ## Quick start
 
 * `node "<path-to-skill>/scripts/inspect-pr-checks.mjs" --repo "." --pr "<number-or-url>"`
 * Add `--json` if you want machine-friendly output for summarization.
-
 
 ## Workflow
 
@@ -61,9 +57,7 @@ Prereq: authenticate with the standard GitHub CLI once (for example, run `gh aut
 8. Recheck status.
    * After changes, suggest re-running the relevant tests and `gh pr checks` to confirm.
 
-
 ## Bundled Resources
-
 
 ### scripts/inspect-pr-checks.mjs
 

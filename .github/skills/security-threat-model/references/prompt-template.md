@@ -2,7 +2,6 @@
 
 This reference provides a disciplined, repo-grounded prompt that produces AppSec-usable threat models. Use it when you need a reliable output contract and a consistent process to assemble the threat model output
 
-
 ## System prompt
 
 Use this as a stable system prompt:
@@ -52,7 +51,6 @@ Diagram requirements:
   ```
 ````
 
-
 ## Repository summary prompt
 
 ```text
@@ -90,7 +88,6 @@ Tooling Notes
 
 If Ripgrep (rg) is available, use it to explore the codebase. When using grep or rg, always include the -I flag to avoid searching through binary files.
 ```
-
 
 ## User prompt template
 

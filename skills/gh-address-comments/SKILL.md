@@ -13,7 +13,6 @@ Run all `gh` commands with elevated network access.
 Prereq: ensure `gh` is authenticated (for example, run `gh auth login` once), then run `gh auth status` with escalated permissions (include workflow/repo scopes) so `gh` commands succeed.
 If sandboxing blocks `gh auth status`, approve the command when prompted or adjust permission settings to allow it.
 
-
 ## 1) Inspect comments needing attention
 
 * Run the bundled script, which prints every comment and review thread on the PR as JSON:
@@ -25,12 +24,10 @@ If sandboxing blocks `gh auth status`, approve the command when prompted or adju
 * Each entry under `review_threads` carries `isResolved` and `isOutdated`.
   Treat a resolved or outdated thread as already handled unless the user says otherwise.
 
-
 ## 2) Ask the user for clarification
 
 * Number all the review threads and comments and provide a short summary of what would be required to apply a fix for it
 * Ask the user which numbered comments should be addressed
-
 
 ## 3) If user chooses comments
 
@@ -40,9 +37,7 @@ Notes:
 
 * If gh hits auth/rate issues mid-run, prompt the user to re-authenticate with `gh auth login`, then retry.
 
-
 ## Bundled resources
-
 
 ### scripts/fetch-pr-comments.mjs
 

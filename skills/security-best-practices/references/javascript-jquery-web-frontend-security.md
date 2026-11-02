@@ -9,7 +9,6 @@ It is intentionally written as a set of **normative requirements** ("MUST/SHOULD
 
 ---
 
-
 ## 0) Safety, boundaries, and anti-abuse constraints (MUST FOLLOW)
 
 * MUST NOT request, output, log, or commit secrets (API keys, passwords, private keys, session tokens, refresh tokens, CSRF tokens, session cookies).
@@ -23,9 +22,7 @@ It is intentionally written as a set of **normative requirements** ("MUST/SHOULD
 
 ---
 
-
 ## 1) Operating modes
-
 
 ### 1.1 Generation mode (default)
 
@@ -36,14 +33,12 @@ When asked to write new jQuery code or modify existing jQuery code:
 * MUST prefer safe-by-default patterns: text insertion, DOM node construction, allowlists, and proven sanitization libraries over custom escaping.
 * MUST avoid introducing new risky sinks (HTML string building, dynamic script loading, JSONP, inline script/event-handler attributes, unsafe URL assignment, unsafe object merging).
 
-
 ### 1.2 Passive review mode (always on while editing)
 
 While working anywhere in a repo that uses jQuery (even if the user did not ask for a security scan):
 
 * MUST "notice" violations of this spec in touched/nearby code.
 * SHOULD mention issues as they come up, with a brief explanation + safe fix.
-
 
 ### 1.3 Active audit mode (explicit scan request)
 
@@ -65,9 +60,7 @@ Recommended audit order:
 
 ---
 
-
 ## 2) Definitions and review guidance
-
 
 ### 2.1 Untrusted input (treat as attacker-controlled unless proven otherwise)
 
@@ -82,7 +75,6 @@ Examples include:
   * `localStorage` / `sessionStorage`
   * `postMessage` event data (unless strict origin and schema validation exists)
   * Any DOM content that could have been injected previously (stored XSS)
-
 
 ### 2.2 High-risk "sinks" in jQuery contexts
 
@@ -111,7 +103,6 @@ Key jQuery sink categories:
   * `javascript:` URLs are particularly dangerous and discouraged.
     ([MDN Web Docs][6])
 
-
 ### 2.3 Required audit finding format
 
 For each issue found, output:
@@ -127,11 +118,9 @@ For each issue found, output:
 
 ---
 
-
 ## 3) Secure baseline: minimum production configuration (MUST in production)
 
 This is the smallest "production baseline" that prevents common jQuery-related security failures.
-
 
 ### 3.1 Use a supported, patched jQuery version (MUST)
 
@@ -141,7 +130,6 @@ This is the smallest "production baseline" that prevents common jQuery-related s
 * If you must support very old browsers (notably IE < 11), jQuery 4 does not support them and you may need to stay on jQuery 3.x; treat this as a higher risk posture and patch aggressively.
   ([blog.jquery.com][7])
 
-
 ### 3.2 Load jQuery safely (MUST)
 
 * MUST load jQuery only from:
@@ -150,7 +138,6 @@ This is the smallest "production baseline" that prevents common jQuery-related s
 
 * If loading from a CDN, SHOULD use SRI (`integrity`) and correct `crossorigin` settings; the jQuery project explicitly supports and recommends SRI on its CDN.
   (Retrieved from [jquery.com][8])
-
 
 ### 3.3 CSP + Trusted Types (SHOULD, and MUST where available/required by policy)
 
@@ -165,7 +152,6 @@ This is the smallest "production baseline" that prevents common jQuery-related s
 * Note: jQuery 4.0 explicitly added Trusted Types support so that TrustedHTML can be used with jQuery manipulation methods without violating `require-trusted-types-for`.
   ([blog.jquery.com][7])
 
-
 ### 3.4 Security headers and cookie posture (defense in depth; SHOULD)
 
 Even though these are typically set server-side, they materially reduce the blast radius of jQuery-related mistakes.
@@ -178,11 +164,9 @@ However if the context is only the frontend web application, these cannot be act
 
 ---
 
-
 ## 4) Rules (generation + audit)
 
 Each rule contains: required practice, insecure patterns, detection hints, and remediation.
-
 
 ### JQ-SUPPLY-001: jQuery MUST be patched; do not run known vulnerable versions
 
@@ -224,7 +208,6 @@ Notes:
 
 ---
 
-
 ### JQ-SUPPLY-002: Third-party script loading SHOULD use integrity and trusted origins
 
 Severity: High
@@ -256,7 +239,6 @@ If you end up using the wrong one the app will not function.
 In that case remove it and inform the user.
 
 ---
-
 
 ### JQ-XSS-001: Untrusted data MUST NOT be inserted as HTML via jQuery DOM-manipulation methods
 
@@ -299,7 +281,6 @@ Notes:
 
 ---
 
-
 ### JQ-XSS-002: If rendering user-controlled HTML is required, it MUST be sanitized with a proven HTML sanitizer
 
 Severity: Medium (High if rich HTML is attacker-controlled and sanitizer is weak/misconfigured)
@@ -339,7 +320,6 @@ False positive notes:
 
 ---
 
-
 ### JQ-XSS-003: `$(untrustedString)` and `jQuery.parseHTML` MUST NOT process attacker-controlled markup
 
 Severity: High (if attacker-controlled)
@@ -366,7 +346,6 @@ Fix:
 * If parsing HTML is necessary, sanitize first (JQ-XSS-002) and keep scripts disabled.
 
 ---
-
 
 ### JQ-XSS-004: `.load()` MUST be treated as an HTML+script injection surface
 
@@ -403,7 +382,6 @@ Fix:
 
 ---
 
-
 ### JQ-EXEC-001: Dynamic script execution and script fetching MUST NOT be reachable from untrusted input
 
 Severity: High
@@ -436,7 +414,6 @@ Fix:
 
 ---
 
-
 ### JQ-AJAX-001: JSONP MUST be disabled unless the endpoint is fully trusted (and even then, avoid)
 
 Severity: Medium (High if attacker can influence URL/endpoint)
@@ -467,7 +444,6 @@ Fix:
   * `jsonp: false` (defense in depth when URL might be ambiguous) ([jQuery API][5])
 
 ---
-
 
 ### JQ-AJAX-002: State-changing AJAX requests using cookie auth MUST be CSRF-protected
 
@@ -505,7 +481,6 @@ False positive notes:
 
 ---
 
-
 ### JQ-ATTR-001: Untrusted values MUST NOT be written into dangerous attributes without validation/allowlisting
 
 Severity: Low (High for events like onclick)
@@ -538,7 +513,6 @@ Fix:
 
 ---
 
-
 ### JQ-SELECTOR-001: User-controlled selector fragments MUST be escaped with `jQuery.escapeSelector`
 
 Severity: Medium (can become High if it enables wrong-element selection in security-relevant UI)
@@ -570,7 +544,6 @@ Notes:
 
 ---
 
-
 ### JQ-PROTOTYPE-001: Do not deep-merge untrusted objects; prevent prototype pollution
 
 Severity: Medium
@@ -601,7 +574,6 @@ Fix:
 
 ---
 
-
 ### JQ-CSP-001: CSP and Trusted Types SHOULD be used to make DOM XSS harder to introduce and exploit
 
 Severity: Medium
@@ -631,7 +603,6 @@ Fix:
 * Add Trusted Types where supported and feasible.
 
 ---
-
 
 ## 5) Practical scanning heuristics (how to "hunt")
 
@@ -676,7 +647,6 @@ Always try to confirm:
 * protective controls present (sanitizer, allowlists, CSP, Trusted Types, CSRF validation)
 
 ---
-
 
 ## 6) Sources (accessed 2026-01-27)
 

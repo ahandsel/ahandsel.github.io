@@ -9,7 +9,6 @@ It is intentionally written as a set of **normative requirements** ("MUST/SHOULD
 
 ---
 
-
 ## 0) Safety, boundaries, and anti-abuse constraints (MUST FOLLOW)
 
 * MUST NOT request, output, log, or commit secrets (API keys, passwords, private keys, session cookies, SECRET_KEY).
@@ -19,9 +18,7 @@ It is intentionally written as a set of **normative requirements** ("MUST/SHOULD
 
 ---
 
-
 ## 1) Operating modes
-
 
 ### 1.1 Generation mode (default)
 
@@ -32,14 +29,12 @@ When asked to write new Flask code or modify existing code:
 * MUST prefer safe-by-default APIs and proven libraries over custom security code.
 * MUST avoid introducing new risky sinks (template rendering from strings, shell execution, dynamic imports, unsafe redirects, serving user files as HTML, etc.).
 
-
 ### 1.2 Passive review mode (always on while editing)
 
 While working anywhere in a Flask repo (even if the user did not ask for a security scan):
 
 * MUST "notice" violations of this spec in touched/nearby code.
 * SHOULD mention issues as they come up, with a brief explanation + safe fix.
-
 
 ### 1.3 Active audit mode (explicit scan request)
 
@@ -63,9 +58,7 @@ Recommended audit order:
 
 ---
 
-
 ## 2) Definitions and review guidance
-
 
 ### 2.1 Untrusted input (treat as attacker-controlled unless proven otherwise)
 
@@ -78,11 +71,9 @@ Examples include:
 * Any data from external systems (webhooks, third-party APIs, message queues)
 * Any persisted user content (DB rows) that originated from users
 
-
 ### 2.2 State-changing request
 
 A request is state-changing if it can create/update/delete data, change auth/session state, trigger side effects (purchase, email send, webhook send), or initiate privileged actions.
-
 
 ### 2.3 Required audit finding format
 
@@ -99,11 +90,9 @@ For each issue found, output:
 
 ---
 
-
 ## 3) Secure baseline: minimum production configuration (MUST in production)
 
 This is the smallest "production baseline" that prevents common Flask misconfigurations.
-
 
 ### 3.1 App initialization pattern (SHOULD)
 
@@ -128,11 +117,9 @@ Key baseline config targets:
 
 ---
 
-
 ## 4) Rules (generation + audit)
 
 Each rule contains: required practice, insecure patterns, detection hints, and remediation.
-
 
 ### FLASK-DEPLOY-001: Do not use Flask's development server in production
 
@@ -166,7 +153,6 @@ Note:
 
 ---
 
-
 ### FLASK-DEPLOY-002: Debug mode MUST be disabled in production
 
 Severity: Critical
@@ -199,7 +185,6 @@ Note:
   Only flag if it is clear that it is being used as the production entrypoint
 
 ---
-
 
 ### FLASK-CONFIG-001: SECRET_KEY must be strong, secret, and rotated safely
 
@@ -239,7 +224,6 @@ Notes:
 
 ---
 
-
 ### FLASK-SESS-001: Session cookies must use secure attributes in production
 
 Severity: Medium
@@ -277,7 +261,6 @@ Notes:
 
 ---
 
-
 ### FLASK-SESS-002: Sessions must be bounded and resistant to fixation/replay
 
 Severity: Medium
@@ -308,7 +291,6 @@ Fix:
 * Store sensitive data server-side; store only identifiers in the session cookie.
 
 ---
-
 
 ### FLASK-CSRF-001: State-changing requests using cookie auth MUST be CSRF-protected
 
@@ -349,7 +331,6 @@ Notes:
 
 ---
 
-
 ### FLASK-XSS-001: Prevent reflected/stored XSS in templates and HTML generation
 
 Severity: High
@@ -387,7 +368,6 @@ Fix:
 
 ---
 
-
 ### FLASK-SSTI-001: Never render untrusted templates (Server-Side Template Injection)
 
 Severity: Critical
@@ -418,7 +398,6 @@ Fix:
 * If templates must be user-defined, use a sandbox plus strict allowlists and heavy isolation.
 
 ---
-
 
 ### FLASK-HEADERS-001: Set essential security headers (in app or at the edge)
 
@@ -454,7 +433,6 @@ Fix:
 
 ---
 
-
 ### FLASK-LIMITS-001: Request size and form parsing limits MUST be set appropriately
 
 Severity: Low (Medium if file uploads / large bodies are possible)
@@ -484,7 +462,6 @@ Fix:
 
 ---
 
-
 ### FLASK-HOST-001: Host header must be validated in production
 
 Severity: Low (depends on app's use of external URLs)
@@ -511,7 +488,6 @@ Fix:
 
 ---
 
-
 ### FLASK-PROXY-001: Reverse proxy trust must be configured correctly
 
 Severity: Medium (High if relying on IPs for auth)
@@ -537,7 +513,6 @@ Fix:
 * Keep `TRUSTED_HOSTS` in place even behind proxies.
 
 ---
-
 
 ### FLASK-PATH-001: Prevent path traversal and unsafe file serving
 
@@ -574,7 +549,6 @@ Note: `safe_join` is imported from `werkzeug.security`
 
 ---
 
-
 ### FLASK-UPLOAD-001: File uploads must be validated, stored safely, and served safely
 
 Severity: High
@@ -606,7 +580,6 @@ Fix:
 
 ---
 
-
 ### FLASK-INJECT-001: Prevent SQL injection (use parameterized queries / ORM)
 
 Severity: High
@@ -632,7 +605,6 @@ Fix:
 * Validate types (e.g., int IDs) before querying.
 
 ---
-
 
 ### FLASK-INJECT-002: Prevent OS command injection
 
@@ -667,7 +639,6 @@ Fix:
   If supported by the subcommand, try to keep user values after `--` to prevent them being processed as command line flags.
 
 ---
-
 
 ### FLASK-SSRF-001: Prevent server-side request forgery (SSRF) in outbound HTTP
 
@@ -704,7 +675,6 @@ Fix:
 
 ---
 
-
 ### FLASK-REDIRECT-001: Prevent open redirects
 
 Severity: Low
@@ -729,7 +699,6 @@ Fix:
 * Fall back to a safe default if validation fails.
 
 ---
-
 
 ### FLASK-HTTP-001: Use HTTP methods safely; do not change state via GET; avoid secrets in URLs
 
@@ -757,7 +726,6 @@ Fix:
 * Move sensitive values to secure channels (POST bodies, headers) and protect them.
 
 ---
-
 
 ### FLASK-CORS-001: CORS must be explicit and least-privilege
 
@@ -789,7 +757,6 @@ Fix:
 
 ---
 
-
 ### FLASK-SUPPLY-001: Dependency and patch hygiene (focus on security-relevant deps)
 
 Severity: Low
@@ -813,7 +780,6 @@ Fix:
 * Upgrade to patched versions and add regression tests for the impacted behavior.
 
 ---
-
 
 ## 5) Practical scanning heuristics (how to "hunt")
 
@@ -850,7 +816,6 @@ Always try to confirm:
 * protective controls present (validation, allowlists, middleware)
 
 ---
-
 
 ## 6) Sources (accessed 2026-01-26)
 

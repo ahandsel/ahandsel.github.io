@@ -2,7 +2,6 @@
 
 Use this as a lightweight checklist to keep outputs consistent across teams. Prefer concrete, system-specific items over generic text.
 
-
 ## Asset categories (pick only what applies)
 
 * User data (PII, content, uploads)
@@ -16,7 +15,6 @@ Use this as a lightweight checklist to keep outputs consistent across teams. Pre
 * Availability-critical resources (queues, caches, rate limits, compute budgets)
 * Tenant isolation boundaries and metadata
 
-
 ## Security control categories
 
 * Identity and access: authN, authZ, session handling, mTLS, key rotation
@@ -27,7 +25,6 @@ Use this as a lightweight checklist to keep outputs consistent across teams. Pre
 * Observability: audit logs, alerting, anomaly detection, tamper resistance
 * Supply chain: dependency pinning, SBOMs, provenance, signing
 * Change control: CI checks, deployment approvals, config guardrails
-
 
 ## Mitigation phrasing patterns
 
