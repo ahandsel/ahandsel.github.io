@@ -88,9 +88,13 @@ export default defineLoader({
         updatedAt: repo.updated_at,
       }))
       // Most-starred first, then most-recently updated as a tie-breaker.
-      .sort((a, b) => b.stars - a.stars || b.updatedAt.localeCompare(a.updatedAt));
+      .sort(
+        (a, b) => b.stars - a.stars || b.updatedAt.localeCompare(a.updatedAt),
+      );
 
-    console.log(`✅ repos.data: loaded ${repos.length} repositories for ${GITHUB_USER}.`);
+    console.log(
+      `✅ repos.data: loaded ${repos.length} repositories for ${GITHUB_USER}.`,
+    );
     return repos;
   },
 });

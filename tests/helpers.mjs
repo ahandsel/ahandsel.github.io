@@ -9,14 +9,24 @@ import path from 'node:path';
 import process from 'node:process';
 import { fileURLToPath } from 'node:url';
 
-export const repoRoot = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
+export const repoRoot = path.dirname(
+  path.dirname(fileURLToPath(import.meta.url)),
+);
 
 // Run a repository script with the current Node.js binary and return its exit status and captured output.
 export function runScript(scriptRelPath, args = []) {
-  const result = spawnSync(process.execPath, [path.join(repoRoot, scriptRelPath), ...args], {
-    encoding: 'utf8',
-  });
-  return { status: result.status, stdout: result.stdout, stderr: result.stderr };
+  const result = spawnSync(
+    process.execPath,
+    [path.join(repoRoot, scriptRelPath), ...args],
+    {
+      encoding: 'utf8',
+    },
+  );
+  return {
+    status: result.status,
+    stdout: result.stdout,
+    stderr: result.stderr,
+  };
 }
 
 // Build a disposable repository root whose contents/ tree holds the given pages.

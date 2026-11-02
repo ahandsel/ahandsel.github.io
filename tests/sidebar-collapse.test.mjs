@@ -46,7 +46,10 @@ test('Layout clears collapse when LocalNav Menu is clicked', () => {
   assert.match(layoutVue, /onLocalNavMenuClick/);
   assert.match(layoutVue, /\.VPLocalNav\s+\.menu/);
   assert.match(layoutVue, /collapsed\.value = false/);
-  assert.match(layoutVue, /addEventListener\('click',\s*onLocalNavMenuClick,\s*true\)/);
+  assert.match(
+    layoutVue,
+    /addEventListener\('click',\s*onLocalNavMenuClick,\s*true\)/,
+  );
   assert.match(
     layoutVue,
     /removeEventListener\('click',\s*onLocalNavMenuClick,\s*true\)/,

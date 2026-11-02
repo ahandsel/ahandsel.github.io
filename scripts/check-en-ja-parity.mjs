@@ -86,7 +86,11 @@ function listMarkdownFiles(dir, prefix = '') {
     const fullPath = path.join(dir, entry.name);
     if (entry.isDirectory()) {
       files.push(...listMarkdownFiles(fullPath, relPath));
-    } else if (entry.isFile() && entry.name.endsWith('.md') && entry.name !== 'README.md') {
+    } else if (
+      entry.isFile() &&
+      entry.name.endsWith('.md') &&
+      entry.name !== 'README.md'
+    ) {
       files.push(relPath);
     }
   }
@@ -141,12 +145,16 @@ function main() {
 
   for (const page of enPages) {
     if (!jaSet.has(page)) {
-      problems.push(`❌ contents/en/${page} has no counterpart at contents/ja/${page}`);
+      problems.push(
+        `❌ contents/en/${page} has no counterpart at contents/ja/${page}`,
+      );
     }
   }
   for (const page of jaPages) {
     if (!enSet.has(page)) {
-      problems.push(`❌ contents/ja/${page} has no counterpart at contents/en/${page}`);
+      problems.push(
+        `❌ contents/ja/${page} has no counterpart at contents/en/${page}`,
+      );
     }
   }
 
@@ -158,7 +166,8 @@ function main() {
       const enValue = enFields[field];
       const jaValue = jaFields[field];
       if (enValue !== jaValue) {
-        const shown = (value) => (value === undefined ? '(unset)' : JSON.stringify(value));
+        const shown = (value) =>
+          value === undefined ? '(unset)' : JSON.stringify(value);
         problems.push(
           `❌ Frontmatter field "${field}" differs for ${page}: en=${shown(enValue)} ja=${shown(jaValue)}`,
         );
@@ -170,11 +179,15 @@ function main() {
     for (const problem of problems) {
       console.error(problem);
     }
-    console.error(`❌ en/ja parity check failed with ${problems.length} problem(s).`);
+    console.error(
+      `❌ en/ja parity check failed with ${problems.length} problem(s).`,
+    );
     process.exit(1);
   }
 
-  console.log(`✅ en/ja parity check passed for ${enPages.length} page pair(s).`);
+  console.log(
+    `✅ en/ja parity check passed for ${enPages.length} page pair(s).`,
+  );
 }
 
 main();

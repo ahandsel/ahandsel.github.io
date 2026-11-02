@@ -46,16 +46,22 @@ function formatDate(iso: string): string {
         </h3>
       </header>
 
-      <p v-if="repo.description" class="repo-card__desc">{{ repo.description }}</p>
+      <p v-if="repo.description" class="repo-card__desc">
+        {{ repo.description }}
+      </p>
 
       <ul v-if="repo.topics.length" class="repo-card__topics">
-        <li v-for="topic in repo.topics.slice(0, 4)" :key="topic">{{ topic }}</li>
+        <li v-for="topic in repo.topics.slice(0, 4)" :key="topic">
+          {{ topic }}
+        </li>
       </ul>
 
       <footer class="repo-card__meta">
         <span :title="`${repo.stars} ${t.stars}`">★ {{ repo.stars }}</span>
         <span :title="`${repo.forks} ${t.forks}`">⑂ {{ repo.forks }}</span>
-        <span class="repo-card__updated">{{ t.updated }} {{ formatDate(repo.updatedAt) }}</span>
+        <span class="repo-card__updated"
+          >{{ t.updated }} {{ formatDate(repo.updatedAt) }}</span
+        >
         <a
           v-if="repo.homepage"
           class="repo-card__home"

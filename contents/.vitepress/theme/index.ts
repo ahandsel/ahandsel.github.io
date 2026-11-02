@@ -16,7 +16,9 @@ const GatedCopyOrDownloadAsMarkdownButtons = defineComponent({
   setup() {
     const { page } = useData();
     return () =>
-      hasMarkdownTwin(page.value.filePath) ? h(CopyOrDownloadAsMarkdownButtons) : null;
+      hasMarkdownTwin(page.value.filePath)
+        ? h(CopyOrDownloadAsMarkdownButtons)
+        : null;
   },
 });
 
@@ -28,7 +30,10 @@ export default {
     app.component('RepoCards', RepoCards);
 
     // The copyOrDownloadAsMarkdownButtons markdown-it plugin in config.mts injects this component name after the H1 of every page.
-    app.component('CopyOrDownloadAsMarkdownButtons', GatedCopyOrDownloadAsMarkdownButtons);
+    app.component(
+      'CopyOrDownloadAsMarkdownButtons',
+      GatedCopyOrDownloadAsMarkdownButtons,
+    );
 
     // Toggle the rainbow accent animation on the home page only by adding or removing the `rainbow-active` class on <html>.
     // The animation itself is defined in style.css.
@@ -36,7 +41,10 @@ export default {
       watch(
         () => router.route.path,
         (path) => {
-          document.documentElement.classList.toggle('rainbow-active', path === '/');
+          document.documentElement.classList.toggle(
+            'rainbow-active',
+            path === '/',
+          );
         },
         { immediate: true },
       );

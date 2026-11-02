@@ -105,7 +105,10 @@ test('checks pages in nested folders', () => {
     (root) => {
       const result = runScript(SCRIPT, ['--root', root]);
       assert.equal(result.status, 1);
-      assert.match(result.stderr, /contents\/en\/guides\/setup\.md has no counterpart/);
+      assert.match(
+        result.stderr,
+        /contents\/en\/guides\/setup\.md has no counterpart/,
+      );
     },
   );
 });

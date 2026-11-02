@@ -1,7 +1,9 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { defineConfig, type SiteConfig } from 'vitepress';
-import llmstxt, { copyOrDownloadAsMarkdownButtons } from 'vitepress-plugin-llms';
+import llmstxt, {
+  copyOrDownloadAsMarkdownButtons,
+} from 'vitepress-plugin-llms';
 
 import { LLM_IGNORED_PATTERNS } from './llms-pages';
 
