@@ -35,37 +35,37 @@
         {
           "name": "curly-double-quotes",
           "message": "Do not use curly double quotes.",
-          "searchPattern": "/“|”/g",
+          "searchPattern": "/\u201c|\u201d/g",
           "replace": "\"",
         },
         {
           "name": "curly-single-quotes",
           "message": "Do not use curly single quotes.",
-          "searchPattern": "/‘|’/g",
+          "searchPattern": "/\u2018|\u2019/g",
           "replace": "'",
         },
         {
           "name": "em-dash",
           "message": "Do not use em dashes.",
-          "searchPattern": "/—/g",
+          "searchPattern": "/\u2014/g",
           "replace": "-",
         },
         {
           "name": "en-dash",
           "message": "Do not use en dashes. Use a hyphen instead.",
-          "searchPattern": "/–/g",
+          "searchPattern": "/\u2013/g",
           "replace": "-",
         },
         {
           "name": "non-breaking-space",
           "message": "Do not use non-breaking spaces. Use a regular space instead.",
-          "searchPattern": "/ /g",
+          "searchPattern": "/\u00a0/g",
           "replace": " ",
         },
         {
           "name": "object-replacement-character",
           "message": "Do not use the object replacement character. Use a regular space instead.",
-          "searchPattern": "/￼/g",
+          "searchPattern": "/\ufffc/g",
           "replace": " ",
         },
       ],
@@ -81,25 +81,42 @@
   "globs": ["**/*.md"],
 
   // Vendored content from upstream plugins/repos - keep pristine for re-sync.
-  // Covers both the canonical copy under skills/ and the auto-mirrored copy under .claude/skills/.
+  // Covers the canonical copy under skills/ and the mirrored copies under
+  // .claude/skills/ and .github/skills/.
   "ignores": [
-    // Copilot mirrors under .github/skills/. Relative links in those copies are
-    // written for the skills/ depth, so lint the canonical tree only.
-    ".github/skills/**",
     // All figma-* skills are vendored from the official Figma plugin.
     "**/skills/figma-*/**",
-    // Vendored third-party skills imported with their upstream LICENSE files.
-    "**/skills/gh-address-comments/**",
-    "**/skills/gh-fix-ci/**",
-    "**/skills/playwright/**",
-    "**/skills/security-best-practices/**",
-    "**/skills/security-threat-model/**",
+    // .claude/commands is a symlink to prompts/; lint the canonical copy only.
     ".claude/commands/**",
-    ".github/skills/**"
+  ],
+
+  // Each file takes the first override whose filter matches it, so keep the vendored skills override first.
+  "overrides": [
+    // Vendored third-party skills, imported with their upstream LICENSE files, get the asterisk bullet rule only.
+    // Every other rule stays off so the rest of the text matches upstream for re-sync.
+    {
+      "filter": [
+        "**/skills/gh-address-comments/**",
+        "**/skills/gh-fix-ci/**",
+        "**/skills/playwright/**",
+        "**/skills/security-best-practices/**",
+        "**/skills/security-threat-model/**",
+      ],
+      "combine": "replace",
+      "config": { "default": false, "MD004": { "style": "asterisk" } },
+    },
+    // Copilot mirrors under .github/skills/ get every rule except relative-links.
+    // Their relative links are written for the skills/ depth, one level up, and
+    // the canonical skills/ tree already checks them.
+    {
+      "filter": [".github/skills/**"],
+      "combine": "merge",
+      "config": { "relative-links": false },
+    },
   ],
 
   // Optional CLI behavior
   "fix": true,
-  "noProgress": true,
+  "noProgress": false,
   "showFound": true,
 }

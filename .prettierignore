@@ -7,3 +7,16 @@ pnpm-lock.yaml
 
 # Claude Code symlinked skills (linted via skills/ directly)
 .claude/
+
+# Keep this file in step with the "ignores" list in .markdownlint-cli2.jsonc.
+# markdownlint-cli2 restores the house Markdown style after Prettier runs, so a
+# path that only markdownlint ignores is left in Prettier's style on every lint.
+
+# Vendored third-party skills, kept verbatim for re-sync with upstream.
+# markdownlint-cli2 checks only their * bullets, through the first entry in its "overrides" list; keep that filter in step with these lines.
+# The leading **/ also covers the Copilot copies under .github/skills/.
+**/skills/gh-address-comments/
+**/skills/gh-fix-ci/
+**/skills/playwright/
+**/skills/security-best-practices/
+**/skills/security-threat-model/

@@ -14,6 +14,7 @@ Neither `pnpm lint` nor `markdownlint-cli2` reports anything, because the file i
 Write a placeholder as a shell variable instead, for example `PR=123` on its own line followed by `gh pr diff "$PR" --name-only`.
 Backticked angle brackets in prose are safe; only fenced shell blocks are reformatted.
 After adding or editing a shell example in Markdown, run `pnpm exec prettier --write` on the file and reread the block to confirm shfmt left it alone.
-Follow it with `pnpm exec markdownlint-cli2 --fix` on the same file, because `pnpm lint` runs the pair and Prettier on its own rewrites the `*` list bullets that markdownlint puts back.
+Follow it with `pnpm exec markdownlint-cli2 --no-globs --fix` on the same file, because `pnpm lint` runs the pair and Prettier on its own rewrites the `*` list bullets that markdownlint puts back.
+Without `--no-globs`, the file argument is added to the config globs and the run fixes the whole repository.
 
-See also [Keep each sentence on one source line](styling-sentence-per-line.md).
+See also [Keep each sentence on one source line](styling-sentence-per-line.md) and [markdownlint-cli2 appends command-line globs to the config globs](tooling-markdownlint-cli-globs-append-to-config.md).

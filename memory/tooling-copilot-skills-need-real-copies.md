@@ -16,4 +16,5 @@ That sync pull request is opened with `GITHUB_TOKEN`, so GitHub does not start `
 
 Relative links inside a skill are written for the `skills/<name>/` depth.
 The mirror under `.github/skills/<name>/` sits one directory deeper, so those same relative links do not resolve there.
-`.markdownlint-cli2.jsonc` therefore ignores `.github/skills/**` and lints the canonical `skills/` tree only.
+Since 2026-11-02, `.markdownlint-cli2.jsonc` lints `.github/skills/**` with every other rule but turns off `relative-links` there through its `overrides` block.
+Do not move `.github/skills/**` back into `ignores` to silence those errors, or `pnpm lint` stops restoring the house Markdown style in the copies.
