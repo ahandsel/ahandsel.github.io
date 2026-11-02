@@ -4,3 +4,7 @@ allowBuilds:
 
 # Delay installing published versions to reduce security risk.
 minimumReleaseAge: 4320 # Three-day buffer for security updates.
+
+# Fail the install when a package's engines field does not match the active Node.js or pnpm version.
+# pnpm 11 reads only auth and registry settings from .npmrc, so this setting must live here.
+engineStrict: true
