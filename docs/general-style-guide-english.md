@@ -532,11 +532,11 @@ In such cases, ensure that users recognize that the expressions convey the same 
 
 Use the following three formats for date and time:
 
-| Format                                            | Template                                                                     | Example                      |
-| ------------------------------------------------- | ---------------------------------------------------------------------------- | ---------------------------- |
-| [Relative date and time](#relative-date-and-time) | `Today {24-hour time}`                                                       | `Today 14:18`                |
-| [Date only](#date-only)                           | `{Day of week (3-letter)}, {Month (3-letter)} {Day}, {Year}`                 | `Tue, May 20, 2025`          |
-| [Date and time together](#date-and-time-together) | `{Day of week (3-letter)}, {Month (3-letter)} {Day}, {Year}, {24-hour time}` | `Tue, May 20, 2025, 14:18`   |
+| Format                                            | Template                                                                     | Example                    |
+| ------------------------------------------------- | ---------------------------------------------------------------------------- | -------------------------- |
+| [Relative date and time](#relative-date-and-time) | `Today {24-hour time}`                                                       | `Today 14:18`              |
+| [Date only](#date-only)                           | `{Day of week (3-letter)}, {Month (3-letter)} {Day}, {Year}`                 | `Tue, May 20, 2025`        |
+| [Date and time together](#date-and-time-together) | `{Day of week (3-letter)}, {Month (3-letter)} {Day}, {Year}, {24-hour time}` | `Tue, May 20, 2025, 14:18` |
 
 If none of the three formats are applicable, follow [Dates and times - Google developer documentation style guide][google-date-times].
 

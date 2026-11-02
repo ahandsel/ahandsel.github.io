@@ -1,6 +1,5 @@
 # About
 
-
 Genji Fujimori is a [Kintone] developer advocate and a UX writer and localization specialist for a new product at [Cybozu].
 A Californian living in Japan, Genji is now based in Tokyo.
 
@@ -58,7 +57,6 @@ A Californian living in Japan, Genji is now based in Tokyo.
 * [Dev.to][devto] - English technical blog
 * [Qiita][qiita] - Japanese technical blog
 * [Medium][medium] - English blog
-
 
 <!-- Links -->
 
