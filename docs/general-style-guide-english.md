@@ -135,7 +135,7 @@ If this guide does not provide explicit guidance, consult these third-party refe
 
 * Use active voice when the subject (doer) of the action is the user.
 * > In passive voice, it's easy to neglect to indicate who or what is performing a particular action.
-  In this kind of construction, it's often hard for readers to figure out who's supposed to do something (such as the reader, the computer, the server, an end user, or a visitor to a web page).
+  > In this kind of construction, it's often hard for readers to figure out who's supposed to do something (such as the reader, the computer, the server, an end user, or a visitor to a web page).
 * Ref: [Active voice | Google developer documentation style guide][google-active-voice]
 
 [google-active-voice]: https://developers.google.com/style/voice
