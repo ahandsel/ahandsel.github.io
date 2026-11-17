@@ -42,8 +42,8 @@ importers:
         specifier: ^4.1.0
         version: 4.1.0(prettier@3.9.10)
       sh-syntax:
-        specifier: ^0.7.0
-        version: 0.7.0
+        specifier: ^0.8.4
+        version: 0.8.4
       tree-extended:
         specifier: ^4.6.0
         version: 4.6.0
@@ -1515,6 +1515,10 @@ packages:
   sh-syntax@0.7.0:
     resolution: {integrity: sha512-sgMyAxpHiGgAaNg+gD3ad41vha24CzIjjghD4mdiON1lUafZPLJNYknyjcXmU4geilPstd69zCKkpccY0YvajA==}
     engines: {node: '>=16.0.0'}
+
+  sh-syntax@0.8.4:
+    resolution: {integrity: sha512-BI2cAN1oIyfxMw/W10wFx4QfvOG5GGFZfgPO7KSomspXxM2IOL/S9QLE6yDG7mTo2LHyndOC53epFD0uv3nSFw==}
+    engines: {node: '>=18.0.0'}
 
   shiki@4.5.0:
     resolution: {integrity: sha512-OcRW72ngQvc+MSVWBRIovC/BTW589iUE/Vxav7VeM4RcY9MUjqB+IR6ILG1k9nuW6LiG/nct9uma4/MBtnZbmQ==}
@@ -3114,6 +3118,8 @@ snapshots:
   semver@7.8.5: {}
 
   sh-syntax@0.7.0: {}
+
+  sh-syntax@0.8.4: {}
 
   shiki@4.5.0:
     dependencies:
